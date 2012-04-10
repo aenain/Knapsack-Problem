@@ -1,1 +1,13 @@
-*.jar
+# Pomijanie wszystkich plików uruchomieniowych
+*.class
+
+# Pomijanie wszystkich binarek z katalogu dist/
+/dist/*.jar
+/dist/**/*.jar
+
+# Pomijanie całego katalogu build/ ze względu na jego specyfikę zależną od platformy
+/build/*
+/build/**/*
+
+# Ustawienia NetBeansa, które są per developer
+/nbproject/private/*
