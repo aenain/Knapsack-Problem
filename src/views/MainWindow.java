@@ -10,6 +10,7 @@
  */
 package views;
 
+import javax.swing.UIManager;
 /**
  *
  * @author arturhebda
@@ -30,57 +31,195 @@ public class MainWindow extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        itemsPanel = new javax.swing.JLayeredPane();
+        maximumWeightSlider = new javax.swing.JSlider();
+        jLabel1 = new javax.swing.JLabel();
+        continueToStep2Button = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        itemsList = new javax.swing.JList();
+        jLabel2 = new javax.swing.JLabel();
+        addItemButton = new javax.swing.JButton();
+        editItemButton = new javax.swing.JButton();
+        removeItemButton = new javax.swing.JButton();
+        generateItemsButton = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        settingsPanel = new javax.swing.JLayeredPane();
+        simulationPanel = new javax.swing.JLayeredPane();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        evolutionSteeringButton = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        bestResultSummary = new javax.swing.JLabel();
+        lastPopulationBestResultSummary = new javax.swing.JLabel();
+        detailsButton = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("0-1 Knapsack Problem");
+
+        maximumWeightSlider.setMajorTickSpacing(20);
+        maximumWeightSlider.setMaximum(120);
+        maximumWeightSlider.setPaintLabels(true);
+        maximumWeightSlider.setPaintTicks(true);
+        maximumWeightSlider.setToolTipText("null");
+        maximumWeightSlider.setBounds(50, 360, 510, 50);
+        itemsPanel.add(maximumWeightSlider, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        jLabel1.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
+        jLabel1.setLabelFor(maximumWeightSlider);
+        jLabel1.setText("Knapsack's Maximum Weight");
+        jLabel1.setBounds(40, 330, 340, 30);
+        itemsPanel.add(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        continueToStep2Button.setText("Continue");
+        continueToStep2Button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                continueToStep2ButtonActionPerformed(evt);
+            }
+        });
+        continueToStep2Button.setBounds(520, 470, 101, 29);
+        itemsPanel.add(continueToStep2Button, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        itemsList.setModel(new javax.swing.AbstractListModel() {
+            String[] strings = { "10PLN | 5kg", "15PLN | 2.5kg" };
+            public int getSize() { return strings.length; }
+            public Object getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane1.setViewportView(itemsList);
+
+        jScrollPane1.setBounds(50, 60, 420, 200);
+        itemsPanel.add(jScrollPane1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        jLabel2.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
+        jLabel2.setText("Items");
+        jLabel2.setBounds(40, 30, 37, 17);
+        itemsPanel.add(jLabel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        addItemButton.setText("Add");
+        addItemButton.setBounds(480, 60, 100, 29);
+        itemsPanel.add(addItemButton, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        editItemButton.setText("Edit");
+        editItemButton.setBounds(480, 90, 100, 29);
+        itemsPanel.add(editItemButton, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        removeItemButton.setText("Remove");
+        removeItemButton.setBounds(480, 120, 100, 29);
+        itemsPanel.add(removeItemButton, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        generateItemsButton.setText("Generate");
+        generateItemsButton.setBounds(480, 230, 99, 29);
+        itemsPanel.add(generateItemsButton, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        jLabel3.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel3.setText("  or...");
+        jLabel3.setBounds(510, 180, 33, 16);
+        itemsPanel.add(jLabel3, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        jTabbedPane1.addTab("Items", itemsPanel);
+        jTabbedPane1.addTab("Settings", settingsPanel);
+
+        jScrollPane2.setBounds(10, 10, 600, 390);
+        simulationPanel.add(jScrollPane2, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        evolutionSteeringButton.setText("Pause");
+        evolutionSteeringButton.setBounds(520, 470, 97, 29);
+        simulationPanel.add(evolutionSteeringButton, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        jLabel4.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
+        jLabel4.setText("Best Results");
+        jLabel4.setBounds(10, 410, 120, 30);
+        simulationPanel.add(jLabel4, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        jLabel5.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel5.setText("Overall");
+        jLabel5.setBounds(90, 470, 60, 20);
+        simulationPanel.add(jLabel5, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        jLabel6.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel6.setText("In Last Population");
+        jLabel6.setBounds(20, 440, 120, 20);
+        simulationPanel.add(jLabel6, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        bestResultSummary.setText("475PLN by 320kg (out of 321kg)");
+        bestResultSummary.setBounds(170, 470, 210, 20);
+        simulationPanel.add(bestResultSummary, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        lastPopulationBestResultSummary.setText("450PLN by 320kg (out of 321kg)");
+        lastPopulationBestResultSummary.setBounds(170, 440, 210, 20);
+        simulationPanel.add(lastPopulationBestResultSummary, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        detailsButton.setText("Details");
+        detailsButton.setBounds(430, 470, 97, 29);
+        simulationPanel.add(detailsButton, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        jTabbedPane1.addTab("Simulate", simulationPanel);
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 400, Short.MAX_VALUE)
+            .add(layout.createSequentialGroup()
+                .addContainerGap()
+                .add(jTabbedPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 622, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 300, Short.MAX_VALUE)
+            .add(layout.createSequentialGroup()
+                .addContainerGap()
+                .add(jTabbedPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 452, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void continueToStep2ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_continueToStep2ButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_continueToStep2ButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception e) {}
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
 
+            @Override
             public void run() {
                 new MainWindow().setVisible(true);
             }
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton addItemButton;
+    private javax.swing.JLabel bestResultSummary;
+    private javax.swing.JButton continueToStep2Button;
+    private javax.swing.JButton detailsButton;
+    private javax.swing.JButton editItemButton;
+    private javax.swing.JButton evolutionSteeringButton;
+    private javax.swing.JButton generateItemsButton;
+    private javax.swing.JList itemsList;
+    private javax.swing.JLayeredPane itemsPanel;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JLabel lastPopulationBestResultSummary;
+    private javax.swing.JSlider maximumWeightSlider;
+    private javax.swing.JButton removeItemButton;
+    private javax.swing.JLayeredPane settingsPanel;
+    private javax.swing.JLayeredPane simulationPanel;
     // End of variables declaration//GEN-END:variables
 }
