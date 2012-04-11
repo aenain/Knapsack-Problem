@@ -3,54 +3,80 @@
  * and open the template in the editor.
  */
 package knapsackproblem;
-
+import java.lang.System.*;
 /**
  *
  * @author KaMyLuS
  */
 public class Population {
-    int pop_count; // liczebnosc populacji
-    int chrom_len; // dlugosc chromosomu
+    int populationCount; // liczebnosc populacji
+    int chromosomeLength; // dlugosc chromosomu
     Genome chromosomes[]; // chromosomy calej poszczegolnych osobnikow
-    int worst, aver, best; // najgorsza, srednia, najlepsza wartosc przystosowania osobnikow
+    double worst, aver, best; // najgorsza, srednia, najlepsza wartosc przystosowania osobnikow
     
-    Population(int pc, int cl){
-        pop_count = pc;
-        chrom_len = cl;
-        chromosomes = new Genome[pop_count];
+    public Population(int pc, int cl){
+        populationCount = pc;
+        chromosomeLength= cl;
+        chromosomes = new Genome[populationCount];
+    }
+    
+    public Population(Population source){
+        populationCount = source.populationCount;
+        chromosomeLength = source.chromosomeLength;
+        worst = source.worst;
+        aver = source.aver;
+        best = source.best;
+        chromosomes = new Genome[populationCount];
+        java.lang.System.arraycopy(source.chromosomes, 0, chromosomes, 0, populationCount);
     }
     
     // odczyt wartosci
     
-    int getWorst(){
+    double getWorst(){
         return worst;
     }
     
-    int getAver(){
+    double getAver(){
         return aver;
     }
     
-    int getBest(){
+    double getBest(){
         return best;
     }
     
     //-----------------------
     
+    // ustawienie wartosci
+    
+    void setWorst(double w){
+        worst = w;
+    }
+    
+    void setAver(double a){
+        aver = a;
+    }
+    
+    void setBest(double b){
+        best = b;
+    }
+    
+    //---------------------------
+    
     // generowanie losowej populacji
     void genRandomPop(){
-        for(int i = 0; i < pop_count; i++){
-            chromosomes[i] = new Genome(chrom_len);
+        for(int i = 0; i < populationCount; i++){
+            chromosomes[i] = new Genome(chromosomeLength);
             chromosomes[i].genRandomChrom();
         }
     }
     
     // obliczanie wagi i wartosci dla calej populacji
     void calcValWeigth(Subject sub[]){
-        for(int i = 0; i < pop_count; i++){
-            int v = chromosomes[i].getValue();
-            int w = chromosomes[i].getWeigth();
+        for(int i = 0; i < populationCount; i++){
+            int v = 0;
+            int w = 0;
             
-            for(int j = 0; j < chrom_len; j++){
+            for(int j = 0; j < chromosomeLength; j++){
                 if(chromosomes[i].isSubject(j)){
                     v += sub[j].getValue();
                     w += sub[j].getWeigth();

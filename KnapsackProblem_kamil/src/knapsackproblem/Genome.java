@@ -4,6 +4,7 @@
  */
 package knapsackproblem;
 
+import java.lang.System.*;
 import java.util.*;
 /**
  *
@@ -13,14 +14,25 @@ public class Genome {
     
     boolean chromosome[]; // chromosom, 1 na i-tej pozycji -> bierzemy dany przedmiot
     int length; // dlugosc chromosomu
-    int adaptation; // wartosc funkcji dopasowania dla danego chromosomu
+    double adaptation; // wartosc funkcji dopasowania dla danego chromosomu
     int value; // laczna wartosc przedmiotow w chromosomie
     int weigth; // laczna waga przedmiotow w chromosomie
+    
     
     public Genome(int len){
         length = len;
         chromosome = new boolean[len];
         adaptation = 0;
+    }
+    
+    public Genome(Genome source){
+        length = source.getLength();
+        adaptation = source.getAdaptation();
+        value = source.getValue();
+        weigth = source.getWeigth();
+        chromosome = new boolean[length];
+        
+        java.lang.System.arraycopy(source.chromosome, 0, chromosome, 0, length);
     }
     
     // generowanie losowego chromosomu
@@ -40,7 +52,7 @@ public class Genome {
         weigth = w;
     }
     
-    void setAdaptation(int a){
+    void setAdaptation(double a){
         adaptation = a;
     }
     // -----------------
@@ -51,7 +63,7 @@ public class Genome {
         return length;
     }
     
-    int getAdaptation(){
+    double getAdaptation(){
         return adaptation;
     }
     
@@ -65,5 +77,14 @@ public class Genome {
     
     boolean isSubject(int i){
         return chromosome[i];
+    }
+    
+    // -------------
+    
+    void mutate(double mutatFactor){
+        Random rand = new Random();
+        for(int i = 0; i < length; i++)
+            if(rand.nextDouble() < mutatFactor)
+                chromosome[i] = !chromosome[i];
     }
 }
