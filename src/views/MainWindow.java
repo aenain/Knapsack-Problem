@@ -10,16 +10,26 @@
  */
 package views;
 
+import java.util.Collections;
 import javax.swing.UIManager;
+import javax.swing.*;
 /**
  *
  * @author arturhebda
  */
 public class MainWindow extends javax.swing.JFrame {
 
+    static MainWindow myMainWindow;
+    static DefaultListModel<String> model = new DefaultListModel();
+    
     /** Creates new form MainWindow */
-    public MainWindow() {
+    private MainWindow() {
         initComponents();
+        itemsList.setModel(model);
+    }
+    
+    static int[] getSelected() {
+        return itemsList.getSelectedIndices();
     }
 
     /** This method is called from within the constructor to
@@ -62,11 +72,10 @@ public class MainWindow extends javax.swing.JFrame {
         maximumWeightSlider.setMaximum(120);
         maximumWeightSlider.setPaintLabels(true);
         maximumWeightSlider.setPaintTicks(true);
-        maximumWeightSlider.setToolTipText("null");
         maximumWeightSlider.setBounds(50, 360, 510, 50);
         itemsPanel.add(maximumWeightSlider, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
-        jLabel1.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Lucida Grande", 0, 14));
         jLabel1.setLabelFor(maximumWeightSlider);
         jLabel1.setText("Knapsack's Maximum Weight");
         jLabel1.setBounds(40, 330, 340, 30);
@@ -78,43 +87,58 @@ public class MainWindow extends javax.swing.JFrame {
                 continueToStep2ButtonActionPerformed(evt);
             }
         });
-        continueToStep2Button.setBounds(520, 470, 101, 29);
+        continueToStep2Button.setBounds(520, 470, 75, 23);
         itemsPanel.add(continueToStep2Button, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
-        itemsList.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "10PLN | 5kg", "15PLN | 2.5kg" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
         jScrollPane1.setViewportView(itemsList);
 
         jScrollPane1.setBounds(50, 60, 420, 200);
         itemsPanel.add(jScrollPane1, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
-        jLabel2.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Lucida Grande", 0, 14));
         jLabel2.setText("Items");
-        jLabel2.setBounds(40, 30, 37, 17);
+        jLabel2.setBounds(40, 30, 33, 19);
         itemsPanel.add(jLabel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         addItemButton.setText("Add");
-        addItemButton.setBounds(480, 60, 100, 29);
+        addItemButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addItemButtonActionPerformed(evt);
+            }
+        });
+        addItemButton.setBounds(480, 60, 100, 23);
         itemsPanel.add(addItemButton, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         editItemButton.setText("Edit");
-        editItemButton.setBounds(480, 90, 100, 29);
+        editItemButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editItemButtonActionPerformed(evt);
+            }
+        });
+        editItemButton.setBounds(480, 90, 100, 23);
         itemsPanel.add(editItemButton, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         removeItemButton.setText("Remove");
-        removeItemButton.setBounds(480, 120, 100, 29);
+        removeItemButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removeItemButtonActionPerformed(evt);
+            }
+        });
+        removeItemButton.setBounds(480, 120, 100, 23);
         itemsPanel.add(removeItemButton, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         generateItemsButton.setText("Generate");
-        generateItemsButton.setBounds(480, 230, 99, 29);
+        generateItemsButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                generateItemsButtonActionPerformed(evt);
+            }
+        });
+        generateItemsButton.setBounds(480, 230, 77, 23);
         itemsPanel.add(generateItemsButton, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         jLabel3.setForeground(new java.awt.Color(102, 102, 102));
         jLabel3.setText("  or...");
-        jLabel3.setBounds(510, 180, 33, 16);
+        jLabel3.setBounds(510, 180, 28, 14);
         itemsPanel.add(jLabel3, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         jTabbedPane1.addTab("Items", itemsPanel);
@@ -124,10 +148,10 @@ public class MainWindow extends javax.swing.JFrame {
         simulationPanel.add(jScrollPane2, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         evolutionSteeringButton.setText("Pause");
-        evolutionSteeringButton.setBounds(520, 470, 97, 29);
+        evolutionSteeringButton.setBounds(520, 470, 97, 23);
         simulationPanel.add(evolutionSteeringButton, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
-        jLabel4.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Lucida Grande", 0, 14));
         jLabel4.setText("Best Results");
         jLabel4.setBounds(10, 410, 120, 30);
         simulationPanel.add(jLabel4, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -151,7 +175,7 @@ public class MainWindow extends javax.swing.JFrame {
         simulationPanel.add(lastPopulationBestResultSummary, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         detailsButton.setText("Details");
-        detailsButton.setBounds(430, 470, 97, 29);
+        detailsButton.setBounds(430, 470, 97, 23);
         simulationPanel.add(detailsButton, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         jTabbedPane1.addTab("Simulate", simulationPanel);
@@ -169,7 +193,7 @@ public class MainWindow extends javax.swing.JFrame {
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
                 .addContainerGap()
-                .add(jTabbedPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 452, Short.MAX_VALUE)
+                .add(jTabbedPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 534, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -180,20 +204,53 @@ public class MainWindow extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_continueToStep2ButtonActionPerformed
 
+    private void addItemButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addItemButtonActionPerformed
+
+        AddItem.main(null);
+        
+    }//GEN-LAST:event_addItemButtonActionPerformed
+
+    private void removeItemButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeItemButtonActionPerformed
+        
+        int[] selected = getSelected();
+        
+        for(int i = selected.length - 1; i >= 0; i--) {
+            model.removeElementAt(selected[i]);
+        }
+        
+    }//GEN-LAST:event_removeItemButtonActionPerformed
+
+    private void editItemButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editItemButtonActionPerformed
+        
+        EditItem.main(null);
+        
+    }//GEN-LAST:event_editItemButtonActionPerformed
+
+    private void generateItemsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generateItemsButtonActionPerformed
+        
+        
+        
+    }//GEN-LAST:event_generateItemsButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
+        
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception e) {}
+         
+         
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
 
             @Override
             public void run() {
-                new MainWindow().setVisible(true);
+                myMainWindow = new MainWindow();
+                myMainWindow.setLocationRelativeTo(null);
+                myMainWindow.setVisible(true);
             }
         });
     }
@@ -205,7 +262,7 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JButton editItemButton;
     private javax.swing.JButton evolutionSteeringButton;
     private javax.swing.JButton generateItemsButton;
-    private javax.swing.JList itemsList;
+    protected static javax.swing.JList itemsList;
     private javax.swing.JLayeredPane itemsPanel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
