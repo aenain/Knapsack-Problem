@@ -21,18 +21,27 @@ public class Evolution {
     double mutationFactor; // wspolczynnik mutacji
     Population population[] = new Population[2]; // populacja (obecna i poprzednia ?)
     
-    PunishFitness evalFunction;
-    SelectionMethod selectFunction;
+    PunishFitness evalPunishFunction; // funkcja obliczajaca przystosowanie i kare
+    RepairFitness evalRepairFunc;
+    SelectionMethod selectFunction; // funkcja selekcji osobnikow
+    CrossoverMethod crossoverFunction; // funkcja odpowiedzialna za krzyzowanie
     
-    public Evolution(Subject sub[], int sub_c, int pop_c, boolean rep, double 
-            elit_fac, double cross_fac, double mut_fac){
-        subjects = sub; // moze lepiej zrobic kopiowanie zamiast tego ? 
-        subjectsCount = sub_c;
-        populationCount = pop_c;
+    public Evolution(Subject subj[], int subCount, int populCount, int knapCapac, boolean rep, double 
+            elitFac, double crossFac, double mutFac, PunishFitness evalPunishFunc, RepairFitness repairFunc,
+            SelectionMethod selectFunc, CrossoverMethod crossFunc){
+        subjects = subj; // moze lepiej zrobic kopiowanie zamiast tego ? 
+        subjectsCount = subCount;
+        populationCount = populCount;
+        knapsackCapacity = knapCapac;
         repair = rep;
-        elitismFactor = elit_fac;
-        crossFactor = cross_fac;
-        mutationFactor = mut_fac;
+        elitismFactor = elitFac;
+        crossFactor = crossFac;
+        mutationFactor = mutFac;
+        
+        evalPunishFunction = evalPunishFunc;
+        evalRepairFunc = repairFunc;
+        selectFunction = selectFunc;
+        crossoverFunction = crossFunc;
         
         population[0] = new Population(populationCount, subjectsCount);
         population[1] = new Population(populationCount, subjectsCount);   
@@ -68,30 +77,31 @@ public class Evolution {
             
             // ocenianie populacji i sprawy z tym zwiazane
             population[0].calcValWeigth(subjects);
-            // stosujemy funkcje kary
-            if(!repair) { 
-                double sum = 0, minn = 0, maxx = 0;
-                
-                for(int j = 0; j < populationCount; j++){
-                    population[0].chromosomes[j].setAdaptation(evalFunction.evaluate(population[0].chromosomes[j].getValue(), 
+            double sum = 0, minn = 0, maxx = 0;
+            int minIndex = 0, maxIndex = 0;
+
+            for(int j = 0; j < populationCount; j++){
+                if(!repair) population[0].chromosomes[j].setAdaptation(evalPunishFunction.evaluate(population[0].chromosomes[j].getValue(), 
                             population[0].chromosomes[j].getWeigth(), knapsackCapacity, ro));
+                else evalRepairFunc.evaluate(population[0].chromosomes[j], knapsackCapacity, subjects); 
                     
-                    double adapt = population[0].chromosomes[j].getAdaptation();
-                    sum += adapt;
-                    if(j == 0) minn = maxx = adapt;
-                    else {
-                        minn = java.lang.Math.min(minn, adapt);
-                        maxx = java.lang.Math.max(minn, adapt);
+                double adapt = population[0].chromosomes[j].getAdaptation();
+                sum += adapt;
+                if(j == 0) minn = maxx = adapt;
+                else {
+                    if(adapt < minn){
+                        minn = adapt;
+                        minIndex = j;
+                    }
+                    if(adapt > maxx){
+                        maxx = adapt;
+                        maxIndex = j;
                     }
                 }
-                population[0].setWorst(minn);
-                population[0].setBest(maxx);
-                population[0].setAver(sum/populationCount);
             }
-            // jesli jednak wolimy naprawiac zle chromosomy
-            else{
-                
-            }
+            population[0].setWorst(minn);
+            population[0].setBest(maxx);
+            population[0].setAver(sum/populationCount);
             
             // wybieranie osobnikow do nastepnej populacji 
             CompareGenome compare = new CompareGenome();
@@ -106,16 +116,18 @@ public class Evolution {
                 }
             }
             // wybor pozostalych osobnikow (tu prawdopodobnie sie bedzie trzeba pobawic z parametrami itp.)
-            selectFunction.select(population[0], population[1], populationCount-eliteCount, eliteCount-1, sorted);
+            selectFunction.select(population[0], population[1], populationCount, populationCount-eliteCount, eliteCount, sorted);
             
-            // tu jakies krzyzowanie
-            // ...
-            
-            // jakby bylo za malo osobnikow (?) - jakies dorabianie ?
+            // krzyzowanie (obecnie jednopunktowe)
+            crossoverFunction.crossover(population[1], populationCount, crossFactor, 1, eliteCount);
             
             // mutacje
             for(int j = 0; j < populationCount; j++)
                 population[1].chromosomes[j].mutate(mutationFactor);
         }
+    }
+    
+    Genome getBestGen(){
+        return population[0].chromosomes[population[0].getBestIndex()];
     }
 }

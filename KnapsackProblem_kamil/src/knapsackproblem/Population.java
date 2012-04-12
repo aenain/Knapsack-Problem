@@ -13,6 +13,7 @@ public class Population {
     int chromosomeLength; // dlugosc chromosomu
     Genome chromosomes[]; // chromosomy calej poszczegolnych osobnikow
     double worst, aver, best; // najgorsza, srednia, najlepsza wartosc przystosowania osobnikow
+    int worstIndex, bestIndex; // nr najgorszego i najlepszego osobnika
     
     public Population(int pc, int cl){
         populationCount = pc;
@@ -36,12 +37,24 @@ public class Population {
         return worst;
     }
     
+    int getWorstIndex(){
+        return worstIndex;
+    }
+    
     double getAver(){
         return aver;
     }
     
     double getBest(){
         return best;
+    }
+    
+    int getBestIndex(){
+        return bestIndex;
+    }
+    
+    int getChromosomeLength(){
+        return chromosomeLength;
     }
     
     //-----------------------
@@ -52,12 +65,20 @@ public class Population {
         worst = w;
     }
     
+    void setWorstIndex(int i){
+        worstIndex = i;
+    }
+    
     void setAver(double a){
         aver = a;
     }
     
     void setBest(double b){
         best = b;
+    }
+    
+    void setBestIndex(int i){
+        bestIndex = i;
     }
     
     //---------------------------

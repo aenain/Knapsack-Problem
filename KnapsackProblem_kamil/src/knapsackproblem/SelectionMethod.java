@@ -9,9 +9,12 @@ package knapsackproblem;
  * @author KaMyLuS
  */
 public interface SelectionMethod {
-    // funkcja wyboru (source - populacja wejsciowa, dest - populacja wynikowa
-    // selectCount - ile osobnikow trzeba wybrac, selectFrom - indeks osobnika w source 
-    // od ktorego nalezy brac pod uwage przy wyborze - wczesniejszych wogole nie bierzemy
+    // funkcja wyboru, parametry:
+    // source - populacja wejsciowa, 
+    // dest - populacja wynikowa, 
+    // populCount - liczebnosc populacji,
+    // selectCount - ile osobnikow trzeba wybrac, 
+    // selectFrom - indeks osobnika w source od ktorego nalezy brac pod uwage przy wyborze - wczesniejszych wogole nie bierzemy
     // sorted - czy wejsciowa populacja jest posortowana (malejaco) )
-    void select(Population source, Population dest, int selectCount, int selectFrom, boolean sorted);
+    public void select(Population source, Population dest, int populCount, int selectCount, int selectFrom, boolean sorted);
 }
