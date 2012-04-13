@@ -25,12 +25,12 @@ public class KnapsackGenerator extends javax.swing.JFrame {
         String num = null;
         try {
             //System.out.println("format: "+df.format(d));
-            num = df.format(d);//df.parse(df.format(d));
+            num = df.format(d);//df.parse(df.format(d));  to do odblokowania jak pieprzymy to, czy liczby mają mieć tyle samo cyfr po przecinku, ucina zera od prawej
         } catch (Exception e) {
             new MyAlert("Błąd parsowania");
         }
         return num;
-        //System.out.println(num);
+        
         //return num.doubleValue();
     }
 
@@ -151,9 +151,27 @@ public class KnapsackGenerator extends javax.swing.JFrame {
             int rangeMinV = (Integer)minValue.getValue();
             int rangeMaxV = (Integer)maxValue.getValue();
             int n = (Integer)numberOfObjects.getValue();
+            
+            /*
+            Integer in = (Integer)minWeight.getValue();
+            String ch = in.toString();
+            
+            
+            if(!ch.matches("^\\d+$"))
+                throw new MyException("Only numbers allowed!");
+            /*
+            double check = Double.parseDouble((String)minWeight.getValue());
+            check = Double.parseDouble((String)maxWeight.getValue());
+            check = Double.parseDouble((String)minValue.getValue());
+            check = Double.parseDouble((String)maxValue.getValue());
+             * 
+             */
         
             if(rangeMinW > rangeMaxW || rangeMinV > rangeMaxV)
                 throw new MyException("A minimal value can't be bigger than a maximal value!");
+            
+            if(rangeMinW <= 0 || rangeMinV < 0 || rangeMaxW <=0 || rangeMaxV < 0)
+                throw new MyException("Only positive numbers accepted!");
         
         /*
         ustawianie ilości liczb przed przecinkiem

@@ -49,6 +49,15 @@ public class EditItem extends JFrame implements ActionListener {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Edit an item");
+        setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                clear(evt);
+            }
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                clear(evt);
+            }
+        });
 
         jLabel2.setText("Item's value");
 
@@ -133,12 +142,14 @@ public class EditItem extends JFrame implements ActionListener {
             
     }//GEN-LAST:event_doneButtonActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
+    private void clear(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_clear
+        //Akcja wykonywana przy zamknięciu okna, zarówno przez usera, jak i dispose()
+        MainWindow.unSelect();
+    }//GEN-LAST:event_clear
+
+
     public static void main(String args[]) {
 
-        /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
 
             public void run() {
