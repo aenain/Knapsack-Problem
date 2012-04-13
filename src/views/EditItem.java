@@ -2,6 +2,7 @@ package views;
 import models.MyException;
 import java.awt.event.*;
 import javax.swing.*;
+import java.lang.String;
 
 /**
  *
@@ -26,11 +27,13 @@ public class EditItem extends JFrame implements ActionListener {
     
     private void fill() {
         
-        String[] getValues = MainWindow.model.elementAt(selected[index]).split("\\|");
+        String[] getValues = ((String)MainWindow.model.elementAt(selected[index])).split("\\|");
             
         itemWeight.setText(getValues[0]);
         itemValue.setText(getValues[1]);
         itemWeight.requestFocus();
+        itemWeight.selectAll();
+        itemValue.selectAll();
     }
      
     
@@ -139,7 +142,6 @@ public class EditItem extends JFrame implements ActionListener {
         java.awt.EventQueue.invokeLater(new Runnable() {
 
             public void run() {
-                //EditItem myItem = new EditItem();
                 EditItem myItem = new EditItem();
                 myItem.setLocationRelativeTo(null);
                 myItem.setVisible(true);

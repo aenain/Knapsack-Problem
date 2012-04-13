@@ -1,13 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/*
- * MainWindow.java
- *
- * Created on Apr 7, 2012, 11:23:38 AM
- */
 package views;
 
 import java.util.Collections;
@@ -20,7 +10,7 @@ import javax.swing.*;
 public class MainWindow extends javax.swing.JFrame {
 
     static MainWindow myMainWindow;
-    static DefaultListModel<String> model = new DefaultListModel();
+    static DefaultListModel model = new DefaultListModel();
     
     /** Creates new form MainWindow */
     private MainWindow() {
@@ -54,6 +44,7 @@ public class MainWindow extends javax.swing.JFrame {
         removeItemButton = new javax.swing.JButton();
         generateItemsButton = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
+        removeAllItemsButton = new javax.swing.JButton();
         settingsPanel = new javax.swing.JLayeredPane();
         simulationPanel = new javax.swing.JLayeredPane();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -92,7 +83,7 @@ public class MainWindow extends javax.swing.JFrame {
 
         jScrollPane1.setViewportView(itemsList);
 
-        jScrollPane1.setBounds(50, 60, 420, 200);
+        jScrollPane1.setBounds(50, 60, 420, 230);
         itemsPanel.add(jScrollPane1, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         jLabel2.setFont(new java.awt.Font("Lucida Grande", 0, 14));
@@ -133,13 +124,23 @@ public class MainWindow extends javax.swing.JFrame {
                 generateItemsButtonActionPerformed(evt);
             }
         });
-        generateItemsButton.setBounds(480, 230, 77, 23);
+        generateItemsButton.setBounds(480, 270, 100, 23);
         itemsPanel.add(generateItemsButton, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         jLabel3.setForeground(new java.awt.Color(102, 102, 102));
         jLabel3.setText("  or...");
-        jLabel3.setBounds(510, 180, 28, 14);
+        jLabel3.setBounds(510, 220, 28, 14);
         itemsPanel.add(jLabel3, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        removeAllItemsButton.setText("Remove all");
+        removeAllItemsButton.setToolTipText("");
+        removeAllItemsButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removeAllItemsButtonActionPerformed(evt);
+            }
+        });
+        removeAllItemsButton.setBounds(480, 150, 100, 23);
+        itemsPanel.add(removeAllItemsButton, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         jTabbedPane1.addTab("Items", itemsPanel);
         jTabbedPane1.addTab("Settings", settingsPanel);
@@ -221,16 +222,17 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_removeItemButtonActionPerformed
 
     private void editItemButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editItemButtonActionPerformed
-        
-        EditItem.main(null);
-        
+        if(getSelected().length > 0)
+            EditItem.main(null);
     }//GEN-LAST:event_editItemButtonActionPerformed
 
     private void generateItemsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generateItemsButtonActionPerformed
-        
-        
-        
+        KnapsackGenerator.main(null);
     }//GEN-LAST:event_generateItemsButtonActionPerformed
+
+    private void removeAllItemsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeAllItemsButtonActionPerformed
+        model.removeAllElements();
+    }//GEN-LAST:event_removeAllItemsButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -275,6 +277,7 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JLabel lastPopulationBestResultSummary;
     private javax.swing.JSlider maximumWeightSlider;
+    private javax.swing.JButton removeAllItemsButton;
     private javax.swing.JButton removeItemButton;
     private javax.swing.JLayeredPane settingsPanel;
     private javax.swing.JLayeredPane simulationPanel;
