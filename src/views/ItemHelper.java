@@ -14,14 +14,14 @@ import java.util.regex.Pattern;
 public class ItemHelper {
     public static final String valueUnit = " PLN";
     public static final String weightUnit = " kg";
-    public static final Pattern numberPattern = Pattern.compile("(\\d+(.\\d+)?)");
+    public static final Pattern numberPattern = Pattern.compile("(\\d+(\\.\\d+)?)");
 
     public static String toLabel(String value, String weight) {
         return value + valueUnit + " by " + weight + weightUnit;
     }
     
     public static String toLabel(Double value, Double weight) {
-        return ItemHelper.toLabel(value.toString(), weight.toString());
+        return toLabel(value.toString(), weight.toString());
     }
 
     public static String toWeightLabel(String weight) {

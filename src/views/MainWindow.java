@@ -3,11 +3,14 @@ package views;
 import java.util.Collections;
 import javax.swing.UIManager;
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+
 /**
  *
  * @author arturhebda
  */
-public class MainWindow extends javax.swing.JFrame {
+public class MainWindow extends JFrame implements ActionListener {
 
     static MainWindow myMainWindow;
     static DefaultListModel model = new DefaultListModel();
@@ -16,7 +19,15 @@ public class MainWindow extends javax.swing.JFrame {
     private MainWindow() {
         initComponents();
         itemsList.setModel(model);
+        selectionMethod.addActionListener(this);
     }
+    
+    public void actionPeformed(ActionEvent e) {
+        JComboBox cb = (JComboBox)e.getSource();
+        String pet = (String)cb.getSelectedItem();
+        new MyAlert(pet);//selectionMethod.getSelectedItem().toString());
+    }
+    
     
     static int[] getSelected() {
         return itemsList.getSelectedIndices();
@@ -24,6 +35,10 @@ public class MainWindow extends javax.swing.JFrame {
     
     static void unSelect() {
         itemsList.clearSelection();
+    }
+    
+    void getS() {
+        new MyAlert(selectionMethod.getSelectedItem().toString());
     }
 
     @SuppressWarnings("unchecked")
@@ -58,6 +73,8 @@ public class MainWindow extends javax.swing.JFrame {
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         selectionMethod = new javax.swing.JComboBox();
+        jLabel13 = new javax.swing.JLabel();
+        crossoverMethod = new javax.swing.JComboBox();
         simulationPanel = new javax.swing.JLayeredPane();
         jScrollPane2 = new javax.swing.JScrollPane();
         evolutionSteeringButton = new javax.swing.JButton();
@@ -90,7 +107,7 @@ public class MainWindow extends javax.swing.JFrame {
                 continueToStep2ButtonActionPerformed(evt);
             }
         });
-        continueToStep2Button.setBounds(520, 470, 101, 29);
+        continueToStep2Button.setBounds(520, 470, 75, 23);
         itemsPanel.add(continueToStep2Button, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         jScrollPane1.setViewportView(itemsList);
@@ -100,7 +117,7 @@ public class MainWindow extends javax.swing.JFrame {
 
         jLabel2.setFont(new java.awt.Font("Lucida Grande", 0, 14));
         jLabel2.setText("Items");
-        jLabel2.setBounds(40, 30, 37, 17);
+        jLabel2.setBounds(40, 30, 33, 19);
         itemsPanel.add(jLabel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         addItemButton.setText("Add");
@@ -109,7 +126,7 @@ public class MainWindow extends javax.swing.JFrame {
                 addItemButtonActionPerformed(evt);
             }
         });
-        addItemButton.setBounds(480, 60, 100, 29);
+        addItemButton.setBounds(480, 60, 100, 23);
         itemsPanel.add(addItemButton, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         editItemButton.setText("Edit");
@@ -118,7 +135,7 @@ public class MainWindow extends javax.swing.JFrame {
                 editItemButtonActionPerformed(evt);
             }
         });
-        editItemButton.setBounds(480, 90, 100, 29);
+        editItemButton.setBounds(480, 90, 100, 23);
         itemsPanel.add(editItemButton, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         removeItemButton.setText("Remove");
@@ -127,7 +144,7 @@ public class MainWindow extends javax.swing.JFrame {
                 removeItemButtonActionPerformed(evt);
             }
         });
-        removeItemButton.setBounds(480, 120, 100, 29);
+        removeItemButton.setBounds(480, 120, 100, 23);
         itemsPanel.add(removeItemButton, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         generateItemsButton.setText("Generate");
@@ -136,12 +153,12 @@ public class MainWindow extends javax.swing.JFrame {
                 generateItemsButtonActionPerformed(evt);
             }
         });
-        generateItemsButton.setBounds(480, 270, 100, 29);
+        generateItemsButton.setBounds(480, 270, 100, 23);
         itemsPanel.add(generateItemsButton, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         jLabel3.setForeground(new java.awt.Color(102, 102, 102));
         jLabel3.setText("  or...");
-        jLabel3.setBounds(510, 220, 33, 16);
+        jLabel3.setBounds(510, 220, 28, 14);
         itemsPanel.add(jLabel3, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         removeAllItemsButton.setText("Remove all");
@@ -151,7 +168,7 @@ public class MainWindow extends javax.swing.JFrame {
                 removeAllItemsButtonActionPerformed(evt);
             }
         });
-        removeAllItemsButton.setBounds(480, 150, 100, 29);
+        removeAllItemsButton.setBounds(480, 150, 100, 23);
         itemsPanel.add(removeAllItemsButton, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         jTabbedPane1.addTab("Items", itemsPanel);
@@ -161,46 +178,54 @@ public class MainWindow extends javax.swing.JFrame {
                 populationSizeActionPerformed(evt);
             }
         });
-        populationSize.setBounds(10, 40, 170, 28);
+        populationSize.setBounds(10, 40, 170, 20);
         jLayeredPane1.add(populationSize, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         jLabel7.setText("Population Size");
-        jLabel7.setBounds(20, 20, 170, 16);
+        jLabel7.setBounds(20, 20, 170, 14);
         jLayeredPane1.add(jLabel7, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        mutationRate.setBounds(20, 130, 160, 28);
+        mutationRate.setBounds(20, 130, 160, 20);
         jLayeredPane1.add(mutationRate, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         jLabel8.setText("Mutation Rate");
-        jLabel8.setBounds(20, 110, 100, 16);
+        jLabel8.setBounds(20, 110, 100, 14);
         jLayeredPane1.add(jLabel8, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        elitismRate.setBounds(20, 210, 160, 28);
+        elitismRate.setBounds(20, 210, 160, 20);
         jLayeredPane1.add(elitismRate, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         jLabel9.setText("Elitism Rate");
-        jLabel9.setBounds(20, 190, 90, 16);
+        jLabel9.setBounds(20, 190, 90, 14);
         jLayeredPane1.add(jLabel9, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         jLabel10.setText("Crossover Rate");
-        jLabel10.setBounds(20, 270, 120, 16);
+        jLabel10.setBounds(20, 270, 120, 14);
         jLayeredPane1.add(jLabel10, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        crossoverRate.setBounds(20, 300, 160, 28);
+        crossoverRate.setBounds(20, 300, 160, 20);
         jLayeredPane1.add(crossoverRate, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         repairOrPenaltyMethod.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        repairOrPenaltyMethod.setBounds(30, 380, 96, 27);
+        repairOrPenaltyMethod.setBounds(30, 380, 56, 20);
         jLayeredPane1.add(repairOrPenaltyMethod, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         jLabel11.setText("Repair / Penalty Method");
-        jLabel11.setBounds(30, 360, 170, 16);
+        jLabel11.setBounds(30, 360, 170, 14);
         jLayeredPane1.add(jLabel11, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         jLabel12.setText("Selection Method");
-        jLabel12.setBounds(370, 140, 140, 16);
+        jLabel12.setBounds(370, 140, 140, 14);
         jLayeredPane1.add(jLabel12, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         selectionMethod.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        selectionMethod.setBounds(370, 160, 96, 27);
+        selectionMethod.setBounds(370, 160, 56, 20);
         jLayeredPane1.add(selectionMethod, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        jLabel13.setText("Crossover Method");
+        jLabel13.setBounds(370, 210, 90, 14);
+        jLayeredPane1.add(jLabel13, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        crossoverMethod.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        crossoverMethod.setBounds(370, 230, 56, 20);
+        jLayeredPane1.add(crossoverMethod, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         jLayeredPane1.setBounds(10, 10, 580, 470);
         settingsPanel.add(jLayeredPane1, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -211,7 +236,7 @@ public class MainWindow extends javax.swing.JFrame {
         simulationPanel.add(jScrollPane2, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         evolutionSteeringButton.setText("Pause");
-        evolutionSteeringButton.setBounds(520, 470, 97, 29);
+        evolutionSteeringButton.setBounds(520, 470, 97, 23);
         simulationPanel.add(evolutionSteeringButton, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         jLabel4.setFont(new java.awt.Font("Lucida Grande", 0, 14));
@@ -238,7 +263,7 @@ public class MainWindow extends javax.swing.JFrame {
         simulationPanel.add(lastPopulationBestResultSummary, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         detailsButton.setText("Details");
-        detailsButton.setBounds(430, 470, 97, 29);
+        detailsButton.setBounds(430, 470, 97, 23);
         simulationPanel.add(detailsButton, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         jTabbedPane1.addTab("Simulate", simulationPanel);
@@ -319,6 +344,7 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JButton addItemButton;
     private javax.swing.JLabel bestResultSummary;
     private javax.swing.JButton continueToStep2Button;
+    private javax.swing.JComboBox crossoverMethod;
     private javax.swing.JFormattedTextField crossoverRate;
     private javax.swing.JButton detailsButton;
     private javax.swing.JButton editItemButton;
@@ -331,6 +357,7 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -350,8 +377,13 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JButton removeAllItemsButton;
     private javax.swing.JButton removeItemButton;
     private javax.swing.JComboBox repairOrPenaltyMethod;
-    private javax.swing.JComboBox selectionMethod;
+    protected javax.swing.JComboBox selectionMethod;
     private javax.swing.JLayeredPane settingsPanel;
     private javax.swing.JLayeredPane simulationPanel;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }
