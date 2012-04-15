@@ -21,7 +21,8 @@ public class MainWindow extends JFrame {
     private MainWindow() {
         initComponents();
         itemsList.setModel(model);
-        controller = new EvolutionController(model);
+        controller = new EvolutionController(model, lastPopulationBestResultSummary, bestResultSummary, seriesCollection);
+        
     }
     
     

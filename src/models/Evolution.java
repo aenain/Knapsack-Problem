@@ -26,6 +26,8 @@ public class Evolution {
     SelectionMethod selectFunction; // funkcja selekcji osobnikow
     CrossoverMethod crossoverFunction; // funkcja odpowiedzialna za krzyzowanie
     
+    private List listeners = new ArrayList();
+    
     public Evolution(Item items[], int itemCount, int populCount, int knapCapac, boolean rep, double 
             elitFac, double crossFac, double mutFac, PunishFitness evalPunishFunc, RepairFitness repairFunc,
             SelectionMethod selectFunc, CrossoverMethod crossFunc){
@@ -124,10 +126,42 @@ public class Evolution {
             // mutacje
             for(int j = 0; j < populationCount; j++)
                 population[1].chromosomes[j].mutate(mutationFactor);
+            
+            fireEvolutionChanged(i);
         }
     }
     
     Genome getBestGen(){
         return population[0].chromosomes[population[0].getBestIndex()];
+    }
+ 
+    private void fireEvolutionChanged(int i) {
+        Hashtable<String, Number> hash = new Hashtable<String, Number>();
+
+        hash.put("minPopulationFitness", population[0].getWorst());
+        hash.put("averagePopulationFitness", population[0].getAver());
+        hash.put("maxPopulationFitness", population[0].getBest());
+        
+        Genome bestPopulationGenome = getBestGen();
+        hash.put("bestPopulationGenomeValue", bestPopulationGenome.getValue());
+        hash.put("bestPopulationGenomeWeight", bestPopulationGenome.getWeigth());
+        
+        Genome bestGenome = getBestGenomeEver();
+        hash.put("bestGenomeValue", bestGenome.getValue());
+        hash.put("bestGenomeWeight", bestGenome.getWeigth());
+ 
+        hash.put("iteration", i);
+        
+        Iterator listener = listeners.iterator();
+        while (listener.hasNext())
+            ((EvolutionListener) listener.next()).updateReceived(hash);
+    }
+    
+    public void addListener(EvolutionListener l) {
+        listeners.add(l);
+    }
+    
+    public void removeListener(EvolutionListener l) {
+        listeners.remove(l);
     }
 }

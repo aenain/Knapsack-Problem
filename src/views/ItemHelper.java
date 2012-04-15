@@ -20,7 +20,7 @@ public class ItemHelper {
         return value + valueUnit + " by " + weight + weightUnit;
     }
     
-    public static String toLabel(Double value, Double weight) {
+    public static String toLabel(Number value, Number weight) {
         return toLabel(value.toString(), weight.toString());
     }
 
@@ -49,5 +49,9 @@ public class ItemHelper {
         }
         
         return values;
+    }
+
+    public static String toBestResultLabel(Number value, Number weight, Number capacity) {
+        return toLabel(value, weight) + "(out of " + capacity + weightUnit + ")";
     }
 }

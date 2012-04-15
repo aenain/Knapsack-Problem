@@ -3,30 +3,42 @@
  * and open the template in the editor.
  */
 package controllers;
+import java.util.Hashtable;
 import javax.swing.DefaultListModel;
 import javax.swing.JComponent;
+import javax.swing.JLabel;
 import javax.swing.JSlider;
 import javax.swing.JTextField;
 import models.*;
+import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.XYSeriesCollection;
 import views.*;
 
 /**
  *
  * @author arturhebda
  */
-public class EvolutionController extends BaseController {
+public class EvolutionController extends BaseController implements EvolutionListener {
     private Evolution evolution;
     private DefaultListModel itemListModel;
+    private int knapsackCapacity;
+    private JLabel lastPopulationBestResultSummary, bestResultSummary;
+    private XYSeries minSeries, averageSeries, maxSeries;
     
-    public EvolutionController(DefaultListModel itemListModel) {
+    public EvolutionController(DefaultListModel itemListModel, JLabel lastPopulationBestResultSummary, JLabel bestResultSummary, XYSeriesCollection seriesCollection) {
         evolution = null;
         this.itemListModel = itemListModel;
+        this.lastPopulationBestResultSummary = lastPopulationBestResultSummary;
+        this.bestResultSummary = bestResultSummary;
+        minSeries = seriesCollection.getSeries(0);
+        averageSeries = seriesCollection.getSeries(1);
+        maxSeries = seriesCollection.getSeries(2);
     }
 
     /** @param components - [maximumWeightSlider, populationSize, maxGenerations, mutationRate, elitismRate, crossoverRate, repairOrPenaltyMethod, selectionMethod] **/
     public void gatherParametersAndStartSimulation(JComponent[] components) {
         // collect params
-        int knapsackCapacity = ((JSlider) components[0]).getValue();
+        this.knapsackCapacity = ((JSlider) components[0]).getValue();
         int populationSize = Integer.parseInt(((JTextField) components[1]).getText());
         int maxGenerations = Integer.parseInt(((JTextField) components[2]).getText());
         double mutationRate = Double.parseDouble(((JTextField) components[3]).getText());
@@ -48,12 +60,22 @@ public class EvolutionController extends BaseController {
         }
         
         evolution = new Evolution(items, itemCount, populationSize, knapsackCapacity, true, elitismRate, crossoverRate, mutationRate, punishFitness, repairFitness, selectionMethod, crossoverMethod);
+        evolution.addListener(this);
+
         evolution.init();
         evolution.evolve(maxGenerations);
     }
-    
-    public void updateGenerationInfo() {
-        // add 3 points to chart
-        // change info about 
+
+    @Override
+    public void updateReceived(Hashtable<String, Number> hash) {
+        Number iteration = hash.get("iteration");
+
+        minSeries.add(iteration, hash.get("minPopulationFitness"));
+        averageSeries.add(iteration, hash.get("averagePopulationFitness"));
+        maxSeries.add(iteration, hash.get("maxPopulationFitness"));
+        
+        // best results
+        lastPopulationBestResultSummary.setText(ItemHelper.toBestResultLabel(hash.get("bestPopulationGenomeValue"), hash.get("bestPopulationGenomeWeight"), knapsackCapacity));
+        bestResultSummary.setText(ItemHelper.toBestResultLabel(hash.get("bestGenomeValue"), hash.get("bestGenomeWeight"), knapsackCapacity));
     }
 }
