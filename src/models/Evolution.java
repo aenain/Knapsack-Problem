@@ -52,7 +52,7 @@ public class Evolution {
     }
     
     // inicjalizacja - wygenerowanie 1szej losowej populacji itp.
-    void init(){
+    public void init(){
         population[1].genRandomPop();
         population[1].calcValWeigth(items);
     }
