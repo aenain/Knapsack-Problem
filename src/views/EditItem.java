@@ -16,8 +16,8 @@ public class EditItem extends JFrame implements ActionListener {
     
     public EditItem() {
         initComponents();
-        itemWeight.addActionListener(this);
         itemValue.addActionListener(this);
+        itemWeight.addActionListener(this);
         fill();
     }
 
@@ -26,14 +26,13 @@ public class EditItem extends JFrame implements ActionListener {
     }
     
     private void fill() {
-        
-        String[] getValues = ((String)MainWindow.model.elementAt(selected[index])).split("\\|");
-            
-        itemWeight.setText(getValues[0]);
-        itemValue.setText(getValues[1]);
-        itemWeight.requestFocus();
-        itemWeight.selectAll();
+        String[] values = ItemHelper.getValues((String)MainWindow.model.elementAt(selected[index]));
+    
+        itemWeight.setText(values[0]);
+        itemValue.setText(values[1]);
+        itemValue.requestFocus();
         itemValue.selectAll();
+        itemWeight.selectAll();
     }
      
     
@@ -43,12 +42,12 @@ public class EditItem extends JFrame implements ActionListener {
 
         jLabel2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
-        itemValue = new javax.swing.JTextField();
         itemWeight = new javax.swing.JTextField();
+        itemValue = new javax.swing.JTextField();
         doneButton = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Edit an item");
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
@@ -59,51 +58,59 @@ public class EditItem extends JFrame implements ActionListener {
             }
         });
 
-        jLabel2.setText("Item's value");
+        jLabel2.setText("Weight [kg]");
 
-        jLabel1.setText("Item's weight");
+        jLabel1.setText("Value [PLN]");
 
-        doneButton.setText("Done");
+        doneButton.setText("Save");
         doneButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 doneButtonActionPerformed(evt);
             }
         });
 
+        jLabel3.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
+        jLabel3.setText("Edit Item");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(33, 33, 33)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel2))
-                        .addGap(41, 41, 41)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(itemValue)
-                            .addComponent(itemWeight, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(74, 74, 74)
-                        .addComponent(doneButton)))
-                .addContainerGap(38, Short.MAX_VALUE))
+                .addGap(44, 44, 44)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(itemValue, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(itemWeight, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(30, 30, 30))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(182, Short.MAX_VALUE)
+                .addComponent(doneButton)
+                .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel3)
+                .addContainerGap(194, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(54, 54, 54)
+                .addContainerGap()
+                .addComponent(jLabel3)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(itemWeight, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(39, 39, 39)
+                    .addComponent(itemValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(itemValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
+                    .addComponent(itemWeight, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
+                .addGap(41, 41, 41)
                 .addComponent(doneButton)
-                .addGap(30, 30, 30))
+                .addContainerGap())
         );
 
         pack();
@@ -115,13 +122,13 @@ public class EditItem extends JFrame implements ActionListener {
         try {
             try {
                 
-                weight = Double.parseDouble(itemWeight.getText());
-                value = Double.parseDouble(itemValue.getText());
+                weight = ItemHelper.toNumber(itemValue.getText());
+                value = ItemHelper.toNumber(itemWeight.getText());
                 
                 if(value < 0 || weight <= 0)
                     throw new NumberFormatException();
                 
-                MainWindow.model.setElementAt(itemWeight.getText()+"|"+itemValue.getText(), selected[index]);
+                MainWindow.model.setElementAt(ItemHelper.toLabel(value, weight), selected[index]);
                 
             } catch (NumberFormatException e) {
                 throw new MyException("Only positive numbers accepted!");
@@ -165,5 +172,6 @@ public class EditItem extends JFrame implements ActionListener {
     private javax.swing.JTextField itemWeight;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     // End of variables declaration//GEN-END:variables
 }
