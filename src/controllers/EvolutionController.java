@@ -23,14 +23,15 @@ public class EvolutionController extends BaseController {
         this.itemListModel = itemListModel;
     }
 
-    /** @param components - [maximumWeightSlider, populationSize, mutationRate, elitismRate, crossoverRate, repairOrPenaltyMethod, selectionMethod] **/
+    /** @param components - [maximumWeightSlider, populationSize, maxGenerations, mutationRate, elitismRate, crossoverRate, repairOrPenaltyMethod, selectionMethod] **/
     public void gatherParametersAndStartSimulation(JComponent[] components) {
         // collect params
         int knapsackCapacity = ((JSlider) components[0]).getValue();
         int populationSize = Integer.parseInt(((JTextField) components[1]).getText());
-        double mutationRate = Double.parseDouble(((JTextField) components[2]).getText());
-        double elitismRate = Double.parseDouble(((JTextField) components[3]).getText());
-        double crossoverRate = Double.parseDouble(((JTextField) components[4]).getText());
+        int maxGenerations = Integer.parseInt(((JTextField) components[2]).getText());
+        double mutationRate = Double.parseDouble(((JTextField) components[3]).getText());
+        double elitismRate = Double.parseDouble(((JTextField) components[4]).getText());
+        double crossoverRate = Double.parseDouble(((JTextField) components[5]).getText());
 
         // TODO! wybieranie metod na podstawie wartości z komboboksów
         RouletteSelection selectionMethod = new RouletteSelection();
@@ -48,6 +49,7 @@ public class EvolutionController extends BaseController {
         
         evolution = new Evolution(items, itemCount, populationSize, knapsackCapacity, true, elitismRate, crossoverRate, mutationRate, punishFitness, repairFitness, selectionMethod, crossoverMethod);
         evolution.init();
+        evolution.evolve(maxGenerations);
     }
     
     public void updateGenerationInfo() {

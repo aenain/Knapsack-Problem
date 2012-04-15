@@ -58,7 +58,7 @@ public class Evolution {
     }
     
     // ewolucja (max_gener - maksymalnie do tego pokolenia ewoluujemy)
-    void evolve(int max_gener){
+    public void evolve(int max_gener){
         for(int i = 0; i < max_gener; i++){
             /* jak to widze:
              * 

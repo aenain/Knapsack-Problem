@@ -53,7 +53,7 @@ public class MainWindow extends JFrame {
         removeAllItemsButton = new javax.swing.JButton();
         settingsPanel = new javax.swing.JLayeredPane();
         jLayeredPane1 = new javax.swing.JLayeredPane();
-        populationSize = new javax.swing.JFormattedTextField();
+        maxGenerations = new javax.swing.JFormattedTextField();
         jLabel7 = new javax.swing.JLabel();
         mutationRate = new javax.swing.JFormattedTextField();
         jLabel8 = new javax.swing.JLabel();
@@ -69,6 +69,8 @@ public class MainWindow extends JFrame {
         crossoverMethod = new javax.swing.JComboBox();
         backToStep1Button = new javax.swing.JButton();
         startSimulationButton = new javax.swing.JButton();
+        populationSize = new javax.swing.JFormattedTextField();
+        jLabel14 = new javax.swing.JLabel();
         simulationPanel = new javax.swing.JLayeredPane();
         jScrollPane2 = new javax.swing.JScrollPane();
         evolutionSteeringButton = new javax.swing.JButton();
@@ -167,17 +169,17 @@ public class MainWindow extends JFrame {
 
         tabs.addTab("Items", itemsPanel);
 
-        populationSize.setText("100");
-        populationSize.addActionListener(new java.awt.event.ActionListener() {
+        maxGenerations.setText("250");
+        maxGenerations.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                populationSizeActionPerformed(evt);
+                maxGenerationsActionPerformed(evt);
             }
         });
-        populationSize.setBounds(10, 40, 170, 28);
-        jLayeredPane1.add(populationSize, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        maxGenerations.setBounds(350, 60, 170, 28);
+        jLayeredPane1.add(maxGenerations, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
-        jLabel7.setText("Population Size");
-        jLabel7.setBounds(20, 20, 170, 16);
+        jLabel7.setText("Generations Limit");
+        jLabel7.setBounds(350, 40, 170, 16);
         jLayeredPane1.add(jLabel7, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         mutationRate.setText("0.05");
@@ -245,6 +247,19 @@ public class MainWindow extends JFrame {
         });
         startSimulationButton.setBounds(437, 440, 140, 29);
         jLayeredPane1.add(startSimulationButton, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        populationSize.setText("100");
+        populationSize.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                populationSizeActionPerformed(evt);
+            }
+        });
+        populationSize.setBounds(10, 40, 170, 28);
+        jLayeredPane1.add(populationSize, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        jLabel14.setText("Population Size");
+        jLabel14.setBounds(20, 20, 170, 20);
+        jLayeredPane1.add(jLabel14, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         jLayeredPane1.setBounds(10, 10, 580, 470);
         settingsPanel.add(jLayeredPane1, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -336,9 +351,9 @@ public class MainWindow extends JFrame {
         model.removeAllElements();
     }//GEN-LAST:event_removeAllItemsButtonActionPerformed
 
-    private void populationSizeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_populationSizeActionPerformed
+    private void maxGenerationsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_maxGenerationsActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_populationSizeActionPerformed
+    }//GEN-LAST:event_maxGenerationsActionPerformed
 
     private void backToStep1ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backToStep1ButtonActionPerformed
         tabs.setSelectedIndex(0);
@@ -346,9 +361,13 @@ public class MainWindow extends JFrame {
 
     private void startSimulationButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startSimulationButtonActionPerformed
         tabs.setSelectedIndex(2);
-        JComponent[] components = {maximumWeightSlider, populationSize, mutationRate, elitismRate, crossoverRate, repairOrPenaltyMethod, selectionMethod};
+        JComponent[] components = {maximumWeightSlider, populationSize, maxGenerations, mutationRate, elitismRate, crossoverRate, repairOrPenaltyMethod, selectionMethod};
         controller.gatherParametersAndStartSimulation(components);
     }//GEN-LAST:event_startSimulationButtonActionPerformed
+
+    private void populationSizeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_populationSizeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_populationSizeActionPerformed
 
 
     public static void main(String args[]) {
@@ -388,6 +407,7 @@ public class MainWindow extends JFrame {
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -400,6 +420,7 @@ public class MainWindow extends JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lastPopulationBestResultSummary;
+    private javax.swing.JFormattedTextField maxGenerations;
     private javax.swing.JSlider maximumWeightSlider;
     private javax.swing.JFormattedTextField mutationRate;
     private javax.swing.JFormattedTextField populationSize;
