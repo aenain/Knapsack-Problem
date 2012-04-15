@@ -25,7 +25,7 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jTabbedPane1" pref="622" max="32767" attributes="0"/>
+              <Component id="tabs" pref="622" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -34,14 +34,14 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jTabbedPane1" pref="534" max="32767" attributes="0"/>
+              <Component id="tabs" pref="534" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Container class="javax.swing.JTabbedPane" name="jTabbedPane1">
+    <Container class="javax.swing.JTabbedPane" name="tabs">
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout"/>
       <SubComponents>
@@ -232,6 +232,9 @@
               <Layout class="org.netbeans.modules.form.compat2.layouts.support.JLayeredPaneSupportLayout"/>
               <SubComponents>
                 <Component class="javax.swing.JFormattedTextField" name="populationSize">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="100"/>
+                  </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="populationSizeActionPerformed"/>
                   </Events>
@@ -252,6 +255,9 @@
                   </Constraints>
                 </Component>
                 <Component class="javax.swing.JFormattedTextField" name="mutationRate">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="0.05"/>
+                  </Properties>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JLayeredPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JLayeredPaneSupportLayout$JLayeredPaneConstraintsDescription">
                       <JLayeredPaneConstraints x="20" y="130" width="160" height="-1" layer="0" position="-1"/>
@@ -269,6 +275,9 @@
                   </Constraints>
                 </Component>
                 <Component class="javax.swing.JFormattedTextField" name="elitismRate">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="0.2"/>
+                  </Properties>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JLayeredPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JLayeredPaneSupportLayout$JLayeredPaneConstraintsDescription">
                       <JLayeredPaneConstraints x="20" y="210" width="160" height="-1" layer="0" position="-1"/>
@@ -296,6 +305,9 @@
                   </Constraints>
                 </Component>
                 <Component class="javax.swing.JFormattedTextField" name="crossoverRate">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="0.5"/>
+                  </Properties>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JLayeredPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JLayeredPaneSupportLayout$JLayeredPaneConstraintsDescription">
                       <JLayeredPaneConstraints x="20" y="300" width="160" height="-1" layer="0" position="-1"/>
@@ -305,11 +317,8 @@
                 <Component class="javax.swing.JComboBox" name="repairOrPenaltyMethod">
                   <Properties>
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                      <StringArray count="4">
-                        <StringItem index="0" value="Item 1"/>
-                        <StringItem index="1" value="Item 2"/>
-                        <StringItem index="2" value="Item 3"/>
-                        <StringItem index="3" value="Item 4"/>
+                      <StringArray count="1">
+                        <StringItem index="0" value="Rand Modulo Repair"/>
                       </StringArray>
                     </Property>
                   </Properties>
@@ -342,11 +351,8 @@
                 <Component class="javax.swing.JComboBox" name="selectionMethod">
                   <Properties>
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                      <StringArray count="4">
-                        <StringItem index="0" value="Item 1"/>
-                        <StringItem index="1" value="Item 2"/>
-                        <StringItem index="2" value="Item 3"/>
-                        <StringItem index="3" value="Item 4"/>
+                      <StringArray count="1">
+                        <StringItem index="0" value="Roulette"/>
                       </StringArray>
                     </Property>
                   </Properties>
@@ -355,7 +361,7 @@
                   </AuxValues>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JLayeredPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JLayeredPaneSupportLayout$JLayeredPaneConstraintsDescription">
-                      <JLayeredPaneConstraints x="370" y="160" width="-1" height="-1" layer="0" position="-1"/>
+                      <JLayeredPaneConstraints x="370" y="160" width="130" height="-1" layer="0" position="-1"/>
                     </Constraint>
                   </Constraints>
                 </Component>
@@ -372,11 +378,8 @@
                 <Component class="javax.swing.JComboBox" name="crossoverMethod">
                   <Properties>
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                      <StringArray count="4">
-                        <StringItem index="0" value="Item 1"/>
-                        <StringItem index="1" value="Item 2"/>
-                        <StringItem index="2" value="Item 3"/>
-                        <StringItem index="3" value="Item 4"/>
+                      <StringArray count="1">
+                        <StringItem index="0" value="Single Point"/>
                       </StringArray>
                     </Property>
                   </Properties>
@@ -390,6 +393,9 @@
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Back"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="backToStep1ButtonActionPerformed"/>
+                  </Events>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JLayeredPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JLayeredPaneSupportLayout$JLayeredPaneConstraintsDescription">
                       <JLayeredPaneConstraints x="0" y="440" width="-1" height="-1" layer="0" position="-1"/>
@@ -400,6 +406,9 @@
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Start Simulation"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="startSimulationButtonActionPerformed"/>
+                  </Events>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JLayeredPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JLayeredPaneSupportLayout$JLayeredPaneConstraintsDescription">
                       <JLayeredPaneConstraints x="437" y="440" width="140" height="-1" layer="0" position="-1"/>
