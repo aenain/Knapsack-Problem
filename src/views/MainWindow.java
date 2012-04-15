@@ -75,6 +75,8 @@ public class MainWindow extends JFrame implements ActionListener {
         selectionMethod = new javax.swing.JComboBox();
         jLabel13 = new javax.swing.JLabel();
         crossoverMethod = new javax.swing.JComboBox();
+        backToStep1Button = new javax.swing.JButton();
+        startSimulationButton = new javax.swing.JButton();
         simulationPanel = new javax.swing.JLayeredPane();
         jScrollPane2 = new javax.swing.JScrollPane();
         evolutionSteeringButton = new javax.swing.JButton();
@@ -226,6 +228,13 @@ public class MainWindow extends JFrame implements ActionListener {
         crossoverMethod.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         crossoverMethod.setBounds(370, 230, 56, 20);
         jLayeredPane1.add(crossoverMethod, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        backToStep1Button.setText("Back");
+        backToStep1Button.setBounds(0, 440, 75, 29);
+        jLayeredPane1.add(backToStep1Button, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        startSimulationButton.setText("Start Simulation");
+        startSimulationButton.setBounds(437, 440, 140, 29);
+        jLayeredPane1.add(startSimulationButton, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         jLayeredPane1.setBounds(10, 10, 580, 470);
         settingsPanel.add(jLayeredPane1, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -342,6 +351,7 @@ public class MainWindow extends JFrame implements ActionListener {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addItemButton;
+    private javax.swing.JButton backToStep1Button;
     private javax.swing.JLabel bestResultSummary;
     private javax.swing.JButton continueToStep2Button;
     private javax.swing.JComboBox crossoverMethod;
@@ -380,6 +390,7 @@ public class MainWindow extends JFrame implements ActionListener {
     protected javax.swing.JComboBox selectionMethod;
     private javax.swing.JLayeredPane settingsPanel;
     private javax.swing.JLayeredPane simulationPanel;
+    private javax.swing.JButton startSimulationButton;
     // End of variables declaration//GEN-END:variables
 
     @Override

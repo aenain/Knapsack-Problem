@@ -383,6 +383,23 @@
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JLayeredPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JLayeredPaneSupportLayout$JLayeredPaneConstraintsDescription">
                       <JLayeredPaneConstraints x="370" y="230" width="-1" height="-1" layer="0" position="-1"/>
+                <Component class="javax.swing.JButton" name="backToStep1Button">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Back"/>
+                  </Properties>
+                  <Constraints>
+                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JLayeredPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JLayeredPaneSupportLayout$JLayeredPaneConstraintsDescription">
+                      <JLayeredPaneConstraints x="0" y="440" width="-1" height="-1" layer="0" position="-1"/>
+                    </Constraint>
+                  </Constraints>
+                </Component>
+                <Component class="javax.swing.JButton" name="startSimulationButton">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Start Simulation"/>
+                  </Properties>
+                  <Constraints>
+                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JLayeredPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JLayeredPaneSupportLayout$JLayeredPaneConstraintsDescription">
+                      <JLayeredPaneConstraints x="437" y="440" width="140" height="-1" layer="0" position="-1"/>
                     </Constraint>
                   </Constraints>
                 </Component>
