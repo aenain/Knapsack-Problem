@@ -11,11 +11,16 @@ package models;
 public class Item {
     int weigth; 
     int value;
-    
+
     public Item(int w, int v){
         weigth = w;
         value = v;
     }
+
+    public Item(String weight, String value) {
+        this.weigth = Integer.parseInt(weight);
+        this.value = Integer.parseInt(value);
+    } 
     
     // pobranie wartosci
     

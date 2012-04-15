@@ -1,5 +1,6 @@
 package views;
 
+import controllers.*;
 import java.util.Collections;
 import javax.swing.UIManager;
 import javax.swing.*;
@@ -10,22 +11,17 @@ import java.awt.event.*;
  *
  * @author arturhebda
  */
-public class MainWindow extends JFrame implements ActionListener {
+public class MainWindow extends JFrame {
 
     static MainWindow myMainWindow;
     static DefaultListModel model = new DefaultListModel();
+    static EvolutionController controller;
     
 
     private MainWindow() {
         initComponents();
         itemsList.setModel(model);
-        selectionMethod.addActionListener(this);
-    }
-    
-    public void actionPeformed(ActionEvent e) {
-        JComboBox cb = (JComboBox)e.getSource();
-        String pet = (String)cb.getSelectedItem();
-        new MyAlert(pet);//selectionMethod.getSelectedItem().toString());
+        controller = new EvolutionController(model);
     }
     
     
@@ -37,10 +33,6 @@ public class MainWindow extends JFrame implements ActionListener {
         itemsList.clearSelection();
     }
     
-    void getS() {
-        new MyAlert(selectionMethod.getSelectedItem().toString());
-    }
-
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -393,8 +385,4 @@ public class MainWindow extends JFrame implements ActionListener {
     private javax.swing.JButton startSimulationButton;
     // End of variables declaration//GEN-END:variables
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
 }
