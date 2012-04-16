@@ -56,6 +56,6 @@ public class ItemHelper {
     }
 
     public static String toBestResultLabel(Number value, Number weight, Number capacity) {
-        return toLabel(value, weight) + "(out of " + capacity + weightUnit + ")";
+        return toLabel(value, weight) + " (out of " + capacity + weightUnit + ")";
     }
 }
