@@ -20,6 +20,7 @@ public class Evolution {
     double crossFactor; // wspolczynnik krzyzowania
     double mutationFactor; // wspolczynnik mutacji
     Population population[] = new Population[2]; // populacja (obecna i poprzednia ?)
+    Genome bestGenomeEver; //najlepszy genom ever
     
     PunishFitness evalPunishFunction; // funkcja obliczajaca przystosowanie i kare
     RepairFitness evalRepairFunc;
@@ -107,6 +108,15 @@ public class Evolution {
             
             // wybieranie osobnikow do nastepnej populacji 
             CompareGenome compare = new CompareGenome();
+            
+            
+            if(bestGenomeEver == null)
+                bestGenomeEver = getBestGen();
+            else if(compare.compare(getBestGen(),bestGenomeEver) < 0) { //do skurwysyna zmienić to, wg API jak a<b to b jest lepsze!
+                bestGenomeEver = getBestGen();
+            }
+            
+            
             // elitarnosc
             int eliteCount = (int)(elitismFactor*populationCount);
             boolean sorted = false;
@@ -129,6 +139,10 @@ public class Evolution {
             
             fireEvolutionChanged(i);
         }
+    }
+    
+    Genome getBestGenomeEver() {
+        return bestGenomeEver;
     }
     
     Genome getBestGen(){

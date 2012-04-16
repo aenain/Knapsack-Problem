@@ -26,7 +26,6 @@ public class EvolutionController extends BaseController implements EvolutionList
     private XYSeries minSeries, averageSeries, maxSeries;
     
     public EvolutionController(DefaultListModel itemListModel, JLabel lastPopulationBestResultSummary, JLabel bestResultSummary, XYSeriesCollection seriesCollection) {
-        evolution = null;
         this.itemListModel = itemListModel;
         this.lastPopulationBestResultSummary = lastPopulationBestResultSummary;
         this.bestResultSummary = bestResultSummary;
@@ -38,6 +37,7 @@ public class EvolutionController extends BaseController implements EvolutionList
     /** @param components - [maximumWeightSlider, populationSize, maxGenerations, mutationRate, elitismRate, crossoverRate, repairOrPenaltyMethod, selectionMethod] **/
     public void gatherParametersAndStartSimulation(JComponent[] components) {
         // collect params
+        
         this.knapsackCapacity = ((JSlider) components[0]).getValue();
         int populationSize = Integer.parseInt(((JTextField) components[1]).getText());
         int maxGenerations = Integer.parseInt(((JTextField) components[2]).getText());

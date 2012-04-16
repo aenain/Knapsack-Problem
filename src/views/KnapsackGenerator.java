@@ -8,17 +8,21 @@ import models.MyException;
 
 public class KnapsackGenerator extends javax.swing.JFrame {
     
-    DecimalFormat df = new DecimalFormat("0.00");
-    DecimalFormatSymbols symbols = new DecimalFormatSymbols();
+    //DecimalFormat df = new DecimalFormat("0.00");
+    //DecimalFormatSymbols symbols = new DecimalFormatSymbols();
 
     public KnapsackGenerator() {
         initComponents();
+        /*
         symbols.setDecimalSeparator('.');
         df.setDecimalFormatSymbols(symbols);
         df.setMinimumFractionDigits(2);
         df.setMaximumFractionDigits(2);
+         * 
+         */
     }
     
+    /*
     String round(double d) {
         
         //Number num = 0;
@@ -33,6 +37,8 @@ public class KnapsackGenerator extends javax.swing.JFrame {
         
         //return num.doubleValue();
     }
+     * 
+     */
 
 
     @SuppressWarnings("unchecked")
@@ -187,10 +193,12 @@ public class KnapsackGenerator extends javax.swing.JFrame {
         
             while(n-- > 0) {
 
-                double randomV = rangeMinV + (rangeMaxV - rangeMinV) * r.nextDouble();
-                double randomW = rangeMinW + (rangeMaxW - rangeMinW) * r.nextDouble();
+                int randomV = rangeMinV + (int)((rangeMaxV - rangeMinV) * r.nextDouble());
+                int randomW = rangeMinW + (int)((rangeMaxW - rangeMinW) * r.nextDouble());
+                //System.out.println(randomW+" "+randomV);
+                
         
-                MainWindow.model.addElement(round(randomW)+"|"+round(randomV));
+                MainWindow.model.addElement(randomW+"|"+randomV);//MainWindow.model.addElement(round(randomW)+"|"+round(randomV));
             }
         
             dispose();
