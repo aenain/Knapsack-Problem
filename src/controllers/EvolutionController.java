@@ -40,7 +40,7 @@ public class EvolutionController extends BaseController implements EvolutionList
         
         this.knapsackCapacity = ((JSlider) components[0]).getValue();
         int populationSize = Integer.parseInt(((JTextField) components[1]).getText());
-        int maxGenerations = Integer.parseInt(((JTextField) components[2]).getText());
+        int generationsLimit = Integer.parseInt(((JTextField) components[2]).getText());
         double mutationRate = Double.parseDouble(((JTextField) components[3]).getText());
         double elitismRate = Double.parseDouble(((JTextField) components[4]).getText());
         double crossoverRate = Double.parseDouble(((JTextField) components[5]).getText());
@@ -59,11 +59,9 @@ public class EvolutionController extends BaseController implements EvolutionList
             items[i] = new Item(values[1], values[0]); // w kontrolerach i widokach najpierw jest value, potem weight; w modelach odwrotnie
         }
         
-        evolution = new Evolution(items, itemCount, populationSize, knapsackCapacity, true, elitismRate, crossoverRate, mutationRate, punishFitness, repairFitness, selectionMethod, crossoverMethod);
+        evolution = new Evolution(items, itemCount, populationSize, generationsLimit, knapsackCapacity, true, elitismRate, crossoverRate, mutationRate, punishFitness, repairFitness, selectionMethod, crossoverMethod);
         evolution.addListener(this);
-
-        evolution.init();
-        evolution.evolve(maxGenerations);
+        new Thread(evolution).start();
     }
 
     @Override

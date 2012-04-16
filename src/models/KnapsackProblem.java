@@ -33,7 +33,7 @@ public class KnapsackProblem {
             System.out.println("id: " + i + " waga: " + items[i].getWeigth() + " wart: " + items[i].getValue());
         }
         
-        Evolution evol = new Evolution(items, itemCount, populCount, knapCapac, true,
+        Evolution evol = new Evolution(items, itemCount, maxGener, populCount, knapCapac, true,
                 elitFact, crossFact, mutFact, linearPF, randModRF, rouletteSel, singleP);
         evol.init();
         evol.evolve(maxGener);

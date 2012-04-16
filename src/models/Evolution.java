@@ -9,10 +9,11 @@ import java.util.*;
  *
 // * @author KaMyLuS
  */
-public class Evolution {
+public class Evolution implements Runnable {
     Item items[]; // tablica z przedmiotami 
     int itemCount; // ile przedmiotow <=> dlugosc chromosomu
     int populationCount; // liczebnosc populacji
+    int generationsLimit; // maksymalna ilość pokoleń (populacji)
     int knapsackCapacity; // pojemnosc plecaka
     boolean repair; // czy stosujemy funkcje naprawy
     private double maxItemPriority; // max(wartosc_przedmiotu/waga_przedmiotu)
@@ -29,12 +30,13 @@ public class Evolution {
     
     private List listeners = new ArrayList();
     
-    public Evolution(Item items[], int itemCount, int populCount, int knapCapac, boolean rep, double 
+    public Evolution(Item items[], int itemCount, int populCount, int generationsLimit, int knapCapac, boolean rep, double 
             elitFac, double crossFac, double mutFac, PunishFitness evalPunishFunc, RepairFitness repairFunc,
             SelectionMethod selectFunc, CrossoverMethod crossFunc){
         this.items = items; // moze lepiej zrobic kopiowanie zamiast tego ? 
         this.itemCount = itemCount;
         populationCount = populCount;
+        this.generationsLimit = generationsLimit;
         knapsackCapacity = knapCapac;
         repair = rep;
         elitismFactor = elitFac;
@@ -59,7 +61,7 @@ public class Evolution {
         population[1].genRandomPop();
         population[1].calcValWeigth(items);
     }
-    
+
     // ewolucja (max_gener - maksymalnie do tego pokolenia ewoluujemy)
     public void evolve(int max_gener){
         for(int i = 0; i < max_gener; i++){
@@ -177,5 +179,11 @@ public class Evolution {
     
     public void removeListener(EvolutionListener l) {
         listeners.remove(l);
+    }
+
+    @Override
+    public void run() {
+        init();
+        evolve(generationsLimit);
     }
 }
