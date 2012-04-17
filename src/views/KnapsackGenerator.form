@@ -33,16 +33,16 @@
                   <Group type="102" alignment="1" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel2" alignment="0" min="-2" pref="85" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" pref="56" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="numberOfObjects" alignment="0" max="32767" attributes="1"/>
                           <Group type="102" alignment="0" attributes="0">
                               <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                                  <Component id="minValue" alignment="0" max="32767" attributes="1"/>
-                                  <Component id="minWeight" alignment="0" min="-2" pref="69" max="-2" attributes="1"/>
+                                  <Component id="minWeight" alignment="0" max="32767" attributes="1"/>
+                                  <Component id="minValue" alignment="0" min="-2" pref="69" max="-2" attributes="1"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
@@ -51,8 +51,8 @@
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="maxValue" max="32767" attributes="1"/>
-                                  <Component id="maxWeight" alignment="0" min="-2" pref="69" max="-2" attributes="1"/>
+                                  <Component id="maxWeight" max="32767" attributes="1"/>
+                                  <Component id="maxValue" alignment="0" min="-2" pref="69" max="-2" attributes="1"/>
                               </Group>
                           </Group>
                       </Group>
@@ -78,25 +78,25 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="13" pref="13" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="minWeight" min="-2" max="-2" attributes="0"/>
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
-                              <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <Component id="maxWeight" min="-2" max="-2" attributes="0"/>
+                          <Component id="minValue" min="-2" max="-2" attributes="0"/>
+                          <Component id="maxValue" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                   </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                      <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
+                  </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                   <Component id="jLabel5" max="32767" attributes="1"/>
                   <Component id="jLabel4" max="32767" attributes="1"/>
-                  <Component id="minValue" alignment="0" max="32767" attributes="1"/>
-                  <Component id="maxValue" alignment="0" min="-2" max="-2" attributes="1"/>
+                  <Component id="minWeight" alignment="0" max="32767" attributes="1"/>
+                  <Component id="maxWeight" alignment="0" min="-2" max="-2" attributes="1"/>
               </Group>
               <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
               <Component id="jButton1" min="-2" max="-2" attributes="0"/>
@@ -113,23 +113,23 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel2">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Weight"/>
+        <Property name="text" type="java.lang.String" value="Value [PLN]"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JSpinner" name="numberOfObjects">
     </Component>
-    <Component class="javax.swing.JSpinner" name="maxWeight">
-    </Component>
-    <Component class="javax.swing.JSpinner" name="minWeight">
-    </Component>
-    <Component class="javax.swing.JLabel" name="jLabel4">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Value"/>
-      </Properties>
-    </Component>
     <Component class="javax.swing.JSpinner" name="maxValue">
     </Component>
     <Component class="javax.swing.JSpinner" name="minValue">
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel4">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Weight [kg]"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JSpinner" name="maxWeight">
+    </Component>
+    <Component class="javax.swing.JSpinner" name="minWeight">
     </Component>
     <Component class="javax.swing.JButton" name="jButton1">
       <Properties>
