@@ -62,17 +62,19 @@ public class EvolutionController extends BaseController implements EvolutionList
             String[] values = ItemHelper.getValues((String) itemListModel.get(i));
             items[i] = new Item(values[1], values[0]); // w kontrolerach i widokach najpierw jest value, potem weight; w modelach odwrotnie
         }
-        
+
+        stopSimulation();
+
         evolution = new Evolution(items, itemCount, populationSize, generationsLimit, knapsackCapacity, true, elitismRate, crossoverRate, mutationRate, punishFitness, repairFitness, selectionMethod, crossoverMethod);
         evolution.addListener(this);
         
-        if (evolutionThread != null) {
-            //pauseSimulation();
-            evolutionThread.stop();
-            minSeries.clear();
-            averageSeries.clear();
-            maxSeries.clear();
-        }
+        startSimulation();
+    }
+
+    public void startSimulation() {
+        minSeries.clear();
+        averageSeries.clear();
+        maxSeries.clear();
 
         evolutionThread = new Thread(evolution);
         evolutionThread.start();
@@ -84,6 +86,14 @@ public class EvolutionController extends BaseController implements EvolutionList
     
     public void resumeSimulation() {
         evolution.resume();
+    }
+
+    public void stopSimulation() {
+        if (evolution != null)
+            evolution.pause();
+
+        if (evolutionThread != null)
+            evolutionThread.interrupt();
     }
 
     @Override

@@ -5,8 +5,6 @@
 package models;
 import java.lang.System.*;
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 /**
  *
 // * @author KaMyLuS
@@ -150,12 +148,13 @@ public class Evolution implements Runnable {
                 if (! running) {
                     try {
                         this.wait();
-                    } catch (InterruptedException ex) {
-                        Logger.getLogger(Evolution.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+                    } catch (InterruptedException ex) {}
                 }
 
-                fireEvolutionChanged(i);
+                /* wymagana konstrukcja, żeby można użyć Thread#interrupt()
+                 * bez ryzyka pojawienia się nowych danych na wykresie */
+                if (running)
+                    fireEvolutionChanged(i);
             }
         }
     }

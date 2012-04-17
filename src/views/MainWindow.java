@@ -436,13 +436,13 @@ public class MainWindow extends JFrame {
     private void startSimulationButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startSimulationButtonActionPerformed
         evolutionSteeringButton.setText("Pause");
 
-        tabs.setSelectedIndex(2);
         final JComponent[] components = {maximumWeightSlider, populationSize, maxGenerations, mutationRate, elitismRate, crossoverRate, repairOrPenaltyMethod, selectionMethod};
         
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
                 controller.gatherParametersAndStartSimulation(components);
+                tabs.setSelectedIndex(2);
             }
         });
     }//GEN-LAST:event_startSimulationButtonActionPerformed
