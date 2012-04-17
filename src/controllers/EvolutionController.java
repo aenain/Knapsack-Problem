@@ -4,6 +4,8 @@
  */
 package controllers;
 import java.util.Hashtable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -24,6 +26,7 @@ public class EvolutionController extends BaseController implements EvolutionList
     private int knapsackCapacity;
     private JLabel lastPopulationBestResultSummary, bestResultSummary;
     private XYSeries minSeries, averageSeries, maxSeries;
+    private Thread evolutionThread;
     
     public EvolutionController(DefaultListModel itemListModel, JLabel lastPopulationBestResultSummary, JLabel bestResultSummary, XYSeriesCollection seriesCollection) {
         this.itemListModel = itemListModel;
@@ -32,6 +35,7 @@ public class EvolutionController extends BaseController implements EvolutionList
         minSeries = seriesCollection.getSeries(0);
         averageSeries = seriesCollection.getSeries(1);
         maxSeries = seriesCollection.getSeries(2);
+        evolutionThread = null;
     }
 
     /** @param components - [maximumWeightSlider, populationSize, maxGenerations, mutationRate, elitismRate, crossoverRate, repairOrPenaltyMethod, selectionMethod] **/
@@ -61,7 +65,25 @@ public class EvolutionController extends BaseController implements EvolutionList
         
         evolution = new Evolution(items, itemCount, populationSize, generationsLimit, knapsackCapacity, true, elitismRate, crossoverRate, mutationRate, punishFitness, repairFitness, selectionMethod, crossoverMethod);
         evolution.addListener(this);
-        new Thread(evolution).start();
+        
+        if (evolutionThread != null) {
+            //pauseSimulation();
+            evolutionThread.stop();
+            minSeries.clear();
+            averageSeries.clear();
+            maxSeries.clear();
+        }
+
+        evolutionThread = new Thread(evolution);
+        evolutionThread.start();
+    }
+    
+    public void pauseSimulation() {
+        evolution.pause();
+    }
+    
+    public void resumeSimulation() {
+        evolution.resume();
     }
 
     @Override

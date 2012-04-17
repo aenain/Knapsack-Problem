@@ -5,6 +5,8 @@
 package models;
 import java.lang.System.*;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /**
  *
 // * @author KaMyLuS
@@ -29,6 +31,7 @@ public class Evolution implements Runnable {
     CrossoverMethod crossoverFunction; // funkcja odpowiedzialna za krzyzowanie
     
     private List listeners = new ArrayList();
+    private Boolean running = false;
     
     public Evolution(Item items[], int itemCount, int populCount, int generationsLimit, int knapCapac, boolean rep, double 
             elitFac, double crossFac, double mutFac, PunishFitness evalPunishFunc, RepairFitness repairFunc,
@@ -64,6 +67,8 @@ public class Evolution implements Runnable {
 
     // ewolucja (max_gener - maksymalnie do tego pokolenia ewoluujemy)
     public void evolve(int max_gener){
+        running = true;
+
         for(int i = 0; i < max_gener; i++){
             /* jak to widze:
              * 
@@ -139,7 +144,17 @@ public class Evolution implements Runnable {
             for(int j = 0; j < populationCount; j++)
                 population[1].chromosomes[j].mutate(mutationFactor);
             
-            fireEvolutionChanged(i);
+            synchronized(this) {
+                if (! running) {
+                    try {
+                        this.wait();
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(Evolution.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                
+                fireEvolutionChanged(i);
+            }
         }
     }
     
@@ -185,5 +200,14 @@ public class Evolution implements Runnable {
     public void run() {
         init();
         evolve(generationsLimit);
+    }
+    
+    public synchronized void pause() {
+        running = false;
+    }
+    
+    public synchronized void resume() {
+        running = true;
+        this.notifyAll();
     }
 }

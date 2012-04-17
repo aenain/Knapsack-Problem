@@ -343,6 +343,11 @@ public class MainWindow extends JFrame {
         simulationPanel.add(jScrollPane2, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         evolutionSteeringButton.setText("Pause");
+        evolutionSteeringButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                evolutionSteeringButtonActionPerformed(evt);
+            }
+        });
         evolutionSteeringButton.setBounds(610, 480, 97, 29);
         simulationPanel.add(evolutionSteeringButton, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
@@ -429,9 +434,7 @@ public class MainWindow extends JFrame {
     }//GEN-LAST:event_backToStep1ButtonActionPerformed
 
     private void startSimulationButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startSimulationButtonActionPerformed
-        graph.minSeries.clear();
-        graph.averageSeries.clear();
-        graph.maxSeries.clear();
+        evolutionSteeringButton.setText("Pause");
 
         tabs.setSelectedIndex(2);
         final JComponent[] components = {maximumWeightSlider, populationSize, maxGenerations, mutationRate, elitismRate, crossoverRate, repairOrPenaltyMethod, selectionMethod};
@@ -447,6 +450,17 @@ public class MainWindow extends JFrame {
     private void populationSizeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_populationSizeActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_populationSizeActionPerformed
+
+    private void evolutionSteeringButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_evolutionSteeringButtonActionPerformed
+        if (evolutionSteeringButton.getText().equals("Pause")) {
+            evolutionSteeringButton.setText("Resume");
+            controller.pauseSimulation();
+        }
+        else {
+            evolutionSteeringButton.setText("Pause");
+            controller.resumeSimulation();
+        }
+    }//GEN-LAST:event_evolutionSteeringButtonActionPerformed
 
 
     public static void main(String args[]) {
