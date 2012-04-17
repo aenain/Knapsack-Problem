@@ -129,6 +129,8 @@ public class Evolution implements Runnable {
             boolean sorted = false;
             if(eliteCount > 0){
                 Arrays.sort(population[0].chromosomes, compare);
+                population[0].setBestIndex(0);
+
                 sorted = true;
                 for(int j = 0; j < eliteCount; j++){
                     population[1].chromosomes[j] = new Genome(population[0].chromosomes[j]);
