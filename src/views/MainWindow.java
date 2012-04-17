@@ -365,9 +365,9 @@ public class MainWindow extends JFrame {
         jLabel6.setText("In Last Population");
         jLabel6.setBounds(20, 460, 120, 20);
         simulationPanel.add(jLabel6, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        bestResultSummary.setBounds(170, 490, 210, 20);
+        bestResultSummary.setBounds(170, 490, 300, 20);
         simulationPanel.add(bestResultSummary, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        lastPopulationBestResultSummary.setBounds(170, 460, 210, 20);
+        lastPopulationBestResultSummary.setBounds(170, 460, 300, 20);
         simulationPanel.add(lastPopulationBestResultSummary, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         detailsButton.setText("Details");

@@ -517,14 +517,14 @@
             <Component class="javax.swing.JLabel" name="bestResultSummary">
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JLayeredPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JLayeredPaneSupportLayout$JLayeredPaneConstraintsDescription">
-                  <JLayeredPaneConstraints x="170" y="490" width="210" height="20" layer="0" position="-1"/>
+                  <JLayeredPaneConstraints x="170" y="490" width="300" height="20" layer="0" position="-1"/>
                 </Constraint>
               </Constraints>
             </Component>
             <Component class="javax.swing.JLabel" name="lastPopulationBestResultSummary">
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JLayeredPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JLayeredPaneSupportLayout$JLayeredPaneConstraintsDescription">
-                  <JLayeredPaneConstraints x="170" y="460" width="210" height="20" layer="0" position="-1"/>
+                  <JLayeredPaneConstraints x="170" y="460" width="300" height="20" layer="0" position="-1"/>
                 </Constraint>
               </Constraints>
             </Component>
