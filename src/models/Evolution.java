@@ -116,10 +116,13 @@ public class Evolution implements Runnable {
             // wybieranie osobnikow do nastepnej populacji 
             CompareGenome compare = new CompareGenome();
             
+            // dirty hack 
+            Arrays.sort(population[0].chromosomes, compare);
+            population[0].setBestIndex(0); // tego brakowało!
             
             if(bestGenomeEver == null)
                 bestGenomeEver = getBestGen();
-            else if(compare.compare(getBestGen(),bestGenomeEver) < 0) { //do skurwysyna zmienić to, wg API jak a<b to b jest lepsze!
+            else if(compare.compare(getBestGen(), bestGenomeEver) < 0) { //do Kamila: zmienić to, wg API jak a<b to b jest lepsze! (albo zaznaczyć, że to reverseComparator)
                 bestGenomeEver = getBestGen();
             }
             
@@ -128,7 +131,7 @@ public class Evolution implements Runnable {
             int eliteCount = (int)(elitismFactor*populationCount);
             boolean sorted = false;
             if(eliteCount > 0){
-                Arrays.sort(population[0].chromosomes, compare);
+                // Arrays.sort(population[0].chromosomes, compare); // TODO! wraz z usunięciem dirty hacka powyżej, odkomentować!
                 sorted = true;
                 for(int j = 0; j < eliteCount; j++){
                     population[1].chromosomes[j] = new Genome(population[0].chromosomes[j]);
