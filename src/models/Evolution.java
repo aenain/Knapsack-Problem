@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 // * @author KaMyLuS
  */
 public class Evolution implements Runnable {
-    Item items[]; // tablica z przedmiotami 
+    Item items[]; // tablica z przedmiotami
     int itemCount; // ile przedmiotow <=> dlugosc chromosomu
     int populationCount; // liczebnosc populacji
     int generationsLimit; // maksymalna ilość pokoleń (populacji)
@@ -24,19 +24,19 @@ public class Evolution implements Runnable {
     double mutationFactor; // wspolczynnik mutacji
     Population population[] = new Population[2]; // populacja (obecna i poprzednia ?)
     Genome bestGenomeEver; //najlepszy genom ever
-    
+
     PunishFitness evalPunishFunction; // funkcja obliczajaca przystosowanie i kare
     RepairFitness evalRepairFunc;
     SelectionMethod selectFunction; // funkcja selekcji osobnikow
     CrossoverMethod crossoverFunction; // funkcja odpowiedzialna za krzyzowanie
-    
+
     private List listeners = new ArrayList();
     private Boolean running = false;
-    
-    public Evolution(Item items[], int itemCount, int populCount, int generationsLimit, int knapCapac, boolean rep, double 
+
+    public Evolution(Item items[], int itemCount, int populCount, int generationsLimit, int knapCapac, boolean rep, double
             elitFac, double crossFac, double mutFac, PunishFitness evalPunishFunc, RepairFitness repairFunc,
             SelectionMethod selectFunc, CrossoverMethod crossFunc){
-        this.items = items; // moze lepiej zrobic kopiowanie zamiast tego ? 
+        this.items = items; // moze lepiej zrobic kopiowanie zamiast tego ?
         this.itemCount = itemCount;
         populationCount = populCount;
         this.generationsLimit = generationsLimit;
@@ -45,20 +45,20 @@ public class Evolution implements Runnable {
         elitismFactor = elitFac;
         crossFactor = crossFac;
         mutationFactor = mutFac;
-        
+
         evalPunishFunction = evalPunishFunc;
         evalRepairFunc = repairFunc;
         selectFunction = selectFunc;
         crossoverFunction = crossFunc;
-        
+
         population[0] = new Population(populationCount, itemCount);
-        population[1] = new Population(populationCount, itemCount);   
-        
+        population[1] = new Population(populationCount, itemCount);
+
         maxItemPriority = 0;
         for(Item item: items)
             maxItemPriority = Math.max(maxItemPriority, item.value/item.weigth);
     }
-    
+
     // inicjalizacja - wygenerowanie 1szej losowej populacji itp.
     public void init(){
         population[1].genRandomPop();
@@ -67,34 +67,35 @@ public class Evolution implements Runnable {
 
     // ewolucja (max_gener - maksymalnie do tego pokolenia ewoluujemy)
     public void evolve(int max_gener){
+        CompareGenome compare = new CompareGenome();
         running = true;
 
         for(int i = 0; i < max_gener; i++){
             /* jak to widze:
-             * 
+             *
              * 1. przepisujemy pop[1] do pop[0]
              * 2. oceniamy pop[0]; obliczamy srednia, najgorszego, najlepszego
-             * 3. wybieramy wg wspolczynnika elitarnosci najlepszych osobnikow 
+             * 3. wybieramy wg wspolczynnika elitarnosci najlepszych osobnikow
              *    z pop[0] do pop[1]
              * 4. reszte wybieramy odpowiednia metoda
-             * 5. krzyzujemy losowe osobiki z pop[1] uwzgledniajac wspolczynnik 
+             * 5. krzyzujemy losowe osobiki z pop[1] uwzgledniajac wspolczynnik
              *    krzyzowania i wybrana metode krzyzowania
              * 6. mutujemy odpowiednie geny uwzgledniajac co trzeba
              * 7. pop[1] jest naszym nowym pokoleniem :)
              */
-            
+
             population[0] = new Population(population[1]);
-            
+
             // ocenianie populacji i sprawy z tym zwiazane
             population[0].calcValWeigth(items);
             double sum = 0, minn = 0, maxx = 0;
             int minIndex = 0, maxIndex = 0;
 
             for(int j = 0; j < populationCount; j++){
-                if(!repair) population[0].chromosomes[j].setAdaptation(evalPunishFunction.evaluate(population[0].chromosomes[j].getValue(), 
+                if(!repair) population[0].chromosomes[j].setAdaptation(evalPunishFunction.evaluate(population[0].chromosomes[j].getValue(),
                             population[0].chromosomes[j].getWeigth(), knapsackCapacity, maxItemPriority));
-                else evalRepairFunc.evaluate(population[0].chromosomes[j], knapsackCapacity, items); 
-                    
+                else evalRepairFunc.evaluate(population[0].chromosomes[j], knapsackCapacity, items);
+
                 double adapt = population[0].chromosomes[j].getAdaptation();
                 sum += adapt;
                 if(j == 0) minn = maxx = adapt;
@@ -112,26 +113,22 @@ public class Evolution implements Runnable {
             population[0].setWorst(minn);
             population[0].setBest(maxx);
             population[0].setAver(sum/populationCount);
-            
-            // wybieranie osobnikow do nastepnej populacji 
-            CompareGenome compare = new CompareGenome();
-            
-            // dirty hack 
-            Arrays.sort(population[0].chromosomes, compare);
-            population[0].setBestIndex(0); // tego brakowało!
-            
+
+            // wybieranie osobnikow do nastepnej populacji
+
+            population[0].findBestGenomeIndex();
+
             if(bestGenomeEver == null)
                 bestGenomeEver = getBestGen();
-            else if(compare.compare(getBestGen(), bestGenomeEver) < 0) { //do Kamila: zmienić to, wg API jak a<b to b jest lepsze! (albo zaznaczyć, że to reverseComparator)
+            else if(compare.compare(getBestGen(), bestGenomeEver) < 0) //do Kamila: zmienić to, wg API jak a<b to b jest lepsze! (albo zaznaczyć, że to reverseComparator)
                 bestGenomeEver = getBestGen();
-            }
-            
-            
+
+
             // elitarnosc
             int eliteCount = (int)(elitismFactor*populationCount);
             boolean sorted = false;
             if(eliteCount > 0){
-                // Arrays.sort(population[0].chromosomes, compare); // TODO! wraz z usunięciem dirty hacka powyżej, odkomentować!
+                Arrays.sort(population[0].chromosomes, compare);
                 sorted = true;
                 for(int j = 0; j < eliteCount; j++){
                     population[1].chromosomes[j] = new Genome(population[0].chromosomes[j]);
@@ -139,14 +136,14 @@ public class Evolution implements Runnable {
             }
             // wybor pozostalych osobnikow (tu prawdopodobnie sie bedzie trzeba pobawic z parametrami itp.)
             selectFunction.select(population[0], population[1], populationCount, populationCount-eliteCount, eliteCount, sorted);
-            
+
             // krzyzowanie (obecnie jednopunktowe)
             crossoverFunction.crossover(population[1], populationCount, crossFactor, 1, eliteCount);
-            
+
             // mutacje
             for(int j = 0; j < populationCount; j++)
                 population[1].chromosomes[j].mutate(mutationFactor);
-            
+
             synchronized(this) {
                 if (! running) {
                     try {
@@ -155,46 +152,46 @@ public class Evolution implements Runnable {
                         Logger.getLogger(Evolution.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
-                
+
                 fireEvolutionChanged(i);
             }
         }
     }
-    
+
     Genome getBestGenomeEver() {
         return bestGenomeEver;
     }
-    
+
     Genome getBestGen(){
         return population[0].chromosomes[population[0].getBestIndex()];
     }
- 
+
     private void fireEvolutionChanged(int i) {
         Hashtable<String, Number> hash = new Hashtable<String, Number>();
 
         hash.put("minPopulationFitness", population[0].getWorst());
         hash.put("averagePopulationFitness", population[0].getAver());
         hash.put("maxPopulationFitness", population[0].getBest());
-        
+
         Genome bestPopulationGenome = getBestGen();
         hash.put("bestPopulationGenomeValue", bestPopulationGenome.getValue());
         hash.put("bestPopulationGenomeWeight", bestPopulationGenome.getWeigth());
-        
+
         Genome bestGenome = getBestGenomeEver();
         hash.put("bestGenomeValue", bestGenome.getValue());
         hash.put("bestGenomeWeight", bestGenome.getWeigth());
- 
+
         hash.put("iteration", i);
-        
+
         Iterator listener = listeners.iterator();
         while (listener.hasNext())
             ((EvolutionListener) listener.next()).updateReceived(hash);
     }
-    
+
     public void addListener(EvolutionListener l) {
         listeners.add(l);
     }
-    
+
     public void removeListener(EvolutionListener l) {
         listeners.remove(l);
     }
@@ -204,11 +201,11 @@ public class Evolution implements Runnable {
         init();
         evolve(generationsLimit);
     }
-    
+
     public synchronized void pause() {
         running = false;
     }
-    
+
     public synchronized void resume() {
         running = true;
         this.notifyAll();
