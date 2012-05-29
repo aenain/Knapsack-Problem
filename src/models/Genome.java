@@ -67,11 +67,11 @@ public class Genome {
         return adaptation;
     }
     
-    int getValue(){
+    public int getValue(){
         return value;
     }
     
-    int getWeigth(){
+    public int getWeigth(){
         return weigth;
     }
     
