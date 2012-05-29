@@ -85,7 +85,18 @@ public class Genome {
     boolean hasItem(int i){
         return chromosome[i];
     }
-    
+
+    public ArrayList<Item> getTakenItems() {
+        ArrayList<Item> takenItems = new ArrayList<Item>();
+        Item[] allItems = population.getEvolution().getItems();
+
+        for (int i = 0; i < allItems.length; i++)
+            if (hasItem(i))
+                takenItems.add(allItems[i]);
+
+        return takenItems;
+    }
+
     // -------------
     
     void mutate(double mutatFactor){

@@ -169,6 +169,10 @@ public class Evolution implements Runnable {
         return population[0];
     }
 
+    public Item[] getItems() {
+        return items;
+    }
+
     Genome getBestGen(){
         return population[0].chromosomes[population[0].getBestIndex()];
     }
