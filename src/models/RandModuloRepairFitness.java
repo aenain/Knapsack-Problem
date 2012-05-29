@@ -15,7 +15,7 @@ public class RandModuloRepairFitness implements RepairFitness {
         int i = 0, genLength = gen.getLength(), weigth = gen.getWeigth(), value = gen.getValue();
         Random rand = new Random();
         while(weigth > knapCapac){
-            if(gen.isItem(i)){
+            if(gen.hasItem(i)){
                 gen.chromosome[i] = false;
                 weigth -= subj[i].getWeigth();
                 value -= subj[i].getValue();

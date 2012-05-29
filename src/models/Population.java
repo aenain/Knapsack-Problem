@@ -114,7 +114,7 @@ public class Population {
             int w = 0;
 
             for(int j = 0; j < chromosomeLength; j++){
-                if(chromosomes[i].isItem(j)){
+                if(chromosomes[i].hasItem(j)){
                     v += sub[j].getValue();
                     w += sub[j].getWeigth();
                 }

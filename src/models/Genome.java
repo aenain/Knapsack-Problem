@@ -75,7 +75,7 @@ public class Genome {
         return weigth;
     }
     
-    boolean isItem(int i){
+    boolean hasItem(int i){
         return chromosome[i];
     }
     

@@ -46,7 +46,7 @@ public class KnapsackProblem {
         System.out.println("Zawiera przedmioty:");
         int sumWeigth = 0, sumValue = 0;
         for(int i = 0; i < bestGen.getLength(); i++){
-            if(bestGen.isItem(i)){
+            if(bestGen.hasItem(i)){
                  System.out.println("id: " + i + " waga: " + items[i].getWeigth() + " wart: " + items[i].getValue());
                  sumWeigth += items[i].getWeigth();
                  sumValue += items[i].getValue();
