@@ -4,12 +4,10 @@
  */
 package models;
 
-import java.util.Hashtable;
-
 /**
  *
  * @author arturhebda
  */
 public interface EvolutionListener {
-    public void updateReceived(Hashtable<String, Number> hash);
+    public void updateReceived(EvolutionSummary summary);
 }

@@ -97,15 +97,18 @@ public class EvolutionController extends BaseController implements EvolutionList
     }
 
     @Override
-    public void updateReceived(Hashtable<String, Number> hash) {
-        Number iteration = hash.get("iteration");
+    public void updateReceived(EvolutionSummary summary) {
+        Number iteration = summary.getIteration();
 
-        minSeries.add(iteration, hash.get("minPopulationFitness"));
-        averageSeries.add(iteration, hash.get("averagePopulationFitness"));
-        maxSeries.add(iteration, hash.get("maxPopulationFitness"));
+        minSeries.add(iteration, summary.getFitness("min"));
+        averageSeries.add(iteration, summary.getFitness("average"));
+        maxSeries.add(iteration, summary.getFitness("max"));
         
         // best results
-        lastPopulationBestResultSummary.setText(ItemHelper.toBestResultLabel(hash.get("bestPopulationGenomeValue"), hash.get("bestPopulationGenomeWeight"), knapsackCapacity));
-        bestResultSummary.setText(ItemHelper.toBestResultLabel(hash.get("bestGenomeValue"), hash.get("bestGenomeWeight"), knapsackCapacity));
+        Genome bestPopulationGenome = summary.getBestPopulationGenome();
+        lastPopulationBestResultSummary.setText(ItemHelper.toBestResultLabel(bestPopulationGenome.getValue(), bestPopulationGenome.getWeigth(), knapsackCapacity));
+
+        Genome bestGenome = summary.getBestGenome();
+        bestResultSummary.setText(ItemHelper.toBestResultLabel(bestGenome.getValue(), bestGenome.getWeigth(), knapsackCapacity));
     }
 }

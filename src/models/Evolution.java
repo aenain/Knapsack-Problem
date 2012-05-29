@@ -29,6 +29,7 @@ public class Evolution implements Runnable {
     CrossoverMethod crossoverFunction; // funkcja odpowiedzialna za krzyzowanie
 
     private List listeners = new ArrayList();
+    private EvolutionSummary summary;
     private Boolean running = false;
 
     public Evolution(Item items[], int itemCount, int populCount, int generationsLimit, int knapCapac, boolean rep, double
@@ -61,6 +62,7 @@ public class Evolution implements Runnable {
     public void init(){
         population[1].genRandomPop();
         population[1].calcValWeigth(items);
+        summary = new EvolutionSummary(this);
     }
 
     // ewolucja (max_gener - maksymalnie do tego pokolenia ewoluujemy)
@@ -163,30 +165,20 @@ public class Evolution implements Runnable {
         return bestGenomeEver;
     }
 
+    Population getPrimaryPopulation() {
+        return population[0];
+    }
+
     Genome getBestGen(){
         return population[0].chromosomes[population[0].getBestIndex()];
     }
 
     private void fireEvolutionChanged(int i) {
-        Hashtable<String, Number> hash = new Hashtable<String, Number>();
-
-        hash.put("minPopulationFitness", population[0].getWorst());
-        hash.put("averagePopulationFitness", population[0].getAver());
-        hash.put("maxPopulationFitness", population[0].getBest());
-
-        Genome bestPopulationGenome = getBestGen();
-        hash.put("bestPopulationGenomeValue", bestPopulationGenome.getValue());
-        hash.put("bestPopulationGenomeWeight", bestPopulationGenome.getWeigth());
-
-        Genome bestGenome = getBestGenomeEver();
-        hash.put("bestGenomeValue", bestGenome.getValue());
-        hash.put("bestGenomeWeight", bestGenome.getWeigth());
-
-        hash.put("iteration", i);
+        summary.update(i);
 
         Iterator listener = listeners.iterator();
         while (listener.hasNext())
-            ((EvolutionListener) listener.next()).updateReceived(hash);
+            ((EvolutionListener) listener.next()).updateReceived(summary);
     }
 
     public void addListener(EvolutionListener l) {
