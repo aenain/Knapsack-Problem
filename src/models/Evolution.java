@@ -50,8 +50,8 @@ public class Evolution implements Runnable {
         selectFunction = selectFunc;
         crossoverFunction = crossFunc;
 
-        population[0] = new Population(populationCount, itemCount);
-        population[1] = new Population(populationCount, itemCount);
+        population[0] = new Population(this, populationCount, itemCount);
+        population[1] = new Population(this, populationCount, itemCount);
 
         maxItemPriority = 0;
         for(Item item: items)

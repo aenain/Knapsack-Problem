@@ -17,17 +17,20 @@ public class Genome {
     double adaptation; // wartosc funkcji dopasowania dla danego chromosomu
     int value; // laczna wartosc przedmiotow w chromosomie
     int weigth; // laczna waga przedmiotow w chromosomie
+    private Population population;
     
     
-    public Genome(int len){
-        length = len;
-        chromosome = new boolean[len];
+    public Genome(Population population, int length) {
+        this.population = population;
+        this.length = length;
+        chromosome = new boolean[length];
         adaptation = 0;
     }
     
     public Genome(Genome source){
         length = source.getLength();
         adaptation = source.getAdaptation();
+        population = source.getPopulation();
         value = source.getValue();
         weigth = source.getWeigth();
         chromosome = new boolean[length];
@@ -62,11 +65,15 @@ public class Genome {
     int getLength(){
         return length;
     }
-    
+
+    public Population getPopulation() {
+        return population;
+    }
+
     double getAdaptation(){
         return adaptation;
     }
-    
+
     public int getValue(){
         return value;
     }

@@ -16,8 +16,10 @@ public class Population {
     Genome chromosomes[]; // chromosomy calej poszczegolnych osobnikow
     double worst, aver, best; // najgorsza, srednia, najlepsza wartosc przystosowania osobnikow
     int worstIndex, bestIndex; // nr najgorszego i najlepszego osobnika
+    private Evolution evolution;
 
-    public Population(int pc, int cl){
+    public Population(Evolution evolution, int pc, int cl){
+        this.evolution = evolution;
         populationCount = pc;
         chromosomeLength= cl;
         chromosomes = new Genome[populationCount];
@@ -26,6 +28,7 @@ public class Population {
     public Population(Population source){
         populationCount = source.populationCount;
         chromosomeLength = source.chromosomeLength;
+        evolution = source.getEvolution();
         worst = source.worst;
         aver = source.aver;
         best = source.best;
@@ -73,6 +76,10 @@ public class Population {
         return chromosomeLength;
     }
 
+    public Evolution getEvolution() {
+        return evolution;
+    }
+
     //-----------------------
 
     // ustawienie wartosci
@@ -102,7 +109,7 @@ public class Population {
     // generowanie losowej populacji
     void genRandomPop(){
         for(int i = 0; i < populationCount; i++){
-            chromosomes[i] = new Genome(chromosomeLength);
+            chromosomes[i] = new Genome(this, chromosomeLength);
             chromosomes[i].genRandomChrom();
         }
     }
