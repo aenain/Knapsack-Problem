@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<knapsackProblem>
+  <items>
+    <item value="10" weight="50" />
+    <item value="5" weight="30" />
+  </items>
+  <settings>
+    <knapsack capacity="150" />
+    <genetic>
+      <population size="100" />
+      <generation limit="250" />
+      <rate elitism="0.2" crossover="0.5" mutation="0.05" />
+      <method selection="roulette" crossover="single-point" penalty="" repair="rand-modulo" />
+    </genetic>
+  </settings>
+</knapsackProblem>
