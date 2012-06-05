@@ -20,6 +20,9 @@ public class Saver {
     }
 
     public void save(Configuration config, File destination) throws Exception {
+        if (! destination.getAbsolutePath().endsWith(".xml"))
+            destination = new File(destination.getAbsolutePath() + ".xml");
+
         serializer.write(config, destination);
     }
 }
