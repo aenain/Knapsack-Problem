@@ -21,42 +21,38 @@ import org.jfree.data.xy.XYSeriesCollection;
 public class MainWindow extends JFrame {
     
     private class Graph {
+        private static final String title = "Evolution Graph";
+        private XYSeries minSeries = new XYSeries("Min");
+        private XYSeries averageSeries = new XYSeries("Average");
+        private XYSeries maxSeries = new XYSeries("Max");
+        private XYSeriesCollection xySeriesCollection = new XYSeriesCollection();
+        final ChartPanel chartPanel;
 
-    private static final int N = 100;
-    private static final String title = "Evolution Graph";
-    private final Random rand = new Random();
-    private XYSeries minSeries = new XYSeries("Min");
-    private XYSeries averageSeries = new XYSeries("Average");
-    private XYSeries maxSeries = new XYSeries("Max");
-    private XYSeriesCollection xySeriesCollection = new XYSeriesCollection();
-    private int x = 0;
-    final ChartPanel chartPanel;
+        public Graph() {
+            chartPanel = createDemoPanel();
+        }
 
-    public Graph() {
-        chartPanel = createDemoPanel();
-    }
+        private ChartPanel createDemoPanel() {
+            JFreeChart jfreechart = ChartFactory.createXYLineChart(
+                title, "X", "Y", createSampleData(),
+                PlotOrientation.VERTICAL, true, true, false);
+            XYPlot xyPlot = (XYPlot) jfreechart.getPlot();
+            xyPlot.setDomainCrosshairVisible(true);
+            xyPlot.setRangeCrosshairVisible(true);
+            XYItemRenderer renderer = xyPlot.getRenderer();
+            renderer.setSeriesPaint(0, Color.blue);
+            NumberAxis domain = (NumberAxis) xyPlot.getDomainAxis();
+            domain.setVerticalTickLabels(true);
+            domain.setAutoRange(true);
+            return new ChartPanel(jfreechart);
+        }
 
-    private ChartPanel createDemoPanel() {
-        JFreeChart jfreechart = ChartFactory.createXYLineChart(
-            title, "X", "Y", createSampleData(),
-            PlotOrientation.VERTICAL, true, true, false);
-        XYPlot xyPlot = (XYPlot) jfreechart.getPlot();
-        xyPlot.setDomainCrosshairVisible(true);
-        xyPlot.setRangeCrosshairVisible(true);
-        XYItemRenderer renderer = xyPlot.getRenderer();
-        renderer.setSeriesPaint(0, Color.blue);
-        NumberAxis domain = (NumberAxis) xyPlot.getDomainAxis();
-        domain.setVerticalTickLabels(true);
-        domain.setAutoRange(true);
-        return new ChartPanel(jfreechart);
-    }
-
-    private XYDataset createSampleData() {
-        xySeriesCollection.addSeries(minSeries);
-        xySeriesCollection.addSeries(averageSeries);
-        xySeriesCollection.addSeries(maxSeries);        
-        return xySeriesCollection;
-    }
+        private XYDataset createSampleData() {
+            xySeriesCollection.addSeries(minSeries);
+            xySeriesCollection.addSeries(averageSeries);
+            xySeriesCollection.addSeries(maxSeries);
+            return xySeriesCollection;
+        }
     }
 
     static MainWindow myMainWindow;
