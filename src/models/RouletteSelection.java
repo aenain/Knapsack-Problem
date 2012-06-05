@@ -51,4 +51,14 @@ public class RouletteSelection implements SelectionMethod {
             dest.chromosomes[ind++] = new Genome(source.chromosomes[toSelect]);
         }
     }
+
+    @Override
+    public String toString() {
+        return "Roulette";
+    }
+
+    @Override
+    public String toXMLName() {
+        return "roulette";
+    }
 }

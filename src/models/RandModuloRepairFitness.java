@@ -26,4 +26,14 @@ public class RandModuloRepairFitness implements RepairFitness {
         gen.setAdaptation(value);
         gen.setWeigth(weigth);
     }
+
+    @Override
+    public String toString() {
+        return "Rand Modulo Repair";
+    }
+
+    @Override
+    public String toXMLName() {
+        return "rand-modulo";
+    }
 }

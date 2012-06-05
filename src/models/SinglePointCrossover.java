@@ -45,4 +45,14 @@ public class SinglePointCrossover implements CrossoverMethod {
             }
         }
     }
+
+    @Override
+    public String toString() {
+        return "Single Point";
+    }
+
+    @Override
+    public String toXMLName() {
+        return "single-point";
+    }
 }

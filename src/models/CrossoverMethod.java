@@ -8,7 +8,7 @@ package models;
  *
  * @author KaMyLuS
  */
-public interface CrossoverMethod {
+public interface CrossoverMethod extends GeneticOperator {
     /* funkcja wykonujaca crossover, parametry:
      * population - populacja na ktorej wykonujemy krzyzowanie
      * populCount - liczebnosc populacji

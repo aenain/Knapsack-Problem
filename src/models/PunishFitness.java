@@ -8,6 +8,6 @@ package models;
  *
  * @author KaMyLuS
  */
-public interface PunishFitness {
+public interface PunishFitness extends GeneticOperator {
     public double evaluate(int value, int weigth, int capacity, double ro);   
 }

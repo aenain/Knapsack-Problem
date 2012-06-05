@@ -14,4 +14,14 @@ public class LinearPunishFitness implements PunishFitness{
         if(weigth <= capacity) return value;
         return value - ro*(weigth-capacity);
     }
+
+    @Override
+    public String toXMLName() {
+        return "linear";
+    }
+
+    @Override
+    public String toString() {
+        return "Linear Punish";
+    }
 }

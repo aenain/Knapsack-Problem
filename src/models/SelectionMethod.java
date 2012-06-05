@@ -8,7 +8,7 @@ package models;
  *
  * @author KaMyLuS
  */
-public interface SelectionMethod {
+public interface SelectionMethod extends GeneticOperator {
     // funkcja wyboru, parametry:
     // source - populacja wejsciowa, 
     // dest - populacja wynikowa, 

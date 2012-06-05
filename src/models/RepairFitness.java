@@ -8,6 +8,6 @@ package models;
  *
  * @author KaMyLuS
  */
-public interface RepairFitness {
+public interface RepairFitness extends GeneticOperator {
     public void evaluate(Genome gen, int knapCapac, Item subj[]); 
 }
