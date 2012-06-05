@@ -242,7 +242,7 @@ public class EvolutionDetails extends javax.swing.JFrame {
             // TODO! uzupełnienie widoków o wyniki dynamicznego algorytmu
         }
 
-        // TODO! uzupełnienie widoków o wyniki algorytmu genetycznego
+        controller.populateGeneticAlgorithmResults(bestGeneticAlgorithmResult);
     }
 
     public static DefaultListModel dynamicAlgorithmItemsModel = new DefaultListModel();

@@ -28,6 +28,10 @@ public class ItemHelper {
         return toLabel(value.toString(), weight.toString());
     }
 
+    public static String toLabel(models.Item item) {
+        return toLabel(item.getValue(), item.getWeigth());
+    }
+
     public static String toWeightLabel(String weight) {
         return weight + weightUnit;
     }

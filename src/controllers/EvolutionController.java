@@ -4,6 +4,7 @@
  */
 package controllers;
 import java.io.File;
+import java.util.Iterator;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -26,6 +27,7 @@ public class EvolutionController extends BaseController implements EvolutionList
     private JButton evolutionSteeringButton, evolutionDetailsButton;
     private XYSeries minSeries, averageSeries, maxSeries;
     private Thread evolutionThread;
+    private EvolutionSummary summary;
     
     // components with parameters
     private ParametersController parametersController;
@@ -109,6 +111,7 @@ public class EvolutionController extends BaseController implements EvolutionList
 
     @Override
     public void updateReceived(EvolutionSummary summary) {
+        this.summary = summary;
         Number iteration = summary.getIteration();
 
         minSeries.add(iteration, summary.getFitness("min"));
@@ -138,5 +141,16 @@ public class EvolutionController extends BaseController implements EvolutionList
         // i jest podawany najlepszy rezultat
 
         algorithmTabs.setEnabled(true);
+    }
+
+    public void populateGeneticAlgorithmResults(JLabel bestGeneticAlgorithmResult) {
+        Genome bestGenome = summary.getBestGenome();
+        bestGeneticAlgorithmResult.setText(ItemHelper.toBestResultLabel(bestGenome.getValue(), bestGenome.getWeigth(), knapsackCapacity));
+
+        EvolutionDetails.geneticAlgorithmItemsModel.clear();
+
+        Iterator<models.Item> it = bestGenome.getTakenItems().iterator();
+        while (it.hasNext())
+            EvolutionDetails.geneticAlgorithmItemsModel.addElement(ItemHelper.toLabel(it.next()));
     }
 }

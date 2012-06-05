@@ -24,11 +24,11 @@ public class Item {
     
     // pobranie wartosci
     
-    int getWeigth(){
+    public int getWeigth(){
         return weigth;
     }
     
-    int getValue(){
+    public int getValue(){
         return value;
     }
     
