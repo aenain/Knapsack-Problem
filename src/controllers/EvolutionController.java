@@ -22,18 +22,19 @@ public class EvolutionController extends BaseController implements EvolutionList
     private Evolution evolution;
     private DefaultListModel itemListModel;
     private JLabel lastPopulationBestResultSummary, bestResultSummary;
-    private JButton evolutionSteeringButton;
+    private JButton evolutionSteeringButton, evolutionDetailsButton;
     private XYSeries minSeries, averageSeries, maxSeries;
     private Thread evolutionThread;
     
     // components with parameters
     private ParametersController parametersController;
 
-    public EvolutionController(DefaultListModel itemListModel, JLabel lastPopulationBestResultSummary, JLabel bestResultSummary, JButton evolutionSteeringButton, XYSeriesCollection seriesCollection) {
+    public EvolutionController(DefaultListModel itemListModel, JLabel lastPopulationBestResultSummary, JLabel bestResultSummary, JButton evolutionSteeringButton, JButton evolutionDetailsButton, XYSeriesCollection seriesCollection) {
         this.itemListModel = itemListModel;
         this.lastPopulationBestResultSummary = lastPopulationBestResultSummary;
         this.bestResultSummary = bestResultSummary;
         this.evolutionSteeringButton = evolutionSteeringButton;
+        this.evolutionDetailsButton = evolutionDetailsButton;
         minSeries = seriesCollection.getSeries(0);
         averageSeries = seriesCollection.getSeries(1);
         maxSeries = seriesCollection.getSeries(2);
@@ -75,14 +76,17 @@ public class EvolutionController extends BaseController implements EvolutionList
         evolutionThread.start();
 
         evolutionSteeringButton.setEnabled(true);
+        evolutionDetailsButton.setEnabled(false);
     }
     
     public void pauseSimulation() {
         evolution.pause();
+        evolutionDetailsButton.setEnabled(true);
     }
     
     public void resumeSimulation() {
         evolution.resume();
+        evolutionDetailsButton.setEnabled(false);
     }
 
     public void stopSimulation() {
@@ -91,6 +95,8 @@ public class EvolutionController extends BaseController implements EvolutionList
 
         if (evolutionThread != null)
             evolutionThread.interrupt();
+
+        evolutionDetailsButton.setEnabled(true);
     }
 
     @Override
@@ -110,6 +116,7 @@ public class EvolutionController extends BaseController implements EvolutionList
 
         if (summary.hasFinished()) {
             evolutionSteeringButton.setEnabled(false);
+            evolutionDetailsButton.setEnabled(true);
         }
     }
 }

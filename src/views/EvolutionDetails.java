@@ -69,7 +69,7 @@ public class EvolutionDetails extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Evolution's Details");
 
         AlgorithmTabs.setEnabled(false);
 
@@ -199,7 +199,7 @@ public class EvolutionDetails extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        this.setVisible(false);
+        this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     public static void main(String args[]) {
@@ -218,7 +218,7 @@ public class EvolutionDetails extends javax.swing.JFrame {
             }
         });
     }
-    
+
     private javax.swing.JLabel dynamicAlgorithmBestResult;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTabbedPane AlgorithmTabs;
