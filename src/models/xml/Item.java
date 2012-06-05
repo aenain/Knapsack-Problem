@@ -12,10 +12,10 @@ import org.simpleframework.xml.*;
 
 @Root
 public class Item {
-    @Attribute
+    @Attribute(name="value")
     private Integer value;
     
-    @Attribute
+    @Attribute(name="weight")
     private Integer weight;
     
     public Integer getValue() {
@@ -24,5 +24,20 @@ public class Item {
     
     public Integer getWeight() {
         return weight;
+    }
+
+    public Item(@Attribute(name="value") Integer value, @Attribute(name="weight") Integer weight) {
+        this.value = value;
+        this.weight = weight;
+    }
+
+    public Item(int value, int weight) {
+        this.value = value;
+        this.weight = weight;
+    }
+
+    public Item(models.Item item) {
+        value = item.getValue();
+        weight = item.getWeigth();
     }
 }

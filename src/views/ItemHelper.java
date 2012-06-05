@@ -46,6 +46,11 @@ public class ItemHelper {
         return Double.parseDouble(matcher.group());
     }
 
+    public static models.Item toItem(String itemLabel) {
+        String[] values = getValues(itemLabel);
+        return new models.Item(values[1], values[0]); // 100 PLN by 10 kg => (models.Item(weight, value))
+    }
+
     public static String[] getValues(String itemLabel) {
         Matcher matcher = numberPattern.matcher(itemLabel.replaceAll(",", "."));
         String[] values = new String[2];

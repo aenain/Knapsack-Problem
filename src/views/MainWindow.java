@@ -5,6 +5,9 @@ import java.awt.Color;
 import javax.swing.*;
 import javax.swing.JFrame;
 import javax.swing.JFileChooser;
+import models.GeneticOperator;
+import models.LinearPunishFitness;
+import models.RandModuloRepairFitness;
 import org.jfree.chart.*;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.PlotOrientation;
@@ -75,7 +78,7 @@ public class MainWindow extends JFrame {
         itemsList.setModel(model);
         controller = new EvolutionController(model, lastPopulationBestResultSummary, bestResultSummary, evolutionSteeringButton, detailsButton, graph.xySeriesCollection);
 
-        JComponent[] components = {maximumWeightSlider, populationSize, maxGenerations, mutationRate, elitismRate, crossoverRate, repairOrPenaltyMethod, selectionMethod};
+        JComponent[] components = {maximumWeightSlider, populationSize, maxGenerations, mutationRate, elitismRate, crossoverRate, crossoverMethod, repairOrPenaltyMethod, selectionMethod};
         controller.setParameterComponents(components);
 
         jScrollPane2.getViewport().add(graph.chartPanel);
@@ -95,6 +98,10 @@ public class MainWindow extends JFrame {
         configFileChooser.addChoosableFileFilter(filter);
         configFileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         configFileChooser.setCurrentDirectory(new java.io.File("."));
+
+        saveConfigFileChooser = new JFileChooser();
+        saveConfigFileChooser.addChoosableFileFilter(filter);
+        saveConfigFileChooser.setCurrentDirectory(new java.io.File("."));
     }
     
     @SuppressWarnings("unchecked")
@@ -136,6 +143,7 @@ public class MainWindow extends JFrame {
         jLabel14 = new javax.swing.JLabel();
         backToStep1Button = new javax.swing.JButton();
         startSimulationButton = new javax.swing.JButton();
+        saveConfigButton = new javax.swing.JButton();
         simulationPanel = new javax.swing.JLayeredPane();
         jScrollPane2 = new javax.swing.JScrollPane();
         evolutionSteeringButton = new javax.swing.JButton();
@@ -329,14 +337,23 @@ public class MainWindow extends JFrame {
         backToStep1Button.setBounds(10, 480, 75, 29);
         settingsPanel.add(backToStep1Button, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
-        startSimulationButton.setText("Start Simulation");
+        startSimulationButton.setText("Start");
         startSimulationButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 startSimulationButtonActionPerformed(evt);
             }
         });
-        startSimulationButton.setBounds(570, 480, 140, 29);
+        startSimulationButton.setBounds(600, 480, 110, 29);
         settingsPanel.add(startSimulationButton, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        saveConfigButton.setText("Save");
+        saveConfigButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveConfigButtonActionPerformed(evt);
+            }
+        });
+        saveConfigButton.setBounds(530, 480, 75, 29);
+        settingsPanel.add(saveConfigButton, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         tabs.addTab("Settings", settingsPanel);
 
@@ -352,7 +369,7 @@ public class MainWindow extends JFrame {
         evolutionSteeringButton.setBounds(610, 480, 97, 29);
         simulationPanel.add(evolutionSteeringButton, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
-        jLabel4.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Lucida Grande", 0, 14));
         jLabel4.setText("Best Results");
         jLabel4.setBounds(10, 430, 120, 30);
         simulationPanel.add(jLabel4, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -481,6 +498,17 @@ public class MainWindow extends JFrame {
         EvolutionDetails.show(controller, this);
     }//GEN-LAST:event_detailsButtonActionPerformed
 
+    private void saveConfigButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveConfigButtonActionPerformed
+        int returnValue = saveConfigFileChooser.showSaveDialog(this);
+        if (returnValue == JFileChooser.APPROVE_OPTION) {
+            try {
+                controller.saveConfig(saveConfigFileChooser.getSelectedFile());
+            } catch (Exception e) {
+                new MyAlert(e);
+            }
+        }
+    }//GEN-LAST:event_saveConfigButtonActionPerformed
+
 
     public static void main(String args[]) {
         
@@ -502,7 +530,7 @@ public class MainWindow extends JFrame {
     }
 
     private EvolutionDetails evolutionDetails;
-    private JFileChooser configFileChooser;
+    private JFileChooser configFileChooser, saveConfigFileChooser;
     private XMLFileFilter filter;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addItemButton;
@@ -544,6 +572,7 @@ public class MainWindow extends JFrame {
     private javax.swing.JButton removeAllItemsButton;
     private javax.swing.JButton removeItemButton;
     private javax.swing.JComboBox repairOrPenaltyMethod;
+    private javax.swing.JButton saveConfigButton;
     protected javax.swing.JComboBox selectionMethod;
     private javax.swing.JLayeredPane settingsPanel;
     private javax.swing.JLayeredPane simulationPanel;

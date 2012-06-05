@@ -16,6 +16,7 @@ public class Evolution implements Runnable {
     int generationsLimit; // maksymalna ilość pokoleń (populacji)
     int knapsackCapacity; // pojemnosc plecaka
     boolean repair; // czy stosujemy funkcje naprawy
+    boolean punish; // czy stosujemy funkcje kary
     private double maxItemPriority; // max(wartosc_przedmiotu/waga_przedmiotu)
     double elitismFactor; // wspolczynnik elitarnosci
     double crossFactor; // wspolczynnik krzyzowania
@@ -40,7 +41,9 @@ public class Evolution implements Runnable {
         populationCount = populCount;
         this.generationsLimit = generationsLimit;
         knapsackCapacity = knapCapac;
-        repair = rep;
+        // TODO! to zdecydowanie wymaga zastanowienia i refactoringu.
+        repair = rep && (repairFunc != null);
+        punish = !repair && (evalPunishFunc != null);
         elitismFactor = elitFac;
         crossFactor = crossFac;
         mutationFactor = mutFac;
@@ -92,9 +95,9 @@ public class Evolution implements Runnable {
             int minIndex = 0, maxIndex = 0;
 
             for(int j = 0; j < populationCount; j++){
-                if(!repair) population[0].chromosomes[j].setAdaptation(evalPunishFunction.evaluate(population[0].chromosomes[j].getValue(),
+                if (punish) population[0].chromosomes[j].setAdaptation(evalPunishFunction.evaluate(population[0].chromosomes[j].getValue(),
                             population[0].chromosomes[j].getWeigth(), knapsackCapacity, maxItemPriority));
-                else evalRepairFunc.evaluate(population[0].chromosomes[j], knapsackCapacity, items);
+                else if (repair) evalRepairFunc.evaluate(population[0].chromosomes[j], knapsackCapacity, items);
 
                 double adapt = population[0].chromosomes[j].getAdaptation();
                 sum += adapt;

@@ -70,6 +70,10 @@ public class EvolutionController extends BaseController implements EvolutionList
         parametersController.loadConfig(source);
     }
 
+    public void saveConfig(File destination) throws Exception {
+        parametersController.saveConfig(destination);
+    }
+
     public boolean hasDynamicAlgorithmResult() {
         // TODO! sprawdzanie, czy został odpalony dla tych parametrów co ewolucja
         // na pewno będzie ustawiany false w startSimulation, a true po kliku w przycisk

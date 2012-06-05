@@ -25,12 +25,24 @@ class Rate {
     public double getElitism() {
         return elitism;
     }
+
+    public void setElitism(double elitism) {
+        this.elitism = elitism;
+    }
     
     public double getCrossover() {
         return crossover;
     }
+
+    public void setCrossover(double crossover) {
+        this.crossover = crossover;
+    }
     
     public double getMutation() {
         return mutation;
+    }
+
+    public void setMutation(double mutation) {
+        this.mutation = mutation;
     }
 }

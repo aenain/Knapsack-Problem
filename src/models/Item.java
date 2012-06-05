@@ -32,5 +32,7 @@ public class Item {
         return value;
     }
     
-    //-----------------
+    public models.xml.Item toXML() {
+        return new models.xml.Item(this);
+    }
 }

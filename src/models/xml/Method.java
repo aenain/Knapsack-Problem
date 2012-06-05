@@ -4,6 +4,11 @@
  */
 package models.xml;
 
+import java.util.HashMap;
+import models.CrossoverMethod;
+import models.PunishFitness;
+import models.RepairFitness;
+import models.SelectionMethod;
 import org.simpleframework.xml.*;
 /**
  *
@@ -38,5 +43,23 @@ class Method {
     
     public String getRepair() {
         return repair;
+    }
+
+    public void setSelection(SelectionMethod selection) {
+        this.selection = selection.toXMLName();
+    }
+    
+    public void setCrossover(CrossoverMethod crossover) {
+        this.crossover = crossover.toXMLName();
+    }
+    
+    public void setPenalty(PunishFitness penalty) {
+        if (penalty != null)
+            this.penalty = penalty.toXMLName();
+    }
+
+    public void setRepair(RepairFitness repair) {
+        if (repair != null)
+            this.repair = repair.toXMLName();
     }
 }

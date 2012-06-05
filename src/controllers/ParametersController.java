@@ -6,11 +6,14 @@ package controllers;
 
 import java.io.File;
 import java.util.Iterator;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JSlider;
 import javax.swing.JTextField;
 import models.CrossoverMethod;
 import models.Evolution;
+import models.GeneticOperator;
 import models.LinearPunishFitness;
 import models.PunishFitness;
 import models.RandModuloRepairFitness;
@@ -20,6 +23,7 @@ import models.SelectionMethod;
 import models.SinglePointCrossover;
 import models.xml.Configuration;
 import models.xml.Loader;
+import models.xml.Saver;
 import views.ItemHelper;
 import views.MainWindow;
 
@@ -30,6 +34,8 @@ import views.MainWindow;
 public class ParametersController {
     private JSlider knapsackCapacity;
     private JTextField populationSize, generationsLimit, mutationRate, elitismRate, crossoverRate;
+    private JComboBox crossoverMethod, repairOrPenaltyMethod, selectionMethod;
+    private DefaultComboBoxModel repairOrPenaltyModel, selectionModel, crossoverModel;
     
     public ParametersController(JComponent[] components) {
         knapsackCapacity = (JSlider) components[0];
@@ -38,8 +44,30 @@ public class ParametersController {
         mutationRate = (JTextField) components[3];
         elitismRate = (JTextField) components[4];
         crossoverRate = (JTextField) components[5];
+        crossoverMethod = (JComboBox) components[6];
+        repairOrPenaltyMethod = (JComboBox) components[7];
+        selectionMethod = (JComboBox) components[8];
+
+        initComboBoxesWithGeneticOperators();
     }
-    
+
+    // tu należy dodać nowe operatory jak się pojawią, reszta zrobi się automagicznie!
+    public final void initComboBoxesWithGeneticOperators() {
+        repairOrPenaltyModel = new DefaultComboBoxModel(new GeneticOperator[] {
+            new LinearPunishFitness(), new RandModuloRepairFitness()
+        });
+        selectionModel = new DefaultComboBoxModel(new SelectionMethod[] {
+            new RouletteSelection()
+        });
+        crossoverModel = new DefaultComboBoxModel(new CrossoverMethod[] {
+            new SinglePointCrossover()
+        });
+
+        repairOrPenaltyMethod.setModel(repairOrPenaltyModel);
+        selectionMethod.setModel(selectionModel);
+        crossoverMethod.setModel(crossoverModel);
+    }
+
     public int getKnapsackCapacity() {
         return knapsackCapacity.getValue();
     }
@@ -89,23 +117,53 @@ public class ParametersController {
     }
     
     public SelectionMethod getSelectionMethod() {
-        // TODO! wybieranie na podstawie komboboksa
-        return new RouletteSelection();
+        return (SelectionMethod) selectionModel.getSelectedItem();
+    }
+
+    public void setSelectionMethod(String methodXMLName) {
+        GeneticOperator operator = findGeneticOperatorByName(selectionModel, methodXMLName);
+        if (operator != null)
+            selectionModel.setSelectedItem(operator);
     }
     
     public PunishFitness getPunishFitness() {
-        // TODO! wybieranie na podstawie komboboksa
-        return new LinearPunishFitness();
+        GeneticOperator selectedOperator = (GeneticOperator) repairOrPenaltyModel.getSelectedItem();
+
+        if (selectedOperator instanceof PunishFitness)
+            return (PunishFitness) selectedOperator;
+        else
+            return null;
+    }
+
+    public void setPunishFitness(String methodXMLName) {
+        GeneticOperator operator = findGeneticOperatorByName(repairOrPenaltyModel, methodXMLName);
+        if (operator != null)
+            repairOrPenaltyModel.setSelectedItem(operator);
     }
     
     public RepairFitness getRepairFitness() {
-        // TODO! wybieranie na podstawie komboboksa
-        return new RandModuloRepairFitness();
+        GeneticOperator selectedOperator = (GeneticOperator) repairOrPenaltyModel.getSelectedItem();
+
+        if (selectedOperator instanceof RepairFitness)
+            return (RepairFitness) selectedOperator;
+        else
+            return null;
+    }
+
+    public void setRepairFitness(String methodXMLName) {
+        GeneticOperator operator = findGeneticOperatorByName(repairOrPenaltyModel, methodXMLName);
+        if (operator != null)
+            repairOrPenaltyModel.setSelectedItem(operator);
     }
     
     public CrossoverMethod getCrossoverMethod() {
-        // TODO! wybieranie na podstawie komboboksa
-        return new SinglePointCrossover();
+        return (CrossoverMethod) crossoverModel.getSelectedItem();
+    }
+
+    public void setCrossoverMethod(String methodXMLName) {
+        CrossoverMethod operator = (CrossoverMethod) findGeneticOperatorByName(crossoverModel, methodXMLName);
+        if (operator != null)
+            crossoverModel.setSelectedItem(operator);
     }
 
     public void loadConfig(File source) throws Exception {
@@ -119,9 +177,12 @@ public class ParametersController {
         setCrossoverRate(config.getCrossoverRate());
         setMutationRate(config.getMutationRate());
         setElitismRate(config.getElitismRate());
-        
-        // TODO! ustawianie metod wszystkich na podstawie xml-a
-        
+
+        setCrossoverMethod(config.getCrossoverMethod());
+        setSelectionMethod(config.getSelectionMethod());
+        setRepairFitness(config.getRepairMethod());
+        setPunishFitness(config.getPenaltyMethod());
+
         Iterator<models.xml.Item> it = config.getItems().iterator();
         models.xml.Item item;
         
@@ -132,7 +193,20 @@ public class ParametersController {
             MainWindow.model.addElement(ItemHelper.toLabel(item.getValue(), item.getWeight()));
         }
     }
-    
+
+    public void saveConfig(File destination) throws Exception {
+        Configuration config = new Configuration();
+        config.setKnapsackCapacity(getKnapsackCapacity());
+        config.setPopulationSize(getPopulationSize());
+        config.setGenerationLimit(getGenerationsLimit());
+        config.setRates(getElitismRate(), getCrossoverRate(), getMutationRate());
+        config.setMethods(getSelectionMethod(), getCrossoverMethod(), getPunishFitness(), getRepairFitness());
+        config.setItemsByModel(MainWindow.model);
+
+        Saver saver = new Saver();
+        saver.save(config, destination);
+    }
+
     public Evolution createEvolution(models.Item[] items) {
         return new Evolution(   items,
                                 items.length,
@@ -147,5 +221,18 @@ public class ParametersController {
                                 getRepairFitness(),
                                 getSelectionMethod(),
                                 getCrossoverMethod());
+    }
+
+    private GeneticOperator findGeneticOperatorByName(DefaultComboBoxModel model, String name) {
+        GeneticOperator operator;
+        
+        for (int i = 0; i < model.getSize(); i++) {
+            operator = (GeneticOperator) model.getElementAt(i);
+            
+            if (operator.toXMLName().equals(name) || operator.toString().equals(name))
+                return operator;
+        }
+
+        return null;
     }
 }
