@@ -1,20 +1,10 @@
 package views;
 
 import controllers.*;
-import java.util.Collections;
-import javax.swing.UIManager;
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.EventQueue;
-import java.awt.event.ActionEvent;
+import javax.swing.*;
 import java.util.*;
-import javax.swing.AbstractAction;
-import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 import org.jfree.chart.*;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.PlotOrientation;
@@ -43,23 +33,7 @@ public class MainWindow extends JFrame {
     final ChartPanel chartPanel;
 
     public Graph() {
-        
         chartPanel = createDemoPanel();
-        
-        /*
-        JPanel control = new JPanel();
-        control.add(new JButton(new AbstractAction("Add") {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                x++;
-                added1.add(x, rand.nextGaussian());
-                added2.add(x, rand.nextGaussian());
-            }
-        }));
-         * 
-         */
-        
     }
 
     private ChartPanel createDemoPanel() {
