@@ -11,13 +11,14 @@ import java.util.ArrayList;
  * @author arturhebda
  */
 public class EvolutionSummary {
-    private Number minPopulationFitness, averagePopulationFitness, maxPopulationFitness, iteration;
+    private Number minPopulationFitness, averagePopulationFitness, maxPopulationFitness, iteration, iterationsLimit;
     private Genome bestPopulationGenome, bestGenome;
     private Evolution evolution;
     private ArrayList<Item> bestPopulationGenomeItems, bestGenomeItems;
 
     public EvolutionSummary(Evolution evolution) {
         this.evolution = evolution;
+        iterationsLimit = evolution.getGenerationsLimit();
     }
     
     // type is one of "min", "average", "max"
@@ -50,6 +51,11 @@ public class EvolutionSummary {
 
     public Number getIteration() {
         return iteration;
+    }
+
+    public boolean hasFinished() {
+        // iteration starts from 0
+        return iteration.intValue() >= iterationsLimit.intValue() - 1;
     }
 
     public void update(int iteration) {

@@ -5,6 +5,7 @@
 package controllers;
 import java.io.File;
 import javax.swing.DefaultListModel;
+import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import models.*;
@@ -21,16 +22,18 @@ public class EvolutionController extends BaseController implements EvolutionList
     private Evolution evolution;
     private DefaultListModel itemListModel;
     private JLabel lastPopulationBestResultSummary, bestResultSummary;
+    private JButton evolutionSteeringButton;
     private XYSeries minSeries, averageSeries, maxSeries;
     private Thread evolutionThread;
     
     // components with parameters
     private ParametersController parametersController;
 
-    public EvolutionController(DefaultListModel itemListModel, JLabel lastPopulationBestResultSummary, JLabel bestResultSummary, XYSeriesCollection seriesCollection) {
+    public EvolutionController(DefaultListModel itemListModel, JLabel lastPopulationBestResultSummary, JLabel bestResultSummary, JButton evolutionSteeringButton, XYSeriesCollection seriesCollection) {
         this.itemListModel = itemListModel;
         this.lastPopulationBestResultSummary = lastPopulationBestResultSummary;
         this.bestResultSummary = bestResultSummary;
+        this.evolutionSteeringButton = evolutionSteeringButton;
         minSeries = seriesCollection.getSeries(0);
         averageSeries = seriesCollection.getSeries(1);
         maxSeries = seriesCollection.getSeries(2);
@@ -70,6 +73,8 @@ public class EvolutionController extends BaseController implements EvolutionList
 
         evolutionThread = new Thread(evolution);
         evolutionThread.start();
+
+        evolutionSteeringButton.setEnabled(true);
     }
     
     public void pauseSimulation() {
@@ -102,5 +107,9 @@ public class EvolutionController extends BaseController implements EvolutionList
 
         Genome bestGenome = summary.getBestGenome();
         bestResultSummary.setText(ItemHelper.toBestResultLabel(bestGenome.getValue(), bestGenome.getWeigth(), knapsackCapacity));
+
+        if (summary.hasFinished()) {
+            evolutionSteeringButton.setEnabled(false);
+        }
     }
 }

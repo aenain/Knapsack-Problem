@@ -173,6 +173,10 @@ public class Evolution implements Runnable {
         return items;
     }
 
+    public int getGenerationsLimit() {
+        return generationsLimit;
+    }
+
     Genome getBestGen(){
         return population[0].chromosomes[population[0].getBestIndex()];
     }

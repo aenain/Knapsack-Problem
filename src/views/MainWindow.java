@@ -64,7 +64,7 @@ public class MainWindow extends JFrame {
         initComponents();
         myInitComponents();
         itemsList.setModel(model);
-        controller = new EvolutionController(model, lastPopulationBestResultSummary, bestResultSummary, graph.xySeriesCollection);
+        controller = new EvolutionController(model, lastPopulationBestResultSummary, bestResultSummary, evolutionSteeringButton, graph.xySeriesCollection);
 
         JComponent[] components = {maximumWeightSlider, populationSize, maxGenerations, mutationRate, elitismRate, crossoverRate, repairOrPenaltyMethod, selectionMethod};
         controller.setParameterComponents(components);
