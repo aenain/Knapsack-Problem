@@ -343,7 +343,7 @@ public class MainWindow extends JFrame {
         evolutionSteeringButton.setBounds(610, 480, 97, 29);
         simulationPanel.add(evolutionSteeringButton, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
-        jLabel4.setFont(new java.awt.Font("Lucida Grande", 0, 14));
+        jLabel4.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
         jLabel4.setText("Best Results");
         jLabel4.setBounds(10, 430, 120, 30);
         simulationPanel.add(jLabel4, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -363,6 +363,11 @@ public class MainWindow extends JFrame {
         simulationPanel.add(lastPopulationBestResultSummary, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         detailsButton.setText("Details");
+        detailsButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                detailsButtonActionPerformed(evt);
+            }
+        });
         detailsButton.setBounds(510, 480, 97, 29);
         simulationPanel.add(detailsButton, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
@@ -462,6 +467,10 @@ public class MainWindow extends JFrame {
             }
         }
     }//GEN-LAST:event_loadConfigButtonActionPerformed
+
+    private void detailsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_detailsButtonActionPerformed
+        EvolutionDetails.main(null);
+    }//GEN-LAST:event_detailsButtonActionPerformed
 
 
     public static void main(String args[]) {
