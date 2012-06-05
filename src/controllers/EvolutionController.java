@@ -3,14 +3,10 @@
  * and open the template in the editor.
  */
 package controllers;
-import java.util.Hashtable;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.io.File;
 import javax.swing.DefaultListModel;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
-import javax.swing.JSlider;
-import javax.swing.JTextField;
 import models.*;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
@@ -21,13 +17,16 @@ import views.*;
  * @author arturhebda
  */
 public class EvolutionController extends BaseController implements EvolutionListener {
+    private int knapsackCapacity;
     private Evolution evolution;
     private DefaultListModel itemListModel;
-    private int knapsackCapacity;
     private JLabel lastPopulationBestResultSummary, bestResultSummary;
     private XYSeries minSeries, averageSeries, maxSeries;
     private Thread evolutionThread;
     
+    // components with parameters
+    private ParametersController parametersController;
+
     public EvolutionController(DefaultListModel itemListModel, JLabel lastPopulationBestResultSummary, JLabel bestResultSummary, XYSeriesCollection seriesCollection) {
         this.itemListModel = itemListModel;
         this.lastPopulationBestResultSummary = lastPopulationBestResultSummary;
@@ -38,37 +37,30 @@ public class EvolutionController extends BaseController implements EvolutionList
         evolutionThread = null;
     }
 
-    /** @param components - [maximumWeightSlider, populationSize, maxGenerations, mutationRate, elitismRate, crossoverRate, repairOrPenaltyMethod, selectionMethod] **/
-    public void gatherParametersAndStartSimulation(JComponent[] components) {
-        // collect params
-        
-        this.knapsackCapacity = ((JSlider) components[0]).getValue();
-        int populationSize = Integer.parseInt(((JTextField) components[1]).getText());
-        int generationsLimit = Integer.parseInt(((JTextField) components[2]).getText());
-        double mutationRate = Double.parseDouble(((JTextField) components[3]).getText());
-        double elitismRate = Double.parseDouble(((JTextField) components[4]).getText());
-        double crossoverRate = Double.parseDouble(((JTextField) components[5]).getText());
+    public void setParameterComponents(JComponent[] components) {
+        parametersController = new ParametersController(components);
+    }
 
-        // TODO! wybieranie metod na podstawie wartości z komboboksów
-        RouletteSelection selectionMethod = new RouletteSelection();
-        LinearPunishFitness punishFitness = new LinearPunishFitness();
-        RandModuloRepairFitness repairFitness = new RandModuloRepairFitness();
-        SinglePointCrossover crossoverMethod = new SinglePointCrossover();
-
+    public void gatherParametersAndStartSimulation() {
         int itemCount = itemListModel.getSize();
-        Item[] items = new Item[itemCount];
+        models.Item[] items = new models.Item[itemCount];
         
         for (int i = 0; i < itemCount; i++) {
             String[] values = ItemHelper.getValues((String) itemListModel.get(i));
-            items[i] = new Item(values[1], values[0]); // w kontrolerach i widokach najpierw jest value, potem weight; w modelach odwrotnie
+            items[i] = new models.Item(values[1], values[0]); // w kontrolerach i widokach najpierw jest value, potem weight; w modelach odwrotnie
         }
 
         stopSimulation();
 
-        evolution = new Evolution(items, itemCount, populationSize, generationsLimit, knapsackCapacity, true, elitismRate, crossoverRate, mutationRate, punishFitness, repairFitness, selectionMethod, crossoverMethod);
+        evolution = parametersController.createEvolution(items);
+        knapsackCapacity = parametersController.getKnapsackCapacity();
         evolution.addListener(this);
         
         startSimulation();
+    }
+
+    public void loadConfig(File source) throws Exception {
+        parametersController.loadConfig(source);
     }
 
     public void startSimulation() {

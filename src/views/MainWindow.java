@@ -3,8 +3,8 @@ package views;
 import controllers.*;
 import java.awt.Color;
 import javax.swing.*;
-import java.util.*;
 import javax.swing.JFrame;
+import javax.swing.JFileChooser;
 import org.jfree.chart.*;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.PlotOrientation;
@@ -56,24 +56,36 @@ public class MainWindow extends JFrame {
     }
 
     static MainWindow myMainWindow;
-    static DefaultListModel model = new DefaultListModel();
-    static EvolutionController controller;
+    public static DefaultListModel model = new DefaultListModel();
+    private EvolutionController controller;
     Graph graph = new Graph();    
 
     private MainWindow() {
         initComponents();
+        myInitComponents();
         itemsList.setModel(model);
         controller = new EvolutionController(model, lastPopulationBestResultSummary, bestResultSummary, graph.xySeriesCollection);
+
+        JComponent[] components = {maximumWeightSlider, populationSize, maxGenerations, mutationRate, elitismRate, crossoverRate, repairOrPenaltyMethod, selectionMethod};
+        controller.setParameterComponents(components);
+
         jScrollPane2.getViewport().add(graph.chartPanel);
     }
-    
-    
+
     static int[] getSelected() {
         return itemsList.getSelectedIndices();
     }
-    
+
     static void unSelect() {
         itemsList.clearSelection();
+    }
+
+    private void myInitComponents() {
+        configFileChooser = new JFileChooser();
+        filter = new views.XMLFileFilter();
+        configFileChooser.addChoosableFileFilter(filter);
+        configFileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        configFileChooser.setCurrentDirectory(new java.io.File("."));
     }
     
     @SuppressWarnings("unchecked")
@@ -94,6 +106,7 @@ public class MainWindow extends JFrame {
         generateItemsButton = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         removeAllItemsButton = new javax.swing.JButton();
+        loadConfigButton = new javax.swing.JButton();
         settingsPanel = new javax.swing.JLayeredPane();
         jLayeredPane1 = new javax.swing.JLayeredPane();
         maxGenerations = new javax.swing.JFormattedTextField();
@@ -200,7 +213,7 @@ public class MainWindow extends JFrame {
         jLabel3.setBounds(560, 210, 33, 16);
         itemsPanel.add(jLabel3, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
-        removeAllItemsButton.setText("Remove all");
+        removeAllItemsButton.setText("Remove All");
         removeAllItemsButton.setToolTipText("");
         removeAllItemsButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -209,6 +222,15 @@ public class MainWindow extends JFrame {
         });
         removeAllItemsButton.setBounds(530, 140, 100, 29);
         itemsPanel.add(removeAllItemsButton, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        loadConfigButton.setText("Load Configuration");
+        loadConfigButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                loadConfigButtonActionPerformed(evt);
+            }
+        });
+        loadConfigButton.setBounds(442, 480, 165, 29);
+        itemsPanel.add(loadConfigButton, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         tabs.addTab("Items", itemsPanel);
 
@@ -405,13 +427,11 @@ public class MainWindow extends JFrame {
 
     private void startSimulationButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startSimulationButtonActionPerformed
         evolutionSteeringButton.setText("Pause");
-
-        final JComponent[] components = {maximumWeightSlider, populationSize, maxGenerations, mutationRate, elitismRate, crossoverRate, repairOrPenaltyMethod, selectionMethod};
         
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                controller.gatherParametersAndStartSimulation(components);
+                controller.gatherParametersAndStartSimulation();
                 tabs.setSelectedIndex(2);
             }
         });
@@ -432,6 +452,17 @@ public class MainWindow extends JFrame {
         }
     }//GEN-LAST:event_evolutionSteeringButtonActionPerformed
 
+    private void loadConfigButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadConfigButtonActionPerformed
+        int returnValue = configFileChooser.showOpenDialog(this);
+        if (returnValue == JFileChooser.APPROVE_OPTION) {
+            try {
+                controller.loadConfig(configFileChooser.getSelectedFile());
+            } catch (Exception e) {
+                new MyAlert(e);
+            }
+        }
+    }//GEN-LAST:event_loadConfigButtonActionPerformed
+
 
     public static void main(String args[]) {
         
@@ -451,6 +482,9 @@ public class MainWindow extends JFrame {
             }
         });
     }
+
+    private JFileChooser configFileChooser;
+    private XMLFileFilter filter;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addItemButton;
     private javax.swing.JButton backToStep1Button;
@@ -483,6 +517,7 @@ public class MainWindow extends JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lastPopulationBestResultSummary;
+    private javax.swing.JButton loadConfigButton;
     private javax.swing.JFormattedTextField maxGenerations;
     private javax.swing.JSlider maximumWeightSlider;
     private javax.swing.JFormattedTextField mutationRate;
