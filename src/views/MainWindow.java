@@ -19,7 +19,16 @@ import org.jfree.data.xy.XYSeriesCollection;
  * @author arturhebda
  */
 public class MainWindow extends JFrame {
-    
+
+    public void disposeEvolutionDetails() {
+        if (evolutionDetails != null)
+            evolutionDetails.dispose();
+    }
+
+    public void setEvolutionDetails(EvolutionDetails evolutionDetails) {
+        this.evolutionDetails = evolutionDetails;
+    }
+
     private class Graph {
         private static final String title = "Evolution Graph";
         private XYSeries minSeries = new XYSeries("Min");
@@ -469,7 +478,7 @@ public class MainWindow extends JFrame {
     }//GEN-LAST:event_loadConfigButtonActionPerformed
 
     private void detailsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_detailsButtonActionPerformed
-        EvolutionDetails.main(null);
+        EvolutionDetails.show(controller, this);
     }//GEN-LAST:event_detailsButtonActionPerformed
 
 
@@ -492,6 +501,7 @@ public class MainWindow extends JFrame {
         });
     }
 
+    private EvolutionDetails evolutionDetails;
     private JFileChooser configFileChooser;
     private XMLFileFilter filter;
     // Variables declaration - do not modify//GEN-BEGIN:variables

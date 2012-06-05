@@ -8,6 +8,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JTabbedPane;
 import models.*;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
@@ -67,6 +68,13 @@ public class EvolutionController extends BaseController implements EvolutionList
         parametersController.loadConfig(source);
     }
 
+    public boolean hasDynamicAlgorithmResult() {
+        // TODO! sprawdzanie, czy został odpalony dla tych parametrów co ewolucja
+        // na pewno będzie ustawiany false w startSimulation, a true po kliku w przycisk
+        // startujący na buttonie w Details
+        return false;
+    }
+
     public void startSimulation() {
         minSeries.clear();
         averageSeries.clear();
@@ -118,5 +126,17 @@ public class EvolutionController extends BaseController implements EvolutionList
             evolutionSteeringButton.setEnabled(false);
             evolutionDetailsButton.setEnabled(true);
         }
+    }
+
+    // comonents - {dynamicAlgorithmResult, algorithmTabs}
+    public void startDynamicAlgorithm(JComponent[] components) {
+        JLabel dynamicAlgorithmResult = (JLabel) components[0];
+        JTabbedPane algorithmTabs = (JTabbedPane) components[1];
+        EvolutionDetails.dynamicAlgorithmItemsModel.clear();
+
+        // TODO! tu się mieli ten algorytm, następnie jest aktualizowany model listy
+        // i jest podawany najlepszy rezultat
+
+        algorithmTabs.setEnabled(true);
     }
 }
