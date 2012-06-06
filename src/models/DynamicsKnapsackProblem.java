@@ -41,6 +41,18 @@ public class DynamicsKnapsackProblem {
         executionTimeInMilliseconds = stop - start;
     }
 
+    public Item[] takenItems() {
+        return new Item[]{}; // TODO!
+    }
+
+    public int getWeight() {
+        return 10; // TODO!
+    }
+
+    public int getValue() {
+        return result;
+    }
+
     // in milliseconds
     public double getExecutionTime() {
         return executionTimeInMilliseconds;
