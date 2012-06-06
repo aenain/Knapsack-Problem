@@ -15,8 +15,12 @@ public class DynamicsKnapsackProblem {
     int knapsackCapacity;   // pojemnosc plecaka
     int result;             // najwieksza mozliwa wartosc przedmiotow do zabrania
     int A[][];              // tablica pomocnicza do program. dynam.
+    long executionTimeInMilliseconds;
     
     void compute(){
+        long start, stop;
+        start = System.currentTimeMillis();
+
         A = new int[itemCount+1][knapsackCapacity+1];
         result = 0;
         
@@ -32,5 +36,13 @@ public class DynamicsKnapsackProblem {
         
         for(int i = 0; i <= knapsackCapacity; i++)
             result = Math.max(result, A[itemCount][i]);
+
+        stop = System.currentTimeMillis();
+        executionTimeInMilliseconds = stop - start;
+    }
+
+    // in milliseconds
+    public double getExecutionTime() {
+        return executionTimeInMilliseconds;
     }
 }

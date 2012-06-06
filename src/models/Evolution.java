@@ -33,6 +33,8 @@ public class Evolution implements Runnable {
     private EvolutionSummary summary;
     private Boolean running = false;
 
+    long executionTimeInMilliseconds = 0;
+
     public Evolution(Item items[], int itemCount, int populCount, int generationsLimit, int knapCapac, boolean rep, double
             elitFac, double crossFac, double mutFac, PunishFitness evalPunishFunc, RepairFitness repairFunc,
             SelectionMethod selectFunc, CrossoverMethod crossFunc){
@@ -71,6 +73,8 @@ public class Evolution implements Runnable {
     // ewolucja (max_gener - maksymalnie do tego pokolenia ewoluujemy)
     public void evolve(int max_gener){
         CompareGenome compare = new CompareGenome();
+        long start, stop;
+        executionTimeInMilliseconds = 0;
         running = true;
 
         for(int i = 0; i < max_gener; i++){
@@ -87,6 +91,7 @@ public class Evolution implements Runnable {
              * 7. pop[1] jest naszym nowym pokoleniem :)
              */
 
+            start = System.currentTimeMillis();
             population[0] = new Population(population[1]);
 
             // ocenianie populacji i sprawy z tym zwiazane
@@ -149,6 +154,11 @@ public class Evolution implements Runnable {
             for(int j = 0; j < populationCount; j++)
                 population[1].chromosomes[j].mutate(mutationFactor);
 
+            // obliczanie czasu wykonania
+            stop = System.currentTimeMillis();
+            executionTimeInMilliseconds += (stop - start);
+
+            // notifing listeners every iteration
             synchronized(this) {
                 if (! running) {
                     try {
@@ -162,6 +172,11 @@ public class Evolution implements Runnable {
                     fireEvolutionChanged(i);
             }
         }
+    }
+
+    // in milliseconds
+    public long getExecutionTime() {
+        return executionTimeInMilliseconds;
     }
 
     Genome getBestGenomeEver() {
