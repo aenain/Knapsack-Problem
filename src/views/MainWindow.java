@@ -102,6 +102,9 @@ public class MainWindow extends JFrame {
         saveConfigFileChooser = new JFileChooser();
         saveConfigFileChooser.addChoosableFileFilter(filter);
         saveConfigFileChooser.setCurrentDirectory(new java.io.File("."));
+
+        Integer capacity = maximumWeightSlider.getValue();
+        maximumWeightLabel.setText(capacity.toString());
     }
     
     @SuppressWarnings("unchecked")
@@ -123,6 +126,7 @@ public class MainWindow extends JFrame {
         jLabel3 = new javax.swing.JLabel();
         removeAllItemsButton = new javax.swing.JButton();
         loadConfigButton = new javax.swing.JButton();
+        maximumWeightLabel = new javax.swing.JLabel();
         settingsPanel = new javax.swing.JLayeredPane();
         jLayeredPane1 = new javax.swing.JLayeredPane();
         jLabel7 = new javax.swing.JLabel();
@@ -162,6 +166,11 @@ public class MainWindow extends JFrame {
         maximumWeightSlider.setMinorTickSpacing(20);
         maximumWeightSlider.setPaintLabels(true);
         maximumWeightSlider.setPaintTicks(true);
+        maximumWeightSlider.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                maximumWeightSliderStateChanged(evt);
+            }
+        });
         maximumWeightSlider.setBounds(100, 350, 510, 50);
         itemsPanel.add(maximumWeightSlider, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
@@ -249,6 +258,11 @@ public class MainWindow extends JFrame {
         });
         loadConfigButton.setBounds(442, 480, 165, 29);
         itemsPanel.add(loadConfigButton, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        maximumWeightLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        maximumWeightLabel.setText("sad");
+        maximumWeightLabel.setBounds(563, 320, 60, 30);
+        itemsPanel.add(maximumWeightLabel, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         tabs.addTab("Items", itemsPanel);
 
@@ -492,6 +506,11 @@ public class MainWindow extends JFrame {
         }
     }//GEN-LAST:event_saveConfigButtonActionPerformed
 
+    private void maximumWeightSliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_maximumWeightSliderStateChanged
+        Integer capacity = maximumWeightSlider.getValue();
+        maximumWeightLabel.setText(capacity.toString());
+    }//GEN-LAST:event_maximumWeightSliderStateChanged
+
 
     public static void main(String args[]) {
         
@@ -549,6 +568,7 @@ public class MainWindow extends JFrame {
     private javax.swing.JLabel lastPopulationBestResultSummary;
     private javax.swing.JButton loadConfigButton;
     private javax.swing.JSpinner maxGenerations;
+    private javax.swing.JLabel maximumWeightLabel;
     private javax.swing.JSlider maximumWeightSlider;
     private javax.swing.JSpinner mutationRate;
     private javax.swing.JSpinner populationSize;
