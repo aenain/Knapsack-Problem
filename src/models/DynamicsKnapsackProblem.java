@@ -16,8 +16,16 @@ public class DynamicsKnapsackProblem {
     int result;             // najwieksza mozliwa wartosc przedmiotow do zabrania
     int A[][];              // tablica pomocnicza do program. dynam.
     long executionTimeInMilliseconds;
+
+    public DynamicsKnapsackProblem() {}
+
+    public DynamicsKnapsackProblem(Item[] items, int knapsackCapacity) {
+        this.items = items;
+        this.itemCount = items.length;
+        this.knapsackCapacity = knapsackCapacity;
+    }
     
-    void compute(){
+    public void compute() {
         long start, stop;
         start = System.currentTimeMillis();
 
@@ -41,8 +49,8 @@ public class DynamicsKnapsackProblem {
         executionTimeInMilliseconds = stop - start;
     }
 
-    public Item[] takenItems() {
-        return new Item[]{}; // TODO!
+    public Item[] getTakenItems() {
+        return new Item[]{new Item(10, 3)}; // TODO!
     }
 
     public int getWeight() {
