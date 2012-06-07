@@ -149,10 +149,10 @@ public class KnapsackGenerator extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
              
         try {
-            int rangeMinW = (Integer)minValue.getValue();
-            int rangeMaxW = (Integer)maxValue.getValue();
-            int rangeMinV = (Integer)minWeight.getValue();
-            int rangeMaxV = (Integer)maxWeight.getValue();
+            int rangeMinV = (Integer)minValue.getValue();
+            int rangeMaxV = (Integer)maxValue.getValue();
+            int rangeMinW = (Integer)minWeight.getValue();
+            int rangeMaxW = (Integer)maxWeight.getValue();
             int n = (Integer)numberOfObjects.getValue();
             
             /*

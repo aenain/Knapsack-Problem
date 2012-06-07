@@ -28,8 +28,8 @@ public class EditItem extends JFrame implements ActionListener {
     private void fill() {
         String[] values = ItemHelper.getValues((String)MainWindow.model.elementAt(selected[index]));
 
-        itemWeight.setText(values[0]);
-        itemValue.setText(values[1]);
+        itemWeight.setText(values[1]);
+        itemValue.setText(values[0]);
         itemValue.requestFocus();
         itemValue.selectAll();
         itemWeight.selectAll();
@@ -113,8 +113,8 @@ public class EditItem extends JFrame implements ActionListener {
         try {
             try {
 
-                weight = ItemHelper.toNumber(itemValue.getText());
-                value = ItemHelper.toNumber(itemWeight.getText());
+                value = ItemHelper.toNumber(itemValue.getText());
+                weight = ItemHelper.toNumber(itemWeight.getText());
 
                 if(value < 0 || weight <= 0)
                     throw new NumberFormatException();
