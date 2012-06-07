@@ -240,7 +240,9 @@ public class EvolutionDetails extends javax.swing.JFrame {
         if (controller.hasDynamicAlgorithmResult()) {
             algorithmTabs.setEnabled(true);
             startDynamicAlgorithmButton.setVisible(false);
-            // TODO! uzupełnienie widoków o wyniki dynamicznego algorytmu
+
+            JComponent[] components = new JComponent[] {dynamicAlgorithmResult, algorithmTabs};
+            controller.populateDynamicAlgorithmResults(components);
         }
 
         controller.populateGeneticAlgorithmResults(bestGeneticAlgorithmResult);

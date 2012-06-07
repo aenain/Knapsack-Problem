@@ -28,6 +28,7 @@ public class EvolutionController extends BaseController implements EvolutionList
     private XYSeries minSeries, averageSeries, maxSeries;
     private Thread evolutionThread;
     private EvolutionSummary summary;
+    private DynamicsKnapsackProblem dynamicAlgorithm;
     
     // components with parameters
     private ParametersController parametersController;
@@ -42,6 +43,7 @@ public class EvolutionController extends BaseController implements EvolutionList
         averageSeries = seriesCollection.getSeries(1);
         maxSeries = seriesCollection.getSeries(2);
         evolutionThread = null;
+        dynamicAlgorithm = null;
     }
 
     public void setParameterComponents(JComponent[] components) {
@@ -74,17 +76,19 @@ public class EvolutionController extends BaseController implements EvolutionList
         parametersController.saveConfig(destination);
     }
 
+    // sprawdzanie, czy został odpalony dla tych parametrów co ewolucja;
+    // na pewno będzie ustawiany false w startSimulation, a true po kliku w przycisk
+    // startujący na buttonie w Details
     public boolean hasDynamicAlgorithmResult() {
-        // TODO! sprawdzanie, czy został odpalony dla tych parametrów co ewolucja
-        // na pewno będzie ustawiany false w startSimulation, a true po kliku w przycisk
-        // startujący na buttonie w Details
-        return false;
+        return dynamicAlgorithm != null;
     }
 
     public void startSimulation() {
         minSeries.clear();
         averageSeries.clear();
         maxSeries.clear();
+
+        dynamicAlgorithm = null;
 
         evolutionThread = new Thread(evolution);
         evolutionThread.start();
@@ -137,13 +141,24 @@ public class EvolutionController extends BaseController implements EvolutionList
 
     // comonents - {dynamicAlgorithmResult, algorithmTabs}
     public void startDynamicAlgorithm(JComponent[] components) {
+        dynamicAlgorithm = new DynamicsKnapsackProblem(evolution.getItems(), knapsackCapacity);
+        dynamicAlgorithm.compute();
+
+        populateDynamicAlgorithmResults(components);
+    }
+
+    // comonents - {dynamicAlgorithmResult, algorithmTabs}
+    public void populateDynamicAlgorithmResults(JComponent[] components) {
         JLabel dynamicAlgorithmResult = (JLabel) components[0];
         JTabbedPane algorithmTabs = (JTabbedPane) components[1];
+
         EvolutionDetails.dynamicAlgorithmItemsModel.clear();
 
-        // TODO! tu się mieli ten algorytm, następnie jest aktualizowany model listy
-        // i jest podawany najlepszy rezultat
+        for (Item item: dynamicAlgorithm.getTakenItems())
+            EvolutionDetails.dynamicAlgorithmItemsModel.addElement(ItemHelper.toLabel(item));
 
+        dynamicAlgorithmResult.setText(ItemHelper.toBestResultLabel(dynamicAlgorithm.getValue(), dynamicAlgorithm.getWeight(), knapsackCapacity));
+        dynamicAlgorithmResult.setVisible(true);
         algorithmTabs.setEnabled(true);
     }
 
