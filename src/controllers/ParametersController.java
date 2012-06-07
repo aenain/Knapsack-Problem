@@ -10,7 +10,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JSlider;
-import javax.swing.JTextField;
+import javax.swing.JSpinner;
 import models.CrossoverMethod;
 import models.Evolution;
 import models.GeneticOperator;
@@ -33,17 +33,17 @@ import views.MainWindow;
  */
 public class ParametersController {
     private JSlider knapsackCapacity;
-    private JTextField populationSize, generationsLimit, mutationRate, elitismRate, crossoverRate;
+    private JSpinner populationSize, generationsLimit, mutationRate, elitismRate, crossoverRate;
     private JComboBox crossoverMethod, repairOrPenaltyMethod, selectionMethod;
     private DefaultComboBoxModel repairOrPenaltyModel, selectionModel, crossoverModel;
     
     public ParametersController(JComponent[] components) {
         knapsackCapacity = (JSlider) components[0];
-        populationSize = (JTextField) components[1];
-        generationsLimit = (JTextField) components[2];
-        mutationRate = (JTextField) components[3];
-        elitismRate = (JTextField) components[4];
-        crossoverRate = (JTextField) components[5];
+        populationSize = (JSpinner) components[1];
+        generationsLimit = (JSpinner) components[2];
+        mutationRate = (JSpinner) components[3];
+        elitismRate = (JSpinner) components[4];
+        crossoverRate = (JSpinner) components[5];
         crossoverMethod = (JComboBox) components[6];
         repairOrPenaltyMethod = (JComboBox) components[7];
         selectionMethod = (JComboBox) components[8];
@@ -77,43 +77,43 @@ public class ParametersController {
     }
     
     public int getPopulationSize() {
-        return Integer.parseInt(populationSize.getText());
+        return (Integer) populationSize.getValue();
     }
     
     public void setPopulationSize(Integer size) {
-        populationSize.setText(size.toString());
+        populationSize.setValue(size);
     }
     
     public int getGenerationsLimit() {
-        return Integer.parseInt(generationsLimit.getText());
+        return (Integer) generationsLimit.getValue();
     }
     
     public void setGenerationsLimit(Integer limit) {
-        generationsLimit.setText(limit.toString());
+        generationsLimit.setValue(limit);
     }
     
     public double getMutationRate() {
-        return Double.parseDouble(mutationRate.getText());
+        return (Double) mutationRate.getValue();
     }
     
     public void setMutationRate(Double rate) {
-        mutationRate.setText(rate.toString());
+        mutationRate.setValue(rate);
     }
     
     public double getElitismRate() {
-        return Double.parseDouble(elitismRate.getText());
+        return (Double) elitismRate.getValue();
     }
     
     public void setElitismRate(Double rate) {
-        elitismRate.setText(rate.toString());
+        elitismRate.setValue(rate);
     }
     
     public double getCrossoverRate() {
-        return Double.parseDouble(crossoverRate.getText());
+        return (Double) crossoverRate.getValue();
     }
     
     public void setCrossoverRate(Double rate) {
-        crossoverRate.setText(rate.toString());
+        crossoverRate.setValue(rate);
     }
     
     public SelectionMethod getSelectionMethod() {

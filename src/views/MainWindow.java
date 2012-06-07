@@ -125,22 +125,22 @@ public class MainWindow extends JFrame {
         loadConfigButton = new javax.swing.JButton();
         settingsPanel = new javax.swing.JLayeredPane();
         jLayeredPane1 = new javax.swing.JLayeredPane();
-        maxGenerations = new javax.swing.JFormattedTextField();
         jLabel7 = new javax.swing.JLabel();
-        mutationRate = new javax.swing.JFormattedTextField();
         jLabel8 = new javax.swing.JLabel();
-        elitismRate = new javax.swing.JFormattedTextField();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        crossoverRate = new javax.swing.JFormattedTextField();
         repairOrPenaltyMethod = new javax.swing.JComboBox();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         selectionMethod = new javax.swing.JComboBox();
         jLabel13 = new javax.swing.JLabel();
         crossoverMethod = new javax.swing.JComboBox();
-        populationSize = new javax.swing.JFormattedTextField();
         jLabel14 = new javax.swing.JLabel();
+        populationSize = new javax.swing.JSpinner();
+        maxGenerations = new javax.swing.JSpinner();
+        elitismRate = new javax.swing.JSpinner();
+        crossoverRate = new javax.swing.JSpinner();
+        mutationRate = new javax.swing.JSpinner();
         backToStep1Button = new javax.swing.JButton();
         startSimulationButton = new javax.swing.JButton();
         saveConfigButton = new javax.swing.JButton();
@@ -252,30 +252,13 @@ public class MainWindow extends JFrame {
 
         tabs.addTab("Items", itemsPanel);
 
-        maxGenerations.setText("250");
-        maxGenerations.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                maxGenerationsActionPerformed(evt);
-            }
-        });
-        maxGenerations.setBounds(380, 40, 170, 28);
-        jLayeredPane1.add(maxGenerations, javax.swing.JLayeredPane.DEFAULT_LAYER);
-
         jLabel7.setText("Generations Limit");
         jLabel7.setBounds(150, 40, 170, 30);
         jLayeredPane1.add(jLabel7, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
-        mutationRate.setText("0.05");
-        mutationRate.setBounds(380, 290, 170, 28);
-        jLayeredPane1.add(mutationRate, javax.swing.JLayeredPane.DEFAULT_LAYER);
-
         jLabel8.setText("Mutation Rate");
         jLabel8.setBounds(150, 300, 100, 16);
         jLayeredPane1.add(jLabel8, javax.swing.JLayeredPane.DEFAULT_LAYER);
-
-        elitismRate.setText("0.2");
-        elitismRate.setBounds(380, 100, 170, 28);
-        jLayeredPane1.add(elitismRate, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         jLabel9.setText("Elitism Rate");
         jLabel9.setBounds(150, 110, 90, 16);
@@ -284,10 +267,6 @@ public class MainWindow extends JFrame {
         jLabel10.setText("Crossover Rate");
         jLabel10.setBounds(150, 200, 120, 30);
         jLayeredPane1.add(jLabel10, javax.swing.JLayeredPane.DEFAULT_LAYER);
-
-        crossoverRate.setText("0.5");
-        crossoverRate.setBounds(380, 200, 170, 28);
-        jLayeredPane1.add(crossoverRate, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         repairOrPenaltyMethod.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Rand Modulo Repair" }));
         repairOrPenaltyMethod.setBounds(370, 320, 190, 27);
@@ -313,18 +292,29 @@ public class MainWindow extends JFrame {
         crossoverMethod.setBounds(370, 230, 190, 27);
         jLayeredPane1.add(crossoverMethod, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
-        populationSize.setText("100");
-        populationSize.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                populationSizeActionPerformed(evt);
-            }
-        });
-        populationSize.setBounds(380, 10, 170, 28);
-        jLayeredPane1.add(populationSize, javax.swing.JLayeredPane.DEFAULT_LAYER);
-
         jLabel14.setText("Population Size");
         jLabel14.setBounds(150, 10, 170, 30);
         jLayeredPane1.add(jLabel14, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        populationSize.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(100), Integer.valueOf(1), null, Integer.valueOf(1)));
+        populationSize.setBounds(380, 10, 170, 28);
+        jLayeredPane1.add(populationSize, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        maxGenerations.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(250), Integer.valueOf(1), null, Integer.valueOf(1)));
+        maxGenerations.setBounds(380, 40, 170, 28);
+        jLayeredPane1.add(maxGenerations, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        elitismRate.setModel(new javax.swing.SpinnerNumberModel(0.2d, 0.0d, 1.0d, 0.01d));
+        elitismRate.setBounds(380, 100, 170, 28);
+        jLayeredPane1.add(elitismRate, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        crossoverRate.setModel(new javax.swing.SpinnerNumberModel(0.5d, 0.0d, 1.0d, 0.01d));
+        crossoverRate.setBounds(380, 200, 170, 28);
+        jLayeredPane1.add(crossoverRate, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        mutationRate.setModel(new javax.swing.SpinnerNumberModel(0.05d, 0.0d, 1.0d, 0.01d));
+        mutationRate.setBounds(380, 290, 170, 28);
+        jLayeredPane1.add(mutationRate, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         jLayeredPane1.setBounds(20, 50, 680, 430);
         settingsPanel.add(jLayeredPane1, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -449,10 +439,6 @@ public class MainWindow extends JFrame {
         model.removeAllElements();
     }//GEN-LAST:event_removeAllItemsButtonActionPerformed
 
-    private void maxGenerationsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_maxGenerationsActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_maxGenerationsActionPerformed
-
     private void backToStep1ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backToStep1ButtonActionPerformed
         tabs.setSelectedIndex(0);
     }//GEN-LAST:event_backToStep1ButtonActionPerformed
@@ -468,10 +454,6 @@ public class MainWindow extends JFrame {
             }
         });
     }//GEN-LAST:event_startSimulationButtonActionPerformed
-
-    private void populationSizeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_populationSizeActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_populationSizeActionPerformed
 
     private void evolutionSteeringButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_evolutionSteeringButtonActionPerformed
         if (evolutionSteeringButton.getText().equals("Pause")) {
@@ -539,10 +521,10 @@ public class MainWindow extends JFrame {
     private javax.swing.JLabel bestResultSummary;
     private javax.swing.JButton continueToStep2Button;
     private javax.swing.JComboBox crossoverMethod;
-    private javax.swing.JFormattedTextField crossoverRate;
+    private javax.swing.JSpinner crossoverRate;
     private javax.swing.JButton detailsButton;
     private javax.swing.JButton editItemButton;
-    private javax.swing.JFormattedTextField elitismRate;
+    private javax.swing.JSpinner elitismRate;
     private javax.swing.JButton evolutionSteeringButton;
     private javax.swing.JButton generateItemsButton;
     protected static javax.swing.JList itemsList;
@@ -566,10 +548,10 @@ public class MainWindow extends JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lastPopulationBestResultSummary;
     private javax.swing.JButton loadConfigButton;
-    private javax.swing.JFormattedTextField maxGenerations;
+    private javax.swing.JSpinner maxGenerations;
     private javax.swing.JSlider maximumWeightSlider;
-    private javax.swing.JFormattedTextField mutationRate;
-    private javax.swing.JFormattedTextField populationSize;
+    private javax.swing.JSpinner mutationRate;
+    private javax.swing.JSpinner populationSize;
     private javax.swing.JButton removeAllItemsButton;
     private javax.swing.JButton removeItemButton;
     private javax.swing.JComboBox repairOrPenaltyMethod;
