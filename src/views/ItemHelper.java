@@ -23,6 +23,10 @@ public class ItemHelper {
     public static String toLabel(Number value, Number weight) {
         return toLabel(value.toString(), weight.toString());
     }
+
+    public static String toLabel(Integer value, Integer weight) {
+        return toLabel(value.toString(), weight.toString());
+    }
     
     public static String toLabel(Double value, Double weight) {
         return toLabel(value.toString(), weight.toString());
