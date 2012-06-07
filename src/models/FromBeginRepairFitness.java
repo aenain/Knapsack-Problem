@@ -9,18 +9,17 @@ import java.util.*;
  *
  * @author KaMyLuS
  */
-public class RandModuloRepairFitness implements RepairFitness {
+public class FromBeginRepairFitness implements RepairFitness {
     @Override
     public void evaluate(Genome gen, int knapCapac, Item subj[]){
-        int i = 0, genLength = gen.getLength(), weigth = gen.getWeigth(), value = gen.getValue();
-        Random rand = new Random();
+        int i = 0, weigth = gen.getWeigth(), value = gen.getValue();
         while(weigth > knapCapac){
             if(gen.hasItem(i)){
                 gen.chromosome[i] = false;
                 weigth -= subj[i].getWeigth();
                 value -= subj[i].getValue();
             }
-            i = (i+rand.nextInt(15)+1)%genLength;
+            i++;
         }
         gen.setValue(value);
         gen.setAdaptation(value);
@@ -29,11 +28,11 @@ public class RandModuloRepairFitness implements RepairFitness {
 
     @Override
     public String toString() {
-        return "Random Repair";
+        return "From Begin-to-end Repair";
     }
 
     @Override
     public String toXMLName() {
-        return "rand-modulo";
+        return "begin-end";
     }
 }

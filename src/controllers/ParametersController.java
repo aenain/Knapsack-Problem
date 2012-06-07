@@ -15,12 +15,16 @@ import models.CrossoverMethod;
 import models.Evolution;
 import models.GeneticOperator;
 import models.LinearPunishFitness;
+import models.SquarePunishFitness;
 import models.PunishFitness;
 import models.RandModuloRepairFitness;
+import models.FromBeginRepairFitness;
 import models.RepairFitness;
 import models.RouletteSelection;
+import models.RankingSelection;
 import models.SelectionMethod;
 import models.SinglePointCrossover;
+import models.DoublePointCrossover;
 import models.xml.Configuration;
 import models.xml.Loader;
 import models.xml.Saver;
@@ -54,13 +58,13 @@ public class ParametersController {
     // tu należy dodać nowe operatory jak się pojawią, reszta zrobi się automagicznie!
     public final void initComboBoxesWithGeneticOperators() {
         repairOrPenaltyModel = new DefaultComboBoxModel(new GeneticOperator[] {
-            new LinearPunishFitness(), new RandModuloRepairFitness()
+            new RandModuloRepairFitness(), new FromBeginRepairFitness(), new LinearPunishFitness(), new SquarePunishFitness()
         });
         selectionModel = new DefaultComboBoxModel(new SelectionMethod[] {
-            new RouletteSelection()
+            new RouletteSelection(), new RankingSelection()
         });
         crossoverModel = new DefaultComboBoxModel(new CrossoverMethod[] {
-            new SinglePointCrossover()
+            new SinglePointCrossover(), new DoublePointCrossover()
         });
 
         repairOrPenaltyMethod.setModel(repairOrPenaltyModel);

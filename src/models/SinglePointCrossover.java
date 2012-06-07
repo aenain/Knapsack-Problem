@@ -15,6 +15,10 @@ import java.util.*;
 public class SinglePointCrossover implements CrossoverMethod {
     @Override
     public void crossover(Population population, int populCount, double crossFactor, int pointCount, int crossFrom){
+        
+        // jak mamy mniej niz 2 geny, to sobie nie pokrzyzujemy...
+        if(population.getChromosomeLength() < 2) return;
+        
         // wybieramy osobniki, ktore beda krzyzowane
         Vector<Integer> toCross = new Vector<Integer>();
         Random rand = new Random();
@@ -37,7 +41,7 @@ public class SinglePointCrossover implements CrossoverMethod {
             int chromLen = population.getChromosomeLength();
             int crossPoint = rand.nextInt(chromLen-1);
             Genome gen1 = new Genome(population.chromosomes[cross1]);
-            Genome gen2 = new Genome(population.chromosomes[cross1]);
+            Genome gen2 = new Genome(population.chromosomes[cross2]);
             
             for(int i = crossPoint+1; i < chromLen; i++){
                 population.chromosomes[cross1].chromosome[i] = gen2.chromosome[i];
