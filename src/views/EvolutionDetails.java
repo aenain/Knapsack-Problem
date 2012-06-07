@@ -92,6 +92,7 @@ public class EvolutionDetails extends javax.swing.JFrame {
 
         algorithmTabs.addTab("Genetic", jLayeredPane1);
 
+        dynamicAlgorithmItemList.setEnabled(false);
         jScrollPane2.setViewportView(dynamicAlgorithmItemList);
 
         jScrollPane2.setBounds(10, 40, 600, 320);
