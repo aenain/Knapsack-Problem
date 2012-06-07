@@ -49,6 +49,7 @@ public class EvolutionSummary {
         return bestGenomeItems;
     }
 
+    // iteration starts from 0
     public Number getIteration() {
         return iteration;
     }
