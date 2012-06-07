@@ -157,8 +157,9 @@ public class MainWindow extends JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("0-1 Knapsack Problem");
 
-        maximumWeightSlider.setMajorTickSpacing(20);
-        maximumWeightSlider.setMaximum(120);
+        maximumWeightSlider.setMajorTickSpacing(200);
+        maximumWeightSlider.setMaximum(1000);
+        maximumWeightSlider.setMinorTickSpacing(20);
         maximumWeightSlider.setPaintLabels(true);
         maximumWeightSlider.setPaintTicks(true);
         maximumWeightSlider.setBounds(100, 350, 510, 50);
