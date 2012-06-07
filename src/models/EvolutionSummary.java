@@ -54,6 +54,11 @@ public class EvolutionSummary {
         return iteration;
     }
 
+    // in milliseconds
+    public long getExecutionTime() {
+        return evolution.getExecutionTime();
+    }
+
     public boolean hasFinished() {
         // iteration starts from 0
         return iteration.intValue() >= iterationsLimit.intValue() - 1;
