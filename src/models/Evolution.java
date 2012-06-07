@@ -199,7 +199,7 @@ public class Evolution implements Runnable {
         return population[0].chromosomes[population[0].getBestIndex()];
     }
 
-    private void fireEvolutionChanged(int i) {
+    private synchronized void fireEvolutionChanged(int i) {
         summary.update(i);
 
         Iterator listener = listeners.iterator();
