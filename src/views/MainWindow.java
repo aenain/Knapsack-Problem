@@ -20,12 +20,13 @@ import org.jfree.data.xy.XYSeriesCollection;
  */
 public class MainWindow extends JFrame {
 
-    public void disposeEvolutionDetails() {
+    private void disposeEvolutionDetails() {
         if (evolutionDetails != null)
             evolutionDetails.dispose();
     }
 
     public void setEvolutionDetails(EvolutionDetails evolutionDetails) {
+        disposeEvolutionDetails();
         this.evolutionDetails = evolutionDetails;
     }
 

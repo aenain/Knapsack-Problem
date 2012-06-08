@@ -8,10 +8,13 @@ package models;
  * @author KaMyLuS
  */
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Vector;
 
 // rozwiazywanie problemu plecakowego przy pomocy programowania dynamicznego
-public class DynamicsKnapsackProblem {
+public class DynamicsKnapsackProblem implements Runnable {
     Item items[];     // przedmioty
     int itemCount;       // ilosc przedmiotow
     int knapsackCapacity;   // pojemnosc plecaka
@@ -21,6 +24,7 @@ public class DynamicsKnapsackProblem {
     Vector<Item> takenItems = new Vector<Item>(); // zabrane przedmioty
     
     long executionTimeInMilliseconds;
+    private List listeners = new ArrayList();
 
     public DynamicsKnapsackProblem() {}
 
@@ -88,5 +92,25 @@ public class DynamicsKnapsackProblem {
     // in milliseconds
     public double getExecutionTime() {
         return executionTimeInMilliseconds;
+    }
+
+    @Override
+    public void run() {
+        compute();
+        fireComputingFinished();
+    }
+
+    private synchronized void fireComputingFinished() {
+        Iterator listener = listeners.iterator();
+        while (listener.hasNext())
+            ((DynamicAlgorithmListener) listener.next()).computingFinished(this);
+    }
+
+    public void addListener(EvolutionListener l) {
+        listeners.add(l);
+    }
+
+    public void removeListener(EvolutionListener l) {
+        listeners.remove(l);
     }
 }

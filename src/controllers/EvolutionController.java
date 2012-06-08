@@ -19,16 +19,18 @@ import views.*;
  *
  * @author arturhebda
  */
-public class EvolutionController extends BaseController implements EvolutionListener {
+public class EvolutionController extends BaseController implements EvolutionListener, DynamicAlgorithmListener {
     private int knapsackCapacity;
     private Evolution evolution;
     private DefaultListModel itemListModel;
     private JLabel lastPopulationBestResultSummary, bestResultSummary;
     private JButton evolutionSteeringButton, evolutionDetailsButton;
     private XYSeries minSeries, averageSeries, maxSeries;
-    private Thread evolutionThread;
+    private Thread evolutionThread, dynamicAlgorithmThread;
     private EvolutionSummary summary;
     private DynamicsKnapsackProblem dynamicAlgorithm;
+    private boolean dynamicAlgorithmComputed;
+    private EvolutionDetails details;
     
     // components with parameters
     private ParametersController parametersController;
@@ -44,6 +46,11 @@ public class EvolutionController extends BaseController implements EvolutionList
         maxSeries = seriesCollection.getSeries(2);
         evolutionThread = null;
         dynamicAlgorithm = null;
+        dynamicAlgorithmComputed = false;
+    }
+
+    public void setEvolutionDetails(EvolutionDetails details) {
+        this.details = details;
     }
 
     public void setParameterComponents(JComponent[] components) {
@@ -80,7 +87,7 @@ public class EvolutionController extends BaseController implements EvolutionList
     // na pewno będzie ustawiany false w startSimulation, a true po kliku w przycisk
     // startujący na buttonie w Details
     public boolean hasDynamicAlgorithmResult() {
-        return dynamicAlgorithm != null;
+        return dynamicAlgorithmComputed;
     }
 
     public void startSimulation() {
@@ -139,12 +146,27 @@ public class EvolutionController extends BaseController implements EvolutionList
         }
     }
 
-    // comonents - {dynamicAlgorithmResult, algorithmTabs}
-    public void startDynamicAlgorithm(JComponent[] components) {
-        dynamicAlgorithm = new DynamicsKnapsackProblem(evolution.getItems(), knapsackCapacity);
-        dynamicAlgorithm.compute();
+    @Override
+    public void computingFinished(DynamicsKnapsackProblem algorithm) {
+        dynamicAlgorithm = algorithm;
+        dynamicAlgorithmComputed = true;
 
-        populateDynamicAlgorithmResults(components);
+        if (details != null)
+            details.populateDynamicAlgorithmResults();
+    }
+
+    public void startDynamicAlgorithm() {
+        dynamicAlgorithm = new DynamicsKnapsackProblem(evolution.getItems(), knapsackCapacity);
+        dynamicAlgorithm.addListener(this);
+
+        dynamicAlgorithmComputed = false;
+        dynamicAlgorithmThread = new Thread(dynamicAlgorithm);
+        dynamicAlgorithmThread.start();
+    }
+
+    public void stopDynamicAlgorithm() {
+        dynamicAlgorithmThread.interrupt();
+        dynamicAlgorithmComputed = false;
     }
 
     // comonents - {dynamicAlgorithmResult, algorithmTabs}

@@ -38,10 +38,10 @@ public class EvolutionDetails extends javax.swing.JFrame {
         dynamicAlgorithmResult = new JLabel();
         dynamicAlgorithmResult.setForeground(Color.BLACK);
         dynamicAlgorithmResult.setSize(300, 28);
-        dynamicAlgorithmResult.setLocation(startDynamicAlgorithmButton.getLocation());
+        dynamicAlgorithmResult.setLocation(dynamicAlgorithmSteeringButton.getLocation());
         dynamicAlgorithmResult.setVisible(false);
 
-        startDynamicAlgorithmButton.getParent().add(dynamicAlgorithmResult, BorderLayout.SOUTH);
+        dynamicAlgorithmSteeringButton.getParent().add(dynamicAlgorithmResult, BorderLayout.SOUTH);
 
         dynamicAlgorithmItemList.setModel(dynamicAlgorithmItemsModel);
         geneticAlgorithmItemList.setModel(geneticAlgorithmItemsModel);
@@ -70,7 +70,7 @@ public class EvolutionDetails extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         bestGeneticAlgorithmResult = new javax.swing.JLabel();
         jLayeredPane3 = new javax.swing.JLayeredPane();
-        startDynamicAlgorithmButton = new javax.swing.JButton();
+        dynamicAlgorithmSteeringButton = new javax.swing.JButton();
         jLayeredPane4 = new javax.swing.JLayeredPane();
         exportToPdfButton = new javax.swing.JButton();
         closeButton = new javax.swing.JButton();
@@ -116,14 +116,14 @@ public class EvolutionDetails extends javax.swing.JFrame {
 
         bestGeneticAlgorithmResult.setText("1000 PLN by 50 kg (out of 51 kg)");
 
-        startDynamicAlgorithmButton.setText("Start");
-        startDynamicAlgorithmButton.addActionListener(new java.awt.event.ActionListener() {
+        dynamicAlgorithmSteeringButton.setText("Start");
+        dynamicAlgorithmSteeringButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                startDynamicAlgorithmButtonActionPerformed(evt);
+                dynamicAlgorithmSteeringButtonActionPerformed(evt);
             }
         });
-        startDynamicAlgorithmButton.setBounds(0, 0, 75, 29);
-        jLayeredPane3.add(startDynamicAlgorithmButton, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        dynamicAlgorithmSteeringButton.setBounds(0, 0, 75, 29);
+        jLayeredPane3.add(dynamicAlgorithmSteeringButton, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         exportToPdfButton.setText("Export to PDF");
         exportToPdfButton.addActionListener(new java.awt.event.ActionListener() {
@@ -199,16 +199,21 @@ public class EvolutionDetails extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_exportToPdfButtonActionPerformed
 
-    private void startDynamicAlgorithmButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startDynamicAlgorithmButtonActionPerformed
-        startDynamicAlgorithmButton.setVisible(false);
-        dynamicAlgorithmResult.setText("Please wait...");
-        dynamicAlgorithmResult.setVisible(true);
+    private void dynamicAlgorithmSteeringButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dynamicAlgorithmSteeringButtonActionPerformed
+        String label = dynamicAlgorithmSteeringButton.getText();
 
-        JComponent[] components = {dynamicAlgorithmResult, algorithmTabs, dynamicAlgorithmItemList};
-        controller.startDynamicAlgorithm(components);
-    }//GEN-LAST:event_startDynamicAlgorithmButtonActionPerformed
+        if (label.equals("Start")) {
+            dynamicAlgorithmSteeringButton.setText("Stop");
+            controller.startDynamicAlgorithm();
+        }
+        else if (label.equals("Stop")) {
+            dynamicAlgorithmSteeringButton.setText("Start");
+            controller.stopDynamicAlgorithm();
+        }
+    }//GEN-LAST:event_dynamicAlgorithmSteeringButtonActionPerformed
 
     private void closeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeButtonActionPerformed
+        controller.setEvolutionDetails(null);
         this.dispose();
     }//GEN-LAST:event_closeButtonActionPerformed
 
@@ -234,18 +239,22 @@ public class EvolutionDetails extends javax.swing.JFrame {
 
     public void setController(EvolutionController controller) {
         this.controller = controller;
+        controller.setEvolutionDetails(this);
     }
 
     public void populateResults() {
-        if (controller.hasDynamicAlgorithmResult()) {
-            algorithmTabs.setEnabled(true);
-            startDynamicAlgorithmButton.setVisible(false);
-
-            JComponent[] components = new JComponent[] {dynamicAlgorithmResult, algorithmTabs};
-            controller.populateDynamicAlgorithmResults(components);
-        }
+        if (controller.hasDynamicAlgorithmResult())
+            populateDynamicAlgorithmResults();
 
         controller.populateGeneticAlgorithmResults(bestGeneticAlgorithmResult);
+    }
+
+    public void populateDynamicAlgorithmResults() {
+        algorithmTabs.setEnabled(true);
+        dynamicAlgorithmSteeringButton.setVisible(false);
+
+        JComponent[] components = new JComponent[] {dynamicAlgorithmResult, algorithmTabs};
+        controller.populateDynamicAlgorithmResults(components);
     }
 
     public static DefaultListModel dynamicAlgorithmItemsModel = new DefaultListModel();
@@ -253,11 +262,13 @@ public class EvolutionDetails extends javax.swing.JFrame {
 
     private EvolutionController controller;
     private javax.swing.JLabel dynamicAlgorithmResult;
+    private javax.swing.JButton stopDynamicAlgorithmButton;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTabbedPane algorithmTabs;
     private javax.swing.JLabel bestGeneticAlgorithmResult;
     private javax.swing.JButton closeButton;
     private javax.swing.JList dynamicAlgorithmItemList;
+    private javax.swing.JButton dynamicAlgorithmSteeringButton;
     private javax.swing.JButton exportToPdfButton;
     private javax.swing.JList geneticAlgorithmItemList;
     private javax.swing.JLabel jLabel1;
@@ -271,12 +282,10 @@ public class EvolutionDetails extends javax.swing.JFrame {
     private javax.swing.JLayeredPane jLayeredPane4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JButton startDynamicAlgorithmButton;
     // End of variables declaration//GEN-END:variables
 
     // just to make sure that there will be only ONE frame evolutionDetails at a time.
     private void setMainWindow(MainWindow mainWindow) {
-        mainWindow.disposeEvolutionDetails();
         mainWindow.setEvolutionDetails(this);
     }
 }
