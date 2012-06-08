@@ -9,7 +9,6 @@ import java.util.Iterator;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
-import javax.swing.JSlider;
 import javax.swing.JSpinner;
 import models.CrossoverMethod;
 import models.Evolution;
@@ -36,13 +35,13 @@ import views.MainWindow;
  * @author arturhebda
  */
 public class ParametersController {
-    private JSlider knapsackCapacity;
+    private JSpinner knapsackCapacity;
     private JSpinner populationSize, generationsLimit, mutationRate, elitismRate, crossoverRate;
     private JComboBox crossoverMethod, repairOrPenaltyMethod, selectionMethod;
     private DefaultComboBoxModel repairOrPenaltyModel, selectionModel, crossoverModel;
     
     public ParametersController(JComponent[] components) {
-        knapsackCapacity = (JSlider) components[0];
+        knapsackCapacity = (JSpinner) components[0];
         populationSize = (JSpinner) components[1];
         generationsLimit = (JSpinner) components[2];
         mutationRate = (JSpinner) components[3];
@@ -73,7 +72,7 @@ public class ParametersController {
     }
 
     public int getKnapsackCapacity() {
-        return knapsackCapacity.getValue();
+        return (Integer) knapsackCapacity.getValue();
     }
     
     public void setKnapsackCapacity(int capacity) {

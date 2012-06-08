@@ -5,9 +5,6 @@ import java.awt.Color;
 import javax.swing.*;
 import javax.swing.JFrame;
 import javax.swing.JFileChooser;
-import models.GeneticOperator;
-import models.LinearPunishFitness;
-import models.RandModuloRepairFitness;
 import org.jfree.chart.*;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.PlotOrientation;
@@ -78,7 +75,7 @@ public class MainWindow extends JFrame {
         itemsList.setModel(model);
         controller = new EvolutionController(model, lastPopulationBestResultSummary, bestResultSummary, evolutionSteeringButton, detailsButton, graph.xySeriesCollection);
 
-        JComponent[] components = {maximumWeightSlider, populationSize, maxGenerations, mutationRate, elitismRate, crossoverRate, crossoverMethod, repairOrPenaltyMethod, selectionMethod};
+        JComponent[] components = {maximumWeight, populationSize, maxGenerations, mutationRate, elitismRate, crossoverRate, crossoverMethod, repairOrPenaltyMethod, selectionMethod};
         controller.setParameterComponents(components);
 
         jScrollPane2.getViewport().add(graph.chartPanel);
@@ -102,9 +99,6 @@ public class MainWindow extends JFrame {
         saveConfigFileChooser = new JFileChooser();
         saveConfigFileChooser.addChoosableFileFilter(filter);
         saveConfigFileChooser.setCurrentDirectory(new java.io.File("."));
-
-        Integer capacity = maximumWeightSlider.getValue();
-        maximumWeightLabel.setText(capacity.toString());
     }
     
     @SuppressWarnings("unchecked")
@@ -113,7 +107,6 @@ public class MainWindow extends JFrame {
 
         tabs = new javax.swing.JTabbedPane();
         itemsPanel = new javax.swing.JLayeredPane();
-        maximumWeightSlider = new javax.swing.JSlider();
         jLabel1 = new javax.swing.JLabel();
         continueToStep2Button = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -126,7 +119,7 @@ public class MainWindow extends JFrame {
         jLabel3 = new javax.swing.JLabel();
         removeAllItemsButton = new javax.swing.JButton();
         loadConfigButton = new javax.swing.JButton();
-        maximumWeightLabel = new javax.swing.JLabel();
+        maximumWeight = new javax.swing.JSpinner();
         settingsPanel = new javax.swing.JLayeredPane();
         jLayeredPane1 = new javax.swing.JLayeredPane();
         jLabel7 = new javax.swing.JLabel();
@@ -161,23 +154,9 @@ public class MainWindow extends JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("0-1 Knapsack Problem");
 
-        maximumWeightSlider.setMajorTickSpacing(200);
-        maximumWeightSlider.setMaximum(1000);
-        maximumWeightSlider.setMinorTickSpacing(20);
-        maximumWeightSlider.setPaintLabels(true);
-        maximumWeightSlider.setPaintTicks(true);
-        maximumWeightSlider.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                maximumWeightSliderStateChanged(evt);
-            }
-        });
-        maximumWeightSlider.setBounds(100, 350, 510, 50);
-        itemsPanel.add(maximumWeightSlider, javax.swing.JLayeredPane.DEFAULT_LAYER);
-
         jLabel1.setFont(new java.awt.Font("Lucida Grande", 0, 14));
-        jLabel1.setLabelFor(maximumWeightSlider);
         jLabel1.setText("Knapsack's Maximum Weight");
-        jLabel1.setBounds(90, 320, 340, 30);
+        jLabel1.setBounds(90, 410, 340, 30);
         itemsPanel.add(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         continueToStep2Button.setText("Continue");
@@ -191,7 +170,7 @@ public class MainWindow extends JFrame {
 
         jScrollPane1.setViewportView(itemsList);
 
-        jScrollPane1.setBounds(100, 50, 420, 230);
+        jScrollPane1.setBounds(100, 50, 420, 310);
         itemsPanel.add(jScrollPane1, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         jLabel2.setFont(new java.awt.Font("Lucida Grande", 0, 14));
@@ -232,12 +211,12 @@ public class MainWindow extends JFrame {
                 generateItemsButtonActionPerformed(evt);
             }
         });
-        generateItemsButton.setBounds(530, 260, 100, 29);
+        generateItemsButton.setBounds(530, 330, 100, 29);
         itemsPanel.add(generateItemsButton, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         jLabel3.setForeground(new java.awt.Color(102, 102, 102));
         jLabel3.setText("  or...");
-        jLabel3.setBounds(560, 210, 33, 16);
+        jLabel3.setBounds(560, 240, 33, 16);
         itemsPanel.add(jLabel3, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         removeAllItemsButton.setText("Remove All");
@@ -259,10 +238,9 @@ public class MainWindow extends JFrame {
         loadConfigButton.setBounds(442, 480, 165, 29);
         itemsPanel.add(loadConfigButton, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
-        maximumWeightLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        maximumWeightLabel.setText("sad");
-        maximumWeightLabel.setBounds(563, 320, 60, 30);
-        itemsPanel.add(maximumWeightLabel, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        maximumWeight.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(50), Integer.valueOf(0), null, Integer.valueOf(1)));
+        maximumWeight.setBounds(470, 410, 150, 28);
+        itemsPanel.add(maximumWeight, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         tabs.addTab("Items", itemsPanel);
 
@@ -506,11 +484,6 @@ public class MainWindow extends JFrame {
         }
     }//GEN-LAST:event_saveConfigButtonActionPerformed
 
-    private void maximumWeightSliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_maximumWeightSliderStateChanged
-        Integer capacity = maximumWeightSlider.getValue();
-        maximumWeightLabel.setText(capacity.toString());
-    }//GEN-LAST:event_maximumWeightSliderStateChanged
-
 
     public static void main(String args[]) {
         
@@ -568,8 +541,7 @@ public class MainWindow extends JFrame {
     private javax.swing.JLabel lastPopulationBestResultSummary;
     private javax.swing.JButton loadConfigButton;
     private javax.swing.JSpinner maxGenerations;
-    private javax.swing.JLabel maximumWeightLabel;
-    private javax.swing.JSlider maximumWeightSlider;
+    private javax.swing.JSpinner maximumWeight;
     private javax.swing.JSpinner mutationRate;
     private javax.swing.JSpinner populationSize;
     private javax.swing.JButton removeAllItemsButton;
