@@ -14,6 +14,9 @@ import java.util.List;
 import java.util.Vector;
 
 // rozwiazywanie problemu plecakowego przy pomocy programowania dynamicznego
+/* OGRANICZENIA:
+ * knapsackCapacity * items.length < 10_000 * 2_000
+ */
 public class DynamicsKnapsackProblem implements Runnable {
     Item items[];     // przedmioty
     int itemCount;       // ilosc przedmiotow
