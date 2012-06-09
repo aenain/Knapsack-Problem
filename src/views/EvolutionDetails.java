@@ -37,7 +37,7 @@ public class EvolutionDetails extends javax.swing.JFrame {
     private void myInitComponents() {
         dynamicAlgorithmResult = new JLabel();
         dynamicAlgorithmResult.setForeground(Color.BLACK);
-        dynamicAlgorithmResult.setSize(300, 28);
+        dynamicAlgorithmResult.setSize(400, 28);
         dynamicAlgorithmResult.setLocation(dynamicAlgorithmSteeringButton.getLocation());
         dynamicAlgorithmResult.setVisible(false);
 
@@ -151,7 +151,7 @@ public class EvolutionDetails extends javax.swing.JFrame {
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
                     .add(org.jdesktop.layout.GroupLayout.LEADING, layout.createSequentialGroup()
                         .addContainerGap()
-                        .add(jLayeredPane4, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 635, Short.MAX_VALUE))
+                        .add(jLayeredPane4, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 655, Short.MAX_VALUE))
                     .add(org.jdesktop.layout.GroupLayout.LEADING, layout.createSequentialGroup()
                         .add(33, 33, 33)
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -162,13 +162,13 @@ public class EvolutionDetails extends javax.swing.JFrame {
                                     .add(jLabel4)
                                     .add(jLabel5))
                                 .add(26, 26, 26)
-                                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                                    .add(jLayeredPane3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 232, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                    .add(bestGeneticAlgorithmResult))))
-                        .add(23, 23, 23))
+                                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                                    .add(jLayeredPane3)
+                                    .add(bestGeneticAlgorithmResult, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 316, Short.MAX_VALUE))))
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED))
                     .add(layout.createSequentialGroup()
                         .addContainerGap()
-                        .add(algorithmTabs, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 642, Short.MAX_VALUE)))
+                        .add(algorithmTabs, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 662, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -186,9 +186,10 @@ public class EvolutionDetails extends javax.swing.JFrame {
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
                     .add(layout.createSequentialGroup()
                         .add(jLabel5)
-                        .add(10, 10, 10))
-                    .add(jLayeredPane3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 32, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                        .add(24, 24, 24))
+                    .add(layout.createSequentialGroup()
+                        .add(jLayeredPane3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 32, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)))
                 .add(jLayeredPane4, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 41, Short.MAX_VALUE))
         );
 
