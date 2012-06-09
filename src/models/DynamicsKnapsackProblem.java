@@ -93,7 +93,7 @@ public class DynamicsKnapsackProblem implements Runnable {
     }
 
     // in milliseconds
-    public double getExecutionTime() {
+    public long getExecutionTime() {
         return executionTimeInMilliseconds;
     }
 
