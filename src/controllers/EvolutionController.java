@@ -51,7 +51,9 @@ public class EvolutionController extends BaseController implements EvolutionList
 
     public void setEvolutionDetails(EvolutionDetails details) {
         this.details = details;
-        details.setChart(chart);
+
+        if (details != null)
+            details.setChart(chart);
     }
 
     public void setParameterComponents(JComponent[] components) {
