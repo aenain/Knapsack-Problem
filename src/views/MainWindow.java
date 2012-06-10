@@ -479,6 +479,7 @@ public class MainWindow extends JFrame {
         if (returnValue == JFileChooser.APPROVE_OPTION) {
             try {
                 controller.saveConfig(saveConfigFileChooser.getSelectedFile());
+                new MyInfo("Configuration saved!");
             } catch (Exception e) {
                 new MyAlert(e);
             }
