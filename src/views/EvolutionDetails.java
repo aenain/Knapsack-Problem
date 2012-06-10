@@ -101,9 +101,9 @@ public class EvolutionDetails extends javax.swing.JFrame {
         jScrollPane1.setBounds(10, 40, 600, 320);
         jLayeredPane1.add(jScrollPane1, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
-        jLabel2.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Lucida Grande", 0, 14));
         jLabel2.setText("Taken Items");
-        jLabel2.setBounds(10, 10, 140, 19);
+        jLabel2.setBounds(10, 10, 140, 17);
         jLayeredPane1.add(jLabel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         algorithmTabs.addTab("Genetic", jLayeredPane1);
@@ -114,14 +114,14 @@ public class EvolutionDetails extends javax.swing.JFrame {
         jScrollPane2.setBounds(10, 40, 600, 320);
         jLayeredPane2.add(jScrollPane2, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
-        jLabel1.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Lucida Grande", 0, 14));
         jLabel1.setText("Taken Items");
-        jLabel1.setBounds(10, 10, 140, 19);
+        jLabel1.setBounds(10, 10, 140, 17);
         jLayeredPane2.add(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         algorithmTabs.addTab("Dynamic", jLayeredPane2);
 
-        jLabel3.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Lucida Grande", 0, 14));
         jLabel3.setText("Best Results");
 
         jLabel4.setForeground(new java.awt.Color(103, 103, 103));
@@ -138,7 +138,7 @@ public class EvolutionDetails extends javax.swing.JFrame {
                 dynamicAlgorithmSteeringButtonActionPerformed(evt);
             }
         });
-        dynamicAlgorithmSteeringButton.setBounds(0, 0, 57, 23);
+        dynamicAlgorithmSteeringButton.setBounds(0, 0, 75, 29);
         jLayeredPane3.add(dynamicAlgorithmSteeringButton, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         exportToPdfButton.setText("Export to PDF");
@@ -147,7 +147,7 @@ public class EvolutionDetails extends javax.swing.JFrame {
                 exportToPdfButtonActionPerformed(evt);
             }
         });
-        exportToPdfButton.setBounds(500, 0, 99, 23);
+        exportToPdfButton.setBounds(500, 0, 130, 29);
         jLayeredPane4.add(exportToPdfButton, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         closeButton.setText("Close");
@@ -156,7 +156,7 @@ public class EvolutionDetails extends javax.swing.JFrame {
                 closeButtonActionPerformed(evt);
             }
         });
-        closeButton.setBounds(420, 0, 59, 23);
+        closeButton.setBounds(420, 0, 79, 29);
         jLayeredPane4.add(closeButton, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
@@ -167,7 +167,7 @@ public class EvolutionDetails extends javax.swing.JFrame {
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
                     .add(org.jdesktop.layout.GroupLayout.LEADING, layout.createSequentialGroup()
                         .addContainerGap()
-                        .add(jLayeredPane4, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 655, Short.MAX_VALUE))
+                        .add(jLayeredPane4, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 633, Short.MAX_VALUE))
                     .add(org.jdesktop.layout.GroupLayout.LEADING, layout.createSequentialGroup()
                         .add(33, 33, 33)
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -180,10 +180,10 @@ public class EvolutionDetails extends javax.swing.JFrame {
                                 .add(26, 26, 26)
                                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
                                     .add(jLayeredPane3)
-                                    .add(bestGeneticAlgorithmResult, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 316, Short.MAX_VALUE)))))
-                    .add(layout.createSequentialGroup()
+                                    .add(bestGeneticAlgorithmResult, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, layout.createSequentialGroup()
                         .addContainerGap()
-                        .add(algorithmTabs, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 662, Short.MAX_VALUE)))
+                        .add(algorithmTabs, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 640, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
