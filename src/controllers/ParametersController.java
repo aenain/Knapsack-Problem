@@ -10,20 +10,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JSpinner;
-import models.CrossoverMethod;
-import models.Evolution;
-import models.GeneticOperator;
-import models.LinearPunishFitness;
-import models.SquarePunishFitness;
-import models.PunishFitness;
-import models.RandModuloRepairFitness;
-import models.FromBeginRepairFitness;
-import models.RepairFitness;
-import models.RouletteSelection;
-import models.RankingSelection;
-import models.SelectionMethod;
-import models.SinglePointCrossover;
-import models.DoublePointCrossover;
+import models.*;
 import models.xml.Configuration;
 import models.xml.Loader;
 import models.xml.Saver;
@@ -157,6 +144,11 @@ public class ParametersController {
         GeneticOperator operator = findGeneticOperatorByName(repairOrPenaltyModel, methodXMLName);
         if (operator != null)
             repairOrPenaltyModel.setSelectedItem(operator);
+    }
+    
+    public GeneticOperator getRepairOrPenaltyMethod() {
+        GeneticOperator selectedOperator = (GeneticOperator) repairOrPenaltyModel.getSelectedItem();
+        return selectedOperator;
     }
     
     public CrossoverMethod getCrossoverMethod() {

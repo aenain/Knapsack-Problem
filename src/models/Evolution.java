@@ -3,8 +3,10 @@
  * and open the template in the editor.
  */
 package models;
-import java.lang.System.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
 /**
  *
 // * @author KaMyLuS
@@ -179,7 +181,7 @@ public class Evolution implements Runnable {
         return executionTimeInMilliseconds;
     }
 
-    Genome getBestGenomeEver() {
+    public Genome getBestGenomeEver() {
         return bestGenomeEver;
     }
 
@@ -194,8 +196,12 @@ public class Evolution implements Runnable {
     public int getGenerationsLimit() {
         return generationsLimit;
     }
+    
+    public EvolutionSummary getEvolutionSummary() {
+        return summary;
+    }
 
-    Genome getBestGen(){
+    public Genome getBestGen(){
         return population[0].chromosomes[population[0].getBestIndex()];
     }
 

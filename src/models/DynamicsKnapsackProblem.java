@@ -79,9 +79,9 @@ public class DynamicsKnapsackProblem implements Runnable {
     }
 
     public Item[] getTakenItems() {
-        Item[] result = new Item[takenItems.size()];
-        takenItems.toArray(result);
-        return result; 
+        Item[] results = new Item[takenItems.size()];
+        takenItems.toArray(results);
+        return results; 
     }
 
     public int getWeight() {

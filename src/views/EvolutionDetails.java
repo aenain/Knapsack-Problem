@@ -10,17 +10,27 @@
  */
 package views;
 
+import com.lowagie.text.*;
+import com.lowagie.text.pdf.*;
 import controllers.EvolutionController;
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.ComponentOrientation;
+import java.awt.Graphics2D;
+import java.awt.geom.Rectangle2D;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.UIManager;
+import models.Item;
+import org.jfree.chart.ChartUtilities;
+import org.jfree.chart.JFreeChart;
 
 /**
  *
@@ -28,10 +38,15 @@ import javax.swing.UIManager;
  */
 public class EvolutionDetails extends javax.swing.JFrame {
 
+    private JFreeChart chart;
     /** Creates new form EvolutionDetails */
     public EvolutionDetails() {
         initComponents();
         myInitComponents();
+    }
+    
+    public void setChart(JFreeChart chart) {
+        this.chart = chart;
     }
 
     private void myInitComponents() {
@@ -85,9 +100,9 @@ public class EvolutionDetails extends javax.swing.JFrame {
         jScrollPane1.setBounds(10, 40, 600, 320);
         jLayeredPane1.add(jScrollPane1, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
-        jLabel2.setFont(new java.awt.Font("Lucida Grande", 0, 14));
+        jLabel2.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
         jLabel2.setText("Taken Items");
-        jLabel2.setBounds(10, 10, 140, 17);
+        jLabel2.setBounds(10, 10, 140, 19);
         jLayeredPane1.add(jLabel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         algorithmTabs.addTab("Genetic", jLayeredPane1);
@@ -98,14 +113,14 @@ public class EvolutionDetails extends javax.swing.JFrame {
         jScrollPane2.setBounds(10, 40, 600, 320);
         jLayeredPane2.add(jScrollPane2, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
-        jLabel1.setFont(new java.awt.Font("Lucida Grande", 0, 14));
+        jLabel1.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
         jLabel1.setText("Taken Items");
-        jLabel1.setBounds(10, 10, 140, 17);
+        jLabel1.setBounds(10, 10, 140, 19);
         jLayeredPane2.add(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         algorithmTabs.addTab("Dynamic", jLayeredPane2);
 
-        jLabel3.setFont(new java.awt.Font("Lucida Grande", 0, 14));
+        jLabel3.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
         jLabel3.setText("Best Results");
 
         jLabel4.setForeground(new java.awt.Color(103, 103, 103));
@@ -122,7 +137,7 @@ public class EvolutionDetails extends javax.swing.JFrame {
                 dynamicAlgorithmSteeringButtonActionPerformed(evt);
             }
         });
-        dynamicAlgorithmSteeringButton.setBounds(0, 0, 75, 29);
+        dynamicAlgorithmSteeringButton.setBounds(0, 0, 57, 23);
         jLayeredPane3.add(dynamicAlgorithmSteeringButton, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         exportToPdfButton.setText("Export to PDF");
@@ -131,7 +146,7 @@ public class EvolutionDetails extends javax.swing.JFrame {
                 exportToPdfButtonActionPerformed(evt);
             }
         });
-        exportToPdfButton.setBounds(500, 0, 130, 29);
+        exportToPdfButton.setBounds(500, 0, 99, 23);
         jLayeredPane4.add(exportToPdfButton, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         closeButton.setText("Close");
@@ -140,7 +155,7 @@ public class EvolutionDetails extends javax.swing.JFrame {
                 closeButtonActionPerformed(evt);
             }
         });
-        closeButton.setBounds(420, 0, 79, 29);
+        closeButton.setBounds(420, 0, 59, 23);
         jLayeredPane4.add(closeButton, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
@@ -164,8 +179,7 @@ public class EvolutionDetails extends javax.swing.JFrame {
                                 .add(26, 26, 26)
                                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
                                     .add(jLayeredPane3)
-                                    .add(bestGeneticAlgorithmResult, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 316, Short.MAX_VALUE))))
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED))
+                                    .add(bestGeneticAlgorithmResult, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 316, Short.MAX_VALUE)))))
                     .add(layout.createSequentialGroup()
                         .addContainerGap()
                         .add(algorithmTabs, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 662, Short.MAX_VALUE)))
@@ -197,7 +211,13 @@ public class EvolutionDetails extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void exportToPdfButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportToPdfButtonActionPerformed
-        // TODO add your handling code here:
+        // TODO add your handling code here:      
+        try {
+            ChartUtilities.saveChartAsPNG(new File("C:/Users/Mateusz/Desktop/obraz.jpg"), chart, 700, 430);
+            writeChartToPDF(chart, 700, 430, "C:/Users/Mateusz/Desktop/barchart2.pdf");
+        } catch (Exception ex) {
+            Logger.getLogger(EvolutionDetails.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_exportToPdfButtonActionPerformed
 
     private void dynamicAlgorithmSteeringButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dynamicAlgorithmSteeringButtonActionPerformed
@@ -218,6 +238,562 @@ public class EvolutionDetails extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_closeButtonActionPerformed
 
+    public void writeChartToPDF(JFreeChart chart, int width, int height, String fileName) throws DocumentException, FileNotFoundException, IOException {
+        PdfWriter writer;
+    
+        Document document = new Document();
+	    
+        BaseFont arial = BaseFont.createFont("arial.ttf", BaseFont.WINANSI, BaseFont.NOT_EMBEDDED);
+		
+        Font normalFont = new Font(arial, 11, Font.NORMAL);
+        Font adnotationFont = new Font(arial, 10, Font.NORMAL);
+        Font headers = new Font(arial, 11, Font.BOLD);
+        Font titleFont = new Font(arial, 14, Font.BOLD);
+        Font mainHeaders = new Font(arial, 12, Font.BOLD);
+        Font itemVal = new Font(arial, 11, Font.NORMAL);
+        Font itemWeight = new Font(arial, 8, Font.NORMAL);
+        Font pipe = new Font(arial, 8, Font.NORMAL);
+        Font bestWeight = new Font(arial, 12, Font.BOLD);
+        Font bestVal = new Font(arial, 12, Font.BOLD);
+        
+        adnotationFont.setColor(128, 128, 128);
+        itemVal.setColor(0, 102, 204);
+        itemWeight.setColor(76, 76, 76);
+        pipe.setColor(204, 204, 204);
+        bestVal.setColor(0, 102, 204);
+        bestWeight.setColor(Color.BLACK);
+        
+        Paragraph paragraph = new Paragraph();
+	 
+	    try {
+	        writer = PdfWriter.getInstance(document, new FileOutputStream(fileName));
+	        document.open();
+	        
+	        paragraph.add(new Phrase("0-1 Knapsack Problem", titleFont));
+	        paragraph.setAlignment(Element.ALIGN_CENTER);
+	        
+	        document.add(paragraph);
+	        document.add(Chunk.NEWLINE);
+	        document.add(Chunk.NEWLINE);
+	        document.add(Chunk.NEWLINE);
+	        
+	        paragraph.clear();
+	        paragraph.setAlignment(Element.ALIGN_LEFT);
+	        
+	        paragraph.add(new Phrase("Brief Summary", mainHeaders));
+	        paragraph.add(Chunk.NEWLINE);
+	        document.add(paragraph);
+	        paragraph.clear();
+	        document.add(Chunk.NEWLINE);
+	        
+//			====================================	        
+
+	        PdfPTable table = new PdfPTable(3);
+	        
+	        table.getDefaultCell().setBorder(0);
+	        table.setWidthPercentage(100);
+	        table.addCell("");
+	        
+	        PdfPCell cell = new PdfPCell(new Phrase("Genetic algorithm", adnotationFont));
+	        cell.setBorder(0);
+	        cell.setFixedHeight(20);
+	        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+	        table.addCell(cell);
+	        
+	        cell.setPhrase(new Phrase("Dynamic algorithm", new Font(normalFont)));
+	        cell.getPhrase().getFont().setColor(128, 128, 128);
+	        table.addCell(cell);
+	        
+	        cell = new PdfPCell(new Phrase("Value", normalFont));
+	        cell.setBorder(0);
+	        cell.setFixedHeight(20);
+	        table.addCell(cell);
+	        
+	        cell.setPhrase(new Phrase(controller.getEvolution().getBestGenomeEver().getValue()+" PLN", bestVal));
+	        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+	        table.addCell(cell);
+	        
+	        if(controller.hasDynamicAlgorithmResult()) {
+                    cell.setPhrase(new Phrase(controller.getDynamicAlgorithm().getValue()+" PLN", bestVal));
+                } else {
+                    cell.setPhrase(new Phrase("n.a.", bestVal));
+                }
+	        table.addCell(cell);
+	        
+	        cell = new PdfPCell(new Phrase("Weight", normalFont));
+	        cell.getPhrase().add(new Phrase(" (out of "+controller.getParametersController().getKnapsackCapacity()+" kg)", adnotationFont));
+	        cell.setBorder(0);
+	        cell.setFixedHeight(20);
+	        table.addCell(cell);
+	        
+	        cell.setPhrase(new Phrase(controller.getEvolution().getBestGenomeEver().getWeigth()+" kg", bestWeight));
+	        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+	        table.addCell(cell);
+	        
+                
+                if(controller.hasDynamicAlgorithmResult()) {
+                    cell.setPhrase(new Phrase(controller.getDynamicAlgorithm().getWeight()+" kg", bestWeight));
+                } else {
+                    cell.setPhrase(new Phrase("n.a.", bestWeight));
+                }
+	        table.addCell(cell);
+
+	        cell = new PdfPCell(new Phrase("Computing Time", normalFont));
+	        cell.setBorder(0);
+	        cell.setFixedHeight(20);
+	        table.addCell(cell);
+                
+                DecimalFormat df = new DecimalFormat("#0.0000");
+                String output = df.format(controller.getEvolution().getExecutionTime()/1000F);
+	        
+	        cell.setPhrase(new Phrase(output+" s", normalFont));
+	        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+	        table.addCell(cell);
+	        
+	        if(controller.hasDynamicAlgorithmResult()) {
+                    output = df.format(controller.getDynamicAlgorithm().getExecutionTime()/1000F);
+                    cell.setPhrase(new Phrase(output+" s", normalFont));
+                } else {
+                    cell.setPhrase(new Phrase("n.a.", normalFont));
+                }
+	        table.addCell(cell);
+	        document.add(table);
+	        
+	        
+	        for(int i = 0; i < 3; i++) {
+	        	document.add(Chunk.NEWLINE);
+	        }
+	        	        
+	        
+	        
+//			====================================	        
+   
+	        
+	        paragraph.clear();
+	        paragraph.setAlignment(Element.ALIGN_LEFT);
+	        
+	        paragraph.add(new Phrase("Genetic Parameters", mainHeaders));
+	        paragraph.add(Chunk.NEWLINE);
+	        document.add(paragraph);
+	        
+	        table = new PdfPTable(3);
+	        
+	        table.getDefaultCell().setBorder(0);
+	        table.setWidthPercentage(100);
+
+	        cell = new PdfPCell(new Phrase("Population Size", normalFont));
+	        cell.setBorder(0);
+	        cell.setFixedHeight(20);
+	        cell.setIndent(30);
+	        cell.setPadding(4);
+	        table.addCell(cell);
+
+	        cell.setPhrase(new Phrase(""));
+	        table.addCell(cell);
+	        
+	        cell = new PdfPCell(new Phrase(""+controller.getParametersController().getPopulationSize(), adnotationFont));
+	        cell.setBorder(0);
+	        cell.setFixedHeight(20);
+	        cell.setIndent(40);
+	        cell.setPadding(4);
+	        table.addCell(cell);
+	        
+	        
+	        cell = new PdfPCell(new Phrase("Generations Limit", normalFont));
+	        cell.setBorder(0);
+	        cell.setFixedHeight(20);
+	        cell.setIndent(30);
+	        cell.setPadding(4);
+	        table.addCell(cell);
+
+	        cell.setPhrase(new Phrase(""));
+	        table.addCell(cell);
+	        
+	        cell = new PdfPCell(new Phrase(""+controller.getParametersController().getGenerationsLimit(), adnotationFont));
+	        cell.setBorder(0);
+	        cell.setFixedHeight(20);
+	        cell.setIndent(40);
+	        cell.setPadding(4);
+	        table.addCell(cell);
+	        
+	        document.add(table);
+	        document.add(Chunk.NEWLINE);
+	        
+//			====================================	        
+  
+	        
+	        
+	        table = new PdfPTable(3);
+	        
+	        table.getDefaultCell().setBorder(0);
+	        table.setWidthPercentage(100);
+
+	        cell = new PdfPCell(new Phrase("Elitism Rate", normalFont));
+	        cell.setBorder(0);
+	        cell.setFixedHeight(20);
+	        cell.setIndent(30);
+	        cell.setPadding(4);
+	        table.addCell(cell);
+
+	        cell.setPhrase(new Phrase(""));
+	        table.addCell(cell);
+	        
+	        cell = new PdfPCell(new Phrase(""+controller.getParametersController().getElitismRate(), adnotationFont));
+	        cell.setBorder(0);
+	        cell.setFixedHeight(20);
+	        cell.setIndent(40);
+	        cell.setPadding(4);
+	        table.addCell(cell);
+	        
+	        
+	        cell = new PdfPCell(new Phrase("Selection Method", normalFont));
+	        cell.setBorder(0);
+	        cell.setFixedHeight(20);
+	        cell.setIndent(30);
+	        cell.setPadding(4);
+	        table.addCell(cell);
+
+	        cell.setPhrase(new Phrase(""));
+	        table.addCell(cell);
+	        
+	        cell = new PdfPCell(new Phrase(controller.getParametersController().getSelectionMethod()+"", adnotationFont));
+	        cell.setBorder(0);
+	        cell.setFixedHeight(20);
+	        cell.setIndent(40);
+	        cell.setPadding(4);
+	        table.addCell(cell);
+	        
+	        document.add(table);
+	        document.add(Chunk.NEWLINE);
+	        
+	        
+//	      ====================================	     
+	        
+	        table = new PdfPTable(3);
+	        
+	        table.getDefaultCell().setBorder(0);
+	        table.setWidthPercentage(100);
+
+	        cell = new PdfPCell(new Phrase("Crossover Rate", normalFont));
+	        cell.setBorder(0);
+	        cell.setFixedHeight(20);
+	        cell.setIndent(30);
+	        cell.setPadding(4);
+	        table.addCell(cell);
+
+	        cell.setPhrase(new Phrase(""));
+	        table.addCell(cell);
+	        
+	        cell = new PdfPCell(new Phrase(controller.getParametersController().getCrossoverRate()+"", adnotationFont));
+	        cell.setBorder(0);
+	        cell.setFixedHeight(20);
+	        cell.setIndent(40);
+	        cell.setPadding(4);
+	        table.addCell(cell);
+	        
+	        
+	        cell = new PdfPCell(new Phrase("Crossover Method", normalFont));
+	        cell.setBorder(0);
+	        cell.setFixedHeight(20);
+	        cell.setIndent(30);
+	        cell.setPadding(4);
+	        table.addCell(cell);
+
+	        cell.setPhrase(new Phrase(""));
+	        table.addCell(cell);
+	        
+	        cell = new PdfPCell(new Phrase(controller.getParametersController().getCrossoverMethod()+"", adnotationFont));
+	        cell.setBorder(0);
+	        cell.setFixedHeight(20);
+	        cell.setIndent(40);
+	        cell.setPadding(4);
+	        table.addCell(cell);
+	        
+	        document.add(table);
+	        document.add(Chunk.NEWLINE);
+	        
+//			====================================	        
+	        
+	        
+	        table = new PdfPTable(3);
+	        
+	        table.getDefaultCell().setBorder(0);
+	        table.setWidthPercentage(100);
+
+	        cell = new PdfPCell(new Phrase("Mutation Rate", normalFont));
+	        cell.setBorder(0);
+	        cell.setFixedHeight(20);
+	        cell.setIndent(30);
+	        cell.setPadding(4);
+	        table.addCell(cell);
+
+	        cell.setPhrase(new Phrase(""));
+	        table.addCell(cell);
+	        
+	        cell = new PdfPCell(new Phrase(controller.getParametersController().getMutationRate()+"", adnotationFont));
+	        cell.setBorder(0);
+	        cell.setFixedHeight(20);
+	        cell.setIndent(40);
+	        cell.setPadding(4);
+	        table.addCell(cell);
+	        
+	        
+	        cell = new PdfPCell(new Phrase("Repair/Penalty Method", normalFont));
+	        cell.setBorder(0);
+	        cell.setFixedHeight(20);
+	        cell.setIndent(30);
+	        cell.setPadding(4);
+	        table.addCell(cell);
+
+	        cell.setPhrase(new Phrase(""));
+	        table.addCell(cell);
+	        
+	        cell = new PdfPCell(new Phrase(controller.getParametersController().getRepairOrPenaltyMethod()+"", adnotationFont));
+	        cell.setBorder(0);
+	        cell.setFixedHeight(20);
+	        cell.setIndent(40);
+	        cell.setPadding(4);
+	        table.addCell(cell);
+	        
+	        document.add(table);
+                document.add(Chunk.NEWLINE);
+                document.add(Chunk.NEWLINE);
+	        
+//			====================================	        
+
+	        paragraph.clear();
+	        paragraph.setAlignment(Element.ALIGN_LEFT);
+	        
+	        paragraph.add(new Phrase("Available Items", mainHeaders));
+	        document.add(paragraph);
+	        
+                Item[] items = controller.getEvolution().getItems();
+                
+                paragraph.clear();
+                for(Item x: items) {
+                    paragraph.add(new Phrase(x.getValue()+"", itemVal));
+                    paragraph.add(new Phrase("|", pipe));
+                    paragraph.add(new Phrase(x.getWeigth()+"  ", itemWeight));
+                }
+                
+                document.add(paragraph);
+                document.add(Chunk.NEWLINE);
+                document.add(Chunk.NEWLINE);
+	        
+//			====================================	        
+        
+	        paragraph.clear();
+	        paragraph.setAlignment(Element.ALIGN_LEFT);
+	        
+	        paragraph.add(new Phrase("Genetic Algorihtm's Process", mainHeaders));
+	        document.add(paragraph);
+	        document.add(Chunk.NEWLINE);       
+	        
+	        table = new PdfPTable(3);
+	        
+	        table.getDefaultCell().setBorder(0);
+	        table.setWidthPercentage(100);
+
+	        cell = new PdfPCell(new Phrase("Generations", normalFont));
+	        cell.setBorder(0);
+	        cell.setFixedHeight(20);
+	        cell.setIndent(60);
+	        cell.setPadding(4);
+	        table.addCell(cell);
+
+                
+	        cell = new PdfPCell(new Phrase((controller.getEvolution().getEvolutionSummary().getIteration().intValue()+1)+"", normalFont));
+	        cell.getPhrase().add(new Phrase(" (out of "+controller.getParametersController().getGenerationsLimit()+")", adnotationFont));
+	        cell.setBorder(0);
+	        cell.setFixedHeight(20);
+	        cell.setIndent(80);
+                cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+	        cell.setPadding(4);
+	        table.addCell(cell);
+                
+                cell.setPhrase(new Phrase(""));
+	        table.addCell(cell);
+	        
+	        
+	        cell = new PdfPCell(new Phrase("Computing Time", normalFont));
+	        cell.setBorder(0);
+	        cell.setFixedHeight(20);
+	        cell.setIndent(60);
+	        cell.setPadding(4);
+	        table.addCell(cell);
+                
+                output = df.format(controller.getEvolution().getExecutionTime()/1000F);
+
+	        cell = new PdfPCell(new Phrase(output+" s", adnotationFont));
+	        cell.setBorder(0);
+	        cell.setFixedHeight(20);
+	        cell.setIndent(0);
+	        cell.setPadding(4);
+                cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+	        table.addCell(cell);
+	        
+                cell.setPhrase(new Phrase(""));
+	        table.addCell(cell);
+                
+	        document.add(table);
+                //document.newPage();
+                
+                /*
+                PdfContentByte contentByte = writer.getDirectContent();
+	        PdfTemplate template = contentByte.createTemplate(width, height);
+	        Graphics2D graphics2d = template.createGraphics(width, height, new DefaultFontMapper());
+	        Rectangle2D rectangle2d = new Rectangle2D.Double(0, 0, width, height);
+	 
+	        chart.draw(graphics2d, rectangle2d);
+	 
+	        graphics2d.dispose();
+	        contentByte.addTemplate(template, 38, writer.getVerticalPosition(true)-height);
+                * 
+                */
+                
+                Image image = Image.getInstance("C:/Users/Mateusz/Desktop/obraz.jpg");
+                image.scaleToFit(550, 350);
+		document.add(image);
+                
+                for(int i = 0; i < 2; i++) {
+                    document.add(Chunk.NEWLINE);
+                }
+	       	        
+//			====================================	
+                
+                paragraph.clear();
+	        paragraph.setAlignment(Element.ALIGN_LEFT);
+	        
+	        paragraph.add(new Phrase("Best Genome", headers));
+	        document.add(paragraph);
+	        document.add(Chunk.NEWLINE);
+                
+                paragraph.clear();
+                for(Item x: controller.getEvolution().getEvolutionSummary().getBestGenomeItems()) {
+                    paragraph.add(new Phrase(x.getValue()+"", itemVal));
+                    paragraph.add(new Phrase("|", pipe));
+                    paragraph.add(new Phrase(x.getWeigth()+"  ", itemWeight));
+                }
+                
+                document.add(paragraph);
+                document.add(Chunk.NEWLINE);
+                document.add(Chunk.NEWLINE);
+
+//			====================================	
+
+                table = new PdfPTable(3);
+	        
+	        table.getDefaultCell().setBorder(0);
+	        table.setWidthPercentage(100);
+                
+                table.addCell("");
+
+	        cell = new PdfPCell(new Phrase("Total Value", normalFont));
+	        cell.setBorder(0);
+	        cell.setFixedHeight(20);
+                cell.setIndent(30);
+                cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+	        cell.setPadding(4);
+	        table.addCell(cell);
+
+	        cell.setPhrase(new Phrase(controller.getEvolution().getBestGenomeEver().getValue()+" PLN", bestVal));
+                cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+	        table.addCell(cell);
+                
+                table.addCell("");
+                
+                cell = new PdfPCell(new Phrase("Total Weight", normalFont));
+                cell.getPhrase().add(new Phrase(" (out of "+controller.getParametersController().getKnapsackCapacity()+" kg)", adnotationFont));
+	        cell.setBorder(0);
+	        cell.setFixedHeight(20);
+                cell.setIndent(30);
+                cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+	        cell.setPadding(4);
+	        table.addCell(cell);
+
+	        cell.setPhrase(new Phrase(controller.getEvolution().getBestGenomeEver().getWeigth()+" kg", bestWeight));
+                cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+	        table.addCell(cell);
+                
+                document.add(table);
+                document.add(Chunk.NEWLINE);
+                document.add(Chunk.NEWLINE);
+
+//			====================================	
+                
+                paragraph.clear();
+	        paragraph.setAlignment(Element.ALIGN_LEFT);
+	        
+	        paragraph.add(new Phrase("Dynamic Algorithm's Summary", headers));
+	        document.add(paragraph);
+	        document.add(Chunk.NEWLINE);
+                
+                table = new PdfPTable(3);
+	        
+	        table.getDefaultCell().setBorder(0);
+	        table.setWidthPercentage(100);
+	        
+	        cell = new PdfPCell(new Phrase("Computing Time", normalFont));
+	        cell.setBorder(0);
+	        cell.setFixedHeight(20);
+	        cell.setIndent(60);
+	        cell.setPadding(4);
+	        table.addCell(cell);
+                
+                if(controller.hasDynamicAlgorithmResult()) {
+                    output = df.format(controller.getDynamicAlgorithm().getExecutionTime()/1000F);
+                    cell = new PdfPCell(new Phrase(output+" s", adnotationFont));
+                } else {
+                    cell = new PdfPCell(new Phrase("n.a.", adnotationFont));
+                }
+                
+	        cell.setBorder(0);
+	        cell.setFixedHeight(20);
+	        cell.setIndent(0);
+	        cell.setPadding(4);
+                cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+	        table.addCell(cell);
+	        
+                cell.setPhrase(new Phrase(""));
+	        table.addCell(cell);
+                
+                document.add(table);
+                document.add(Chunk.NEWLINE);
+                document.add(Chunk.NEWLINE);
+                
+//			====================================	
+
+                paragraph.clear();
+	        paragraph.setAlignment(Element.ALIGN_LEFT);
+	        
+	        paragraph.add(new Phrase("Result", headers));
+	        document.add(paragraph);
+	        document.add(Chunk.NEWLINE);
+                
+                paragraph.clear();
+                
+                if(controller.hasDynamicAlgorithmResult()) {
+                    for(Item x: controller.getDynamicAlgorithm().getTakenItems()) {
+                        paragraph.add(new Phrase(x.getValue()+"", itemVal));
+                        paragraph.add(new Phrase("|", pipe));
+                        paragraph.add(new Phrase(x.getWeigth()+"  ", itemWeight));
+                    }
+                } else {
+                    paragraph.add(new Phrase("n.a.", normalFont));
+                }
+                
+                document.add(paragraph);
+                document.add(Chunk.NEWLINE);
+                document.add(Chunk.NEWLINE);
+                
+//			====================================	
+                
+                
+            } finally {
+                document.close();
+            }
+    }
+    
     public static void show(final EvolutionController controller, final MainWindow mainWindow) {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());

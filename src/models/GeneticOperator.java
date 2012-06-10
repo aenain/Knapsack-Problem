@@ -8,7 +8,8 @@ package models;
  *
  * @author arturhebda
  */
-public abstract interface GeneticOperator {
+public interface GeneticOperator {
+    @Override
     public String toString();
     public String toXMLName();
 }

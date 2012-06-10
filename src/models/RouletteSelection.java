@@ -4,8 +4,7 @@
  */
 package models;
 
-import java.lang.Math;
-import java.util.*;
+import java.util.Random;
 
 /**
  *
@@ -40,11 +39,15 @@ public class RouletteSelection implements SelectionMethod {
             int toSelect = -1;
             double r = rand.nextDouble();
             
-            if(r < distribution[0]) toSelect = 0;
-            else{
+            if(r < distribution[0]) {
+                toSelect = 0;
+            } else {
                 int index = java.util.Arrays.binarySearch(distribution, r);
-                if(index > 0) toSelect = index;
-                else toSelect = -(index+1);
+                if(index > 0) {
+                    toSelect = index;
+                } else {
+                    toSelect = -(index+1);
+                }
             }
             //toSelect += selectFrom;
             

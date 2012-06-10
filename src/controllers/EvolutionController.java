@@ -5,15 +5,13 @@
 package controllers;
 import java.io.File;
 import java.util.Iterator;
-import javax.swing.DefaultListModel;
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JTabbedPane;
+import javax.swing.*;
 import models.*;
+import org.jfree.chart.JFreeChart;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
-import views.*;
+import views.EvolutionDetails;
+import views.ItemHelper;
 
 /**
  *
@@ -31,11 +29,12 @@ public class EvolutionController extends BaseController implements EvolutionList
     private DynamicsKnapsackProblem dynamicAlgorithm;
     private boolean dynamicAlgorithmComputed;
     private EvolutionDetails details;
+    private JFreeChart chart;
     
     // components with parameters
     private ParametersController parametersController;
 
-    public EvolutionController(DefaultListModel itemListModel, JLabel lastPopulationBestResultSummary, JLabel bestResultSummary, JButton evolutionSteeringButton, JButton evolutionDetailsButton, XYSeriesCollection seriesCollection) {
+    public EvolutionController(DefaultListModel itemListModel, JLabel lastPopulationBestResultSummary, JLabel bestResultSummary, JButton evolutionSteeringButton, JButton evolutionDetailsButton, XYSeriesCollection seriesCollection, JFreeChart chart) {
         this.itemListModel = itemListModel;
         this.lastPopulationBestResultSummary = lastPopulationBestResultSummary;
         this.bestResultSummary = bestResultSummary;
@@ -47,10 +46,12 @@ public class EvolutionController extends BaseController implements EvolutionList
         evolutionThread = null;
         dynamicAlgorithm = null;
         dynamicAlgorithmComputed = false;
+        this.chart = chart;
     }
 
     public void setEvolutionDetails(EvolutionDetails details) {
         this.details = details;
+        details.setChart(chart);
     }
 
     public void setParameterComponents(JComponent[] components) {
@@ -194,5 +195,17 @@ public class EvolutionController extends BaseController implements EvolutionList
         Iterator<models.Item> it = bestGenome.getTakenItems().iterator();
         while (it.hasNext())
             EvolutionDetails.geneticAlgorithmItemsModel.addElement(ItemHelper.toLabel(it.next()));
+    }
+    
+    public Evolution getEvolution() {
+        return evolution;
+    }
+    
+    public DynamicsKnapsackProblem getDynamicAlgorithm() {
+        return dynamicAlgorithm;
+    }
+    
+    public ParametersController getParametersController() {
+        return parametersController;
     }
 }

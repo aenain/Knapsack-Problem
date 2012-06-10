@@ -1,11 +1,11 @@
 package views;
 
-import controllers.*;
+import controllers.EvolutionController;
 import java.awt.Color;
 import javax.swing.*;
-import javax.swing.JFrame;
-import javax.swing.JFileChooser;
-import org.jfree.chart.*;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
@@ -38,7 +38,7 @@ public class MainWindow extends JFrame {
         private XYSeriesCollection xySeriesCollection = new XYSeriesCollection();
         final ChartPanel chartPanel;
 
-        public Graph() {
+        private Graph() {
             chartPanel = createDemoPanel();
         }
 
@@ -74,7 +74,7 @@ public class MainWindow extends JFrame {
         initComponents();
         myInitComponents();
         itemsList.setModel(model);
-        controller = new EvolutionController(model, lastPopulationBestResultSummary, bestResultSummary, evolutionSteeringButton, detailsButton, graph.xySeriesCollection);
+        controller = new EvolutionController(model, lastPopulationBestResultSummary, bestResultSummary, evolutionSteeringButton, detailsButton, graph.xySeriesCollection, graph.chartPanel.getChart());
 
         JComponent[] components = {maximumWeight, populationSize, maxGenerations, mutationRate, elitismRate, crossoverRate, crossoverMethod, repairOrPenaltyMethod, selectionMethod};
         controller.setParameterComponents(components);

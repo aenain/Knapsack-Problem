@@ -3,8 +3,7 @@
  * and open the template in the editor.
  */
 package models;
-import java.util.Scanner;
-import java.util.*;
+import java.util.Random;
 
 /**
  *

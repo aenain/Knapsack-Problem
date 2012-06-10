@@ -4,8 +4,8 @@
  */
 package models;
 
-import java.lang.System.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Random;
 /**
  *
  * @author KaMyLuS

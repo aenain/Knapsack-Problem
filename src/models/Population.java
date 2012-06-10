@@ -3,7 +3,6 @@
  * and open the template in the editor.
  */
 package models;
-import java.lang.System.*;
 /**
  *
  * @author KaMyLuS
