@@ -96,6 +96,7 @@ public class EvolutionController extends BaseController implements EvolutionList
         maxSeries.clear();
 
         dynamicAlgorithm = null;
+        dynamicAlgorithmComputed = false;
 
         evolutionThread = new Thread(evolution);
         evolutionThread.start();
