@@ -16,20 +16,20 @@ public class RouletteSelection implements SelectionMethod {
     public void select(Population source, Population dest, int populCount, int selectCount, int selectFrom, boolean sorted){
         // trzeba zapewnic, zeby przystosowanie bylo dodatnie
         double minn = 0, sum = 0, distribSum = 0;
-        for(int i = selectFrom; i < populCount; i++){
+        for(int i = 0; i < populCount; i++){
             minn = java.lang.Math.min(source.chromosomes[i].getAdaptation(), minn);
             sum += source.chromosomes[i].getAdaptation();
         }
             
         double shift = java.lang.Math.max(0, -minn);
-        sum += shift*selectCount;
+        sum += shift*populCount;
         
         // liczymy prawdopodobienstwa i dystrybuanty
-        double probability[] = new double[selectCount];
-        double distribution[] = new double[selectCount];
-        for(int i = 0; i < selectCount; i++){
-            probability[i] = (source.chromosomes[i+selectFrom].getAdaptation()+shift)/sum;
-            distribSum += (source.chromosomes[i+selectFrom].getAdaptation()+shift)/sum; 
+        double probability[] = new double[populCount];
+        double distribution[] = new double[populCount];
+        for(int i = 0; i < populCount; i++){
+            probability[i] = (source.chromosomes[i].getAdaptation()+shift)/sum;
+            distribSum += (source.chromosomes[i].getAdaptation()+shift)/sum; 
             distribution[i] = distribSum;
         }
         
@@ -46,7 +46,7 @@ public class RouletteSelection implements SelectionMethod {
                 if(index > 0) toSelect = index;
                 else toSelect = -(index+1);
             }
-            toSelect += selectFrom;
+            //toSelect += selectFrom;
             
             dest.chromosomes[ind++] = new Genome(source.chromosomes[toSelect]);
         }
