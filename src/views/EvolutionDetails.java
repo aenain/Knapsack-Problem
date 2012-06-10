@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-/*
+/*is
  * EvolutionDetails.java
  *
  * Created on Jun 5, 2012, 3:18:28 PM
@@ -11,12 +11,13 @@
 package views;
 
 import com.lowagie.text.*;
-import com.lowagie.text.pdf.*;
+import com.lowagie.text.pdf.BaseFont;
+import com.lowagie.text.pdf.PdfPCell;
+import com.lowagie.text.pdf.PdfPTable;
+import com.lowagie.text.pdf.PdfWriter;
 import controllers.EvolutionController;
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
