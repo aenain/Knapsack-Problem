@@ -348,12 +348,12 @@ public class EvolutionDetails extends javax.swing.JFrame {
 	        cell.getPhrase().add(new Phrase(" (out of "+controller.getParametersController().getKnapsackCapacity()+" kg)", adnotationFont));
 	        cell.setBorder(0);
 	        cell.setFixedHeight(20);
+                cell.setColspan(2);
 	        table.addCell(cell);
-                
-                table.addCell("");
 	        
 	        cell.setPhrase(new Phrase(controller.getEvolution().getBestGenomeEver().getWeigth()+" kg", bestWeight));
 	        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                cell.setColspan(1);
 	        table.addCell(cell);
 	        
                 
@@ -436,9 +436,8 @@ public class EvolutionDetails extends javax.swing.JFrame {
 	        cell.setIndent(40);
 	        cell.setPadding(4);
                 cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-	        table.addCell(cell);
-                
-                cell.setPhrase(new Phrase(""));
+	        cell.setColspan(2);
+                cell.setRightIndent(30);
 	        table.addCell(cell);
 	        
 	        
@@ -460,9 +459,8 @@ public class EvolutionDetails extends javax.swing.JFrame {
 	        cell.setIndent(40);
 	        cell.setPadding(4);
                 cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-	        table.addCell(cell);
-                
-                cell.setPhrase(new Phrase(""));
+	        cell.setColspan(2);
+                cell.setRightIndent(30);
 	        table.addCell(cell);
                 
 	        document.add(table);
@@ -501,9 +499,8 @@ public class EvolutionDetails extends javax.swing.JFrame {
 	        cell.setIndent(40);
 	        cell.setPadding(4);
                 cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-	        table.addCell(cell);
-                
-                cell.setPhrase(new Phrase(""));
+	        cell.setColspan(2);
+                cell.setRightIndent(30);
 	        table.addCell(cell);
 	        
 	        
@@ -525,9 +522,8 @@ public class EvolutionDetails extends javax.swing.JFrame {
 	        cell.setIndent(40);
 	        cell.setPadding(4);
                 cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-	        table.addCell(cell);
-                
-                cell.setPhrase(new Phrase(""));
+	        cell.setColspan(2);
+                cell.setRightIndent(30);
 	        table.addCell(cell);
 	        
                 for(int i = 0; i < 3; i++) {
@@ -571,9 +567,8 @@ public class EvolutionDetails extends javax.swing.JFrame {
 	        cell.setIndent(40);
 	        cell.setPadding(4);
                 cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-	        table.addCell(cell);
-                
-                cell.setPhrase(new Phrase(""));
+	        cell.setColspan(2);
+                cell.setRightIndent(30);
 	        table.addCell(cell);
 	        
 	        
@@ -592,12 +587,11 @@ public class EvolutionDetails extends javax.swing.JFrame {
 	        cell = new PdfPCell(new Phrase(controller.getParametersController().getCrossoverMethod()+"", adnotationFontBlack));
 	        cell.setBorder(0);
 	        cell.setFixedHeight(20);
-	        cell.setIndent(40);
+	        cell.setRightIndent(30);
 	        cell.setPadding(4);
                 cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-	        table.addCell(cell);
-                
-                cell.setPhrase(new Phrase(""));
+                cell.setColspan(2);
+                cell.setRightIndent(30);
 	        table.addCell(cell);
 	        
                 for(int i = 0; i < 3; i++) {
@@ -642,9 +636,8 @@ public class EvolutionDetails extends javax.swing.JFrame {
 	        cell.setIndent(40);
 	        cell.setPadding(4);
                 cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-	        table.addCell(cell);
-	        
-                cell.setPhrase(new Phrase(""));
+	        cell.setColspan(2);
+                cell.setRightIndent(30);
 	        table.addCell(cell);
 	        
 	        cell = new PdfPCell(new Phrase("Repair/Penalty Method", normalFont));
@@ -662,13 +655,12 @@ public class EvolutionDetails extends javax.swing.JFrame {
 	        cell = new PdfPCell(new Phrase(controller.getParametersController().getRepairOrPenaltyMethod()+"", normalFont));
 	        cell.setBorder(0);
 	        cell.setFixedHeight(20);
-	        cell.setIndent(40);
 	        cell.setPadding(4);
                 cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+                cell.setColspan(2);
+                cell.setRightIndent(30);
 	        table.addCell(cell);
-                
-                cell.setPhrase(new Phrase(""));
-	        table.addCell(cell);
+               
 	        
 	        document.add(table);
                 document.add(Chunk.NEWLINE);
@@ -727,7 +719,7 @@ public class EvolutionDetails extends javax.swing.JFrame {
 	        table.addCell(cell);
                 
                 cell.setPhrase(new Phrase(""));
-	        table.addCell(cell);
+                table.addCell(cell);
 	        
 	        
 	        cell = new PdfPCell(new Phrase("Computing Time", normalFont));
@@ -782,12 +774,12 @@ public class EvolutionDetails extends javax.swing.JFrame {
 
 //			====================================	
 
-                table = new PdfPTable(3);
+                table = new PdfPTable(4);
 	        
 	        table.getDefaultCell().setBorder(0);
 	        table.setWidthPercentage(100);
                 
-                for(int i = 0; i < 3; i++) {
+                for(int i = 0; i < 4; i++) {
                     cell = new PdfPCell(new Phrase(""));
                     cell.setBorder(0);
                     cell.setFixedHeight(10);
@@ -802,10 +794,12 @@ public class EvolutionDetails extends javax.swing.JFrame {
                 cell.setIndent(30);
                 cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 	        cell.setPadding(4);
+                cell.setColspan(2);
 	        table.addCell(cell);
 
 	        cell.setPhrase(new Phrase(controller.getEvolution().getBestGenomeEver().getValue()+" PLN", bestVal));
                 cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+                cell.setColspan(1);
 	        table.addCell(cell);
                 
                 table.addCell("");
@@ -817,6 +811,7 @@ public class EvolutionDetails extends javax.swing.JFrame {
                 cell.setIndent(30);
                 cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 	        cell.setPadding(4);
+                cell.setColspan(2);
 	        table.addCell(cell);
 
 	        cell.setPhrase(new Phrase(controller.getEvolution().getBestGenomeEver().getWeigth()+" kg", bestWeight));
@@ -898,12 +893,12 @@ public class EvolutionDetails extends javax.swing.JFrame {
                 document.add(paragraph);  
                 
                 
-                table = new PdfPTable(3);
+                table = new PdfPTable(4);
 	        
 	        table.getDefaultCell().setBorder(0);
 	        table.setWidthPercentage(100);
                 
-                for(int i = 0; i < 3; i++) {
+                for(int i = 0; i < 4; i++) {
                     cell = new PdfPCell(new Phrase(""));
                     cell.setBorder(0);
                     cell.setFixedHeight(10);
@@ -913,12 +908,14 @@ public class EvolutionDetails extends javax.swing.JFrame {
                 table.addCell("");
 
 	        cell = new PdfPCell(new Phrase("Total Value", normalFont));
-	        cell.setBorder(0);
+                cell.setBorder(0);
 	        cell.setFixedHeight(20);
                 cell.setIndent(30);
                 cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 	        cell.setPadding(4);
+                cell.setColspan(2);
 	        table.addCell(cell);
+	        
 
                 if(controller.hasDynamicAlgorithmResult()) {
                     cell.setPhrase(new Phrase(controller.getDynamicAlgorithm().getValue()+" PLN", bestVal));
@@ -927,6 +924,7 @@ public class EvolutionDetails extends javax.swing.JFrame {
                 }
                 
                 cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+                cell.setColspan(1);
 	        table.addCell(cell);
                 
                 table.addCell("");
@@ -938,6 +936,7 @@ public class EvolutionDetails extends javax.swing.JFrame {
                 cell.setIndent(30);
                 cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 	        cell.setPadding(4);
+                cell.setColspan(2);
 	        table.addCell(cell);
 
                 if(controller.hasDynamicAlgorithmResult()) {
@@ -947,6 +946,7 @@ public class EvolutionDetails extends javax.swing.JFrame {
                 }
                 
                 cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+                cell.setColspan(1);
 	        table.addCell(cell);
                 
                 document.add(table);
