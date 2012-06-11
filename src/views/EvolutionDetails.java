@@ -23,8 +23,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DecimalFormat;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.*;
 import models.Item;
 import org.jfree.chart.ChartUtilities;
@@ -416,7 +414,7 @@ public class EvolutionDetails extends javax.swing.JFrame {
                 for(int i = 0; i < 5; i++) {
                     cell = new PdfPCell(new Phrase(""));
                     cell.setBorder(0);
-                    cell.setFixedHeight(10);
+                    cell.setFixedHeight(7);
                     table.addCell(cell);
                 }
 
@@ -425,11 +423,12 @@ public class EvolutionDetails extends javax.swing.JFrame {
 	        cell.setFixedHeight(20);
 	        cell.setIndent(30);
 	        cell.setPadding(4);
+	        cell.setColspan(2);
 	        table.addCell(cell);
 
 	        cell.setPhrase(new Phrase(""));
+                cell.setColspan(1);
 	        table.addCell(cell);
-                table.addCell(cell);
 	        
 	        cell = new PdfPCell(new Phrase(""+controller.getParametersController().getPopulationSize(), adnotationFontBlack));
 	        cell.setBorder(0);
@@ -448,11 +447,12 @@ public class EvolutionDetails extends javax.swing.JFrame {
 	        cell.setFixedHeight(20);
 	        cell.setIndent(30);
 	        cell.setPadding(4);
+	        cell.setColspan(2);
 	        table.addCell(cell);
 
 	        cell.setPhrase(new Phrase(""));
+                cell.setColspan(1);
 	        table.addCell(cell);
-                table.addCell(cell);
 	        
 	        cell = new PdfPCell(new Phrase(""+controller.getParametersController().getGenerationsLimit(), adnotationFontBlack));
 	        cell.setBorder(0);
@@ -464,13 +464,6 @@ public class EvolutionDetails extends javax.swing.JFrame {
                 
                 cell.setPhrase(new Phrase(""));
 	        table.addCell(cell);
-	        
-                for(int i = 0; i < 5; i++) {
-                    cell = new PdfPCell(new Phrase(""));
-                    cell.setBorder(0);
-                    cell.setFixedHeight(20);
-                    table.addCell(cell);
-                }
                 
 	        document.add(table);
 	        
@@ -495,11 +488,12 @@ public class EvolutionDetails extends javax.swing.JFrame {
 	        cell.setFixedHeight(20);
 	        cell.setIndent(30);
 	        cell.setPadding(4);
+	        cell.setColspan(2);
 	        table.addCell(cell);
 
 	        cell.setPhrase(new Phrase(""));
+                cell.setColspan(1);
 	        table.addCell(cell);
-                table.addCell(cell);
 	        
 	        cell = new PdfPCell(new Phrase(""+controller.getParametersController().getElitismRate(), adnotationFontBlack));
 	        cell.setBorder(0);
@@ -518,11 +512,12 @@ public class EvolutionDetails extends javax.swing.JFrame {
 	        cell.setFixedHeight(20);
 	        cell.setIndent(30);
 	        cell.setPadding(4);
+                cell.setColspan(2);
 	        table.addCell(cell);
 
 	        cell.setPhrase(new Phrase(""));
+                cell.setColspan(1);
 	        table.addCell(cell);
-                table.addCell(cell);
 	        
 	        cell = new PdfPCell(new Phrase(controller.getParametersController().getSelectionMethod()+"", adnotationFontBlack));
 	        cell.setBorder(0);
@@ -563,11 +558,12 @@ public class EvolutionDetails extends javax.swing.JFrame {
 	        cell.setFixedHeight(20);
 	        cell.setIndent(30);
 	        cell.setPadding(4);
+	        cell.setColspan(2);
 	        table.addCell(cell);
 
 	        cell.setPhrase(new Phrase(""));
+                cell.setColspan(1);
 	        table.addCell(cell);
-                table.addCell(cell);
 	        
 	        cell = new PdfPCell(new Phrase(controller.getParametersController().getCrossoverRate()+"", adnotationFontBlack));
 	        cell.setBorder(0);
@@ -586,11 +582,12 @@ public class EvolutionDetails extends javax.swing.JFrame {
 	        cell.setFixedHeight(20);
 	        cell.setIndent(30);
 	        cell.setPadding(4);
+	        cell.setColspan(2);
 	        table.addCell(cell);
 
 	        cell.setPhrase(new Phrase(""));
+                cell.setColspan(1);
 	        table.addCell(cell);
-                table.addCell(cell);
 	        
 	        cell = new PdfPCell(new Phrase(controller.getParametersController().getCrossoverMethod()+"", adnotationFontBlack));
 	        cell.setBorder(0);
@@ -632,11 +629,12 @@ public class EvolutionDetails extends javax.swing.JFrame {
 	        cell.setFixedHeight(20);
 	        cell.setIndent(30);
 	        cell.setPadding(4);
+	        cell.setColspan(2);
 	        table.addCell(cell);
 
 	        cell.setPhrase(new Phrase(""));
+                cell.setColspan(1);
 	        table.addCell(cell);
-                table.addCell(cell);
 	        
 	        cell = new PdfPCell(new Phrase(controller.getParametersController().getMutationRate()+"", adnotationFontBlack));
 	        cell.setBorder(0);
@@ -654,11 +652,12 @@ public class EvolutionDetails extends javax.swing.JFrame {
 	        cell.setFixedHeight(20);
 	        cell.setIndent(30);
 	        cell.setPadding(4);
+                cell.setColspan(2);
 	        table.addCell(cell);
 
 	        cell.setPhrase(new Phrase(""));
+                cell.setColspan(1);
 	        table.addCell(cell);
-                table.addCell(cell);
 	        
 	        cell = new PdfPCell(new Phrase(controller.getParametersController().getRepairOrPenaltyMethod()+"", normalFont));
 	        cell.setBorder(0);
@@ -701,7 +700,7 @@ public class EvolutionDetails extends javax.swing.JFrame {
 	        paragraph.clear();
 	        paragraph.setAlignment(Element.ALIGN_LEFT);
 	        
-	        paragraph.add(new Phrase("Genetic Algorihtm's Process", mainHeaders));
+	        paragraph.add(new Phrase("Genetic Algorithm's Process", mainHeaders));
 	        document.add(paragraph);
 	        document.add(Chunk.NEWLINE);       
 	        
@@ -769,7 +768,7 @@ public class EvolutionDetails extends javax.swing.JFrame {
 	        
 	        paragraph.add(new Phrase("Best Genome", headers));
 	        document.add(paragraph);
-	        document.add(Chunk.NEWLINE);
+	        
                 
                 paragraph.clear();
                 for(Item x: controller.getEvolution().getEvolutionSummary().getBestGenomeItems()) {
@@ -883,7 +882,6 @@ public class EvolutionDetails extends javax.swing.JFrame {
 	        
 	        paragraph.add(new Phrase("Result", headers));
 	        document.add(paragraph);
-	        document.add(Chunk.NEWLINE);
                 
                 paragraph.clear();
                 
