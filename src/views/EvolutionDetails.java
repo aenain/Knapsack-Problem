@@ -53,7 +53,7 @@ public class EvolutionDetails extends javax.swing.JFrame {
     private void myInitComponents() {
         dynamicAlgorithmResult = new JLabel();
         dynamicAlgorithmResult.setForeground(Color.BLACK);
-        dynamicAlgorithmResult.setSize(400, 28);
+        dynamicAlgorithmResult.setSize(440, 28);
         dynamicAlgorithmResult.setLocation(dynamicAlgorithmSteeringButton.getLocation());
         dynamicAlgorithmResult.setVisible(false);
 
