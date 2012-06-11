@@ -25,10 +25,7 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.DefaultListModel;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.UIManager;
+import javax.swing.*;
 import models.Item;
 import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
@@ -40,6 +37,7 @@ import org.jfree.chart.JFreeChart;
 public class EvolutionDetails extends javax.swing.JFrame {
 
     private JFreeChart chart;
+    private JFileChooser saveConfigFileChooser;
     /** Creates new form EvolutionDetails */
     public EvolutionDetails() {
         initComponents();
@@ -61,6 +59,10 @@ public class EvolutionDetails extends javax.swing.JFrame {
 
         dynamicAlgorithmItemList.setModel(dynamicAlgorithmItemsModel);
         geneticAlgorithmItemList.setModel(geneticAlgorithmItemsModel);
+        
+        saveConfigFileChooser = new JFileChooser();
+        saveConfigFileChooser.addChoosableFileFilter(new PdfFileFilter());
+        saveConfigFileChooser.setCurrentDirectory(new java.io.File("."));
     }
 
     /** This method is called from within the constructor to
@@ -213,12 +215,30 @@ public class EvolutionDetails extends javax.swing.JFrame {
 
     private void exportToPdfButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportToPdfButtonActionPerformed
         // TODO add your handling code here:      
-        try {
-            ChartUtilities.saveChartAsPNG(new File("C:/Users/Mateusz/Desktop/obraz.jpg"), chart, 700, 430);
-            writeChartToPDF(chart, 700, 430, "C:/Users/Mateusz/Desktop/barchart2.pdf");
-        } catch (Exception ex) {
-            Logger.getLogger(EvolutionDetails.class.getName()).log(Level.SEVERE, null, ex);
-        }
+ 
+            int returnValue = saveConfigFileChooser.showSaveDialog(this);
+            if (returnValue == JFileChooser.APPROVE_OPTION) {
+                try {
+                    closeButton.setEnabled(false);
+                    String name = saveConfigFileChooser.getSelectedFile().getAbsolutePath();
+                    
+                    if (! name.endsWith(".pdf")) {
+                        name += ".pdf";
+                    }
+                    
+                    File obraz = new File("test.jpg");
+                    ChartUtilities.saveChartAsPNG(obraz, chart, 700, 430);
+                    writeChartToPDF(chart, 700, 430, name, obraz.getAbsolutePath());
+                    
+                    obraz.delete();
+                    
+                    new MyInfo("PDF saved!");
+                    closeButton.setEnabled(true);
+                    
+                } catch (Exception e) {
+                    new MyAlert(e);
+                }
+            }
     }//GEN-LAST:event_exportToPdfButtonActionPerformed
 
     private void dynamicAlgorithmSteeringButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dynamicAlgorithmSteeringButtonActionPerformed
@@ -239,7 +259,7 @@ public class EvolutionDetails extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_closeButtonActionPerformed
 
-    public void writeChartToPDF(JFreeChart chart, int width, int height, String fileName) throws DocumentException, FileNotFoundException, IOException {
+    public void writeChartToPDF(JFreeChart chart, int width, int height, String fileName, String imageName) throws DocumentException, FileNotFoundException, IOException {
         PdfWriter writer;
     
         Document document = new Document();
@@ -248,6 +268,7 @@ public class EvolutionDetails extends javax.swing.JFrame {
 		
         Font normalFont = new Font(arial, 11, Font.NORMAL);
         Font adnotationFont = new Font(arial, 10, Font.NORMAL);
+        Font adnotationFontBlack = new Font(arial, 10, Font.NORMAL);
         Font headers = new Font(arial, 11, Font.BOLD);
         Font titleFont = new Font(arial, 14, Font.BOLD);
         Font mainHeaders = new Font(arial, 12, Font.BOLD);
@@ -262,7 +283,7 @@ public class EvolutionDetails extends javax.swing.JFrame {
         itemWeight.setColor(76, 76, 76);
         pipe.setColor(204, 204, 204);
         bestVal.setColor(0, 102, 204);
-        bestWeight.setColor(Color.BLACK);
+        bestWeight.setColor(76, 76, 76);
         
         Paragraph paragraph = new Paragraph();
 	 
@@ -285,35 +306,39 @@ public class EvolutionDetails extends javax.swing.JFrame {
 	        paragraph.add(Chunk.NEWLINE);
 	        document.add(paragraph);
 	        paragraph.clear();
-	        document.add(Chunk.NEWLINE);
 	        
 //			====================================	        
 
-	        PdfPTable table = new PdfPTable(3);
+	        PdfPTable table = new PdfPTable(4);
 	        
 	        table.getDefaultCell().setBorder(0);
 	        table.setWidthPercentage(100);
-	        table.addCell("");
+                
+                table.addCell("");
+                table.addCell("");
 	        
-	        PdfPCell cell = new PdfPCell(new Phrase("Genetic algorithm", adnotationFont));
+	        PdfPCell cell = new PdfPCell(new Phrase("Genetic Algorithm", adnotationFont));
 	        cell.setBorder(0);
 	        cell.setFixedHeight(20);
 	        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 	        table.addCell(cell);
 	        
-	        cell.setPhrase(new Phrase("Dynamic algorithm", new Font(normalFont)));
-	        cell.getPhrase().getFont().setColor(128, 128, 128);
+	        cell.setPhrase(new Phrase("Dynamic Algorithm", adnotationFont));
 	        table.addCell(cell);
+                
+             
 	        
 	        cell = new PdfPCell(new Phrase("Value", normalFont));
 	        cell.setBorder(0);
 	        cell.setFixedHeight(20);
 	        table.addCell(cell);
 	        
+                table.addCell("");
+                
 	        cell.setPhrase(new Phrase(controller.getEvolution().getBestGenomeEver().getValue()+" PLN", bestVal));
 	        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 	        table.addCell(cell);
-	        
+                	        
 	        if(controller.hasDynamicAlgorithmResult()) {
                     cell.setPhrase(new Phrase(controller.getDynamicAlgorithm().getValue()+" PLN", bestVal));
                 } else {
@@ -326,6 +351,8 @@ public class EvolutionDetails extends javax.swing.JFrame {
 	        cell.setBorder(0);
 	        cell.setFixedHeight(20);
 	        table.addCell(cell);
+                
+                table.addCell("");
 	        
 	        cell.setPhrase(new Phrase(controller.getEvolution().getBestGenomeEver().getWeigth()+" kg", bestWeight));
 	        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -338,11 +365,15 @@ public class EvolutionDetails extends javax.swing.JFrame {
                     cell.setPhrase(new Phrase("n.a.", bestWeight));
                 }
 	        table.addCell(cell);
+                
+                
 
 	        cell = new PdfPCell(new Phrase("Computing Time", normalFont));
 	        cell.setBorder(0);
 	        cell.setFixedHeight(20);
 	        table.addCell(cell);
+                
+                table.addCell("");
                 
                 DecimalFormat df = new DecimalFormat("#0.0000");
                 String output = df.format(controller.getEvolution().getExecutionTime()/1000F);
@@ -362,7 +393,7 @@ public class EvolutionDetails extends javax.swing.JFrame {
 	        
 	        
 	        for(int i = 0; i < 3; i++) {
-	        	document.add(Chunk.NEWLINE);
+                    document.add(Chunk.NEWLINE);
 	        }
 	        	        
 	        
@@ -377,10 +408,17 @@ public class EvolutionDetails extends javax.swing.JFrame {
 	        paragraph.add(Chunk.NEWLINE);
 	        document.add(paragraph);
 	        
-	        table = new PdfPTable(3);
+	        table = new PdfPTable(5);
 	        
 	        table.getDefaultCell().setBorder(0);
 	        table.setWidthPercentage(100);
+                
+                for(int i = 0; i < 5; i++) {
+                    cell = new PdfPCell(new Phrase(""));
+                    cell.setBorder(0);
+                    cell.setFixedHeight(10);
+                    table.addCell(cell);
+                }
 
 	        cell = new PdfPCell(new Phrase("Population Size", normalFont));
 	        cell.setBorder(0);
@@ -391,12 +429,17 @@ public class EvolutionDetails extends javax.swing.JFrame {
 
 	        cell.setPhrase(new Phrase(""));
 	        table.addCell(cell);
+                table.addCell(cell);
 	        
-	        cell = new PdfPCell(new Phrase(""+controller.getParametersController().getPopulationSize(), adnotationFont));
+	        cell = new PdfPCell(new Phrase(""+controller.getParametersController().getPopulationSize(), adnotationFontBlack));
 	        cell.setBorder(0);
 	        cell.setFixedHeight(20);
 	        cell.setIndent(40);
 	        cell.setPadding(4);
+                cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+	        table.addCell(cell);
+                
+                cell.setPhrase(new Phrase(""));
 	        table.addCell(cell);
 	        
 	        
@@ -409,25 +452,43 @@ public class EvolutionDetails extends javax.swing.JFrame {
 
 	        cell.setPhrase(new Phrase(""));
 	        table.addCell(cell);
+                table.addCell(cell);
 	        
-	        cell = new PdfPCell(new Phrase(""+controller.getParametersController().getGenerationsLimit(), adnotationFont));
+	        cell = new PdfPCell(new Phrase(""+controller.getParametersController().getGenerationsLimit(), adnotationFontBlack));
 	        cell.setBorder(0);
 	        cell.setFixedHeight(20);
 	        cell.setIndent(40);
 	        cell.setPadding(4);
+                cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+	        table.addCell(cell);
+                
+                cell.setPhrase(new Phrase(""));
 	        table.addCell(cell);
 	        
+                for(int i = 0; i < 5; i++) {
+                    cell = new PdfPCell(new Phrase(""));
+                    cell.setBorder(0);
+                    cell.setFixedHeight(20);
+                    table.addCell(cell);
+                }
+                
 	        document.add(table);
-	        document.add(Chunk.NEWLINE);
 	        
 //			====================================	        
   
 	        
 	        
-	        table = new PdfPTable(3);
+	        table = new PdfPTable(5);
 	        
 	        table.getDefaultCell().setBorder(0);
 	        table.setWidthPercentage(100);
+                
+                for(int i = 0; i < 5; i++) {
+                    cell = new PdfPCell(new Phrase(""));
+                    cell.setBorder(0);
+                    cell.setFixedHeight(10);
+                    table.addCell(cell);
+                }
 
 	        cell = new PdfPCell(new Phrase("Elitism Rate", normalFont));
 	        cell.setBorder(0);
@@ -438,12 +499,17 @@ public class EvolutionDetails extends javax.swing.JFrame {
 
 	        cell.setPhrase(new Phrase(""));
 	        table.addCell(cell);
+                table.addCell(cell);
 	        
-	        cell = new PdfPCell(new Phrase(""+controller.getParametersController().getElitismRate(), adnotationFont));
+	        cell = new PdfPCell(new Phrase(""+controller.getParametersController().getElitismRate(), adnotationFontBlack));
 	        cell.setBorder(0);
 	        cell.setFixedHeight(20);
 	        cell.setIndent(40);
 	        cell.setPadding(4);
+                cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+	        table.addCell(cell);
+                
+                cell.setPhrase(new Phrase(""));
 	        table.addCell(cell);
 	        
 	        
@@ -456,24 +522,41 @@ public class EvolutionDetails extends javax.swing.JFrame {
 
 	        cell.setPhrase(new Phrase(""));
 	        table.addCell(cell);
+                table.addCell(cell);
 	        
-	        cell = new PdfPCell(new Phrase(controller.getParametersController().getSelectionMethod()+"", adnotationFont));
+	        cell = new PdfPCell(new Phrase(controller.getParametersController().getSelectionMethod()+"", adnotationFontBlack));
 	        cell.setBorder(0);
 	        cell.setFixedHeight(20);
 	        cell.setIndent(40);
 	        cell.setPadding(4);
+                cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+	        table.addCell(cell);
+                
+                cell.setPhrase(new Phrase(""));
 	        table.addCell(cell);
 	        
+                for(int i = 0; i < 3; i++) {
+                    cell = new PdfPCell(new Phrase(""));
+                    cell.setBorder(0);
+                    cell.setFixedHeight(20);
+                    table.addCell(cell);
+                }
+                
 	        document.add(table);
-	        document.add(Chunk.NEWLINE);
-	        
 	        
 //	      ====================================	     
 	        
-	        table = new PdfPTable(3);
+	        table = new PdfPTable(5);
 	        
 	        table.getDefaultCell().setBorder(0);
 	        table.setWidthPercentage(100);
+                
+                for(int i = 0; i < 5; i++) {
+                    cell = new PdfPCell(new Phrase(""));
+                    cell.setBorder(0);
+                    cell.setFixedHeight(10);
+                    table.addCell(cell);
+                }
 
 	        cell = new PdfPCell(new Phrase("Crossover Rate", normalFont));
 	        cell.setBorder(0);
@@ -484,12 +567,17 @@ public class EvolutionDetails extends javax.swing.JFrame {
 
 	        cell.setPhrase(new Phrase(""));
 	        table.addCell(cell);
+                table.addCell(cell);
 	        
-	        cell = new PdfPCell(new Phrase(controller.getParametersController().getCrossoverRate()+"", adnotationFont));
+	        cell = new PdfPCell(new Phrase(controller.getParametersController().getCrossoverRate()+"", adnotationFontBlack));
 	        cell.setBorder(0);
 	        cell.setFixedHeight(20);
 	        cell.setIndent(40);
 	        cell.setPadding(4);
+                cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+	        table.addCell(cell);
+                
+                cell.setPhrase(new Phrase(""));
 	        table.addCell(cell);
 	        
 	        
@@ -502,24 +590,42 @@ public class EvolutionDetails extends javax.swing.JFrame {
 
 	        cell.setPhrase(new Phrase(""));
 	        table.addCell(cell);
+                table.addCell(cell);
 	        
-	        cell = new PdfPCell(new Phrase(controller.getParametersController().getCrossoverMethod()+"", adnotationFont));
+	        cell = new PdfPCell(new Phrase(controller.getParametersController().getCrossoverMethod()+"", adnotationFontBlack));
 	        cell.setBorder(0);
 	        cell.setFixedHeight(20);
 	        cell.setIndent(40);
 	        cell.setPadding(4);
+                cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+	        table.addCell(cell);
+                
+                cell.setPhrase(new Phrase(""));
 	        table.addCell(cell);
 	        
+                for(int i = 0; i < 3; i++) {
+                    cell = new PdfPCell(new Phrase(""));
+                    cell.setBorder(0);
+                    cell.setFixedHeight(20);
+                    table.addCell(cell);
+                }
+                
 	        document.add(table);
-	        document.add(Chunk.NEWLINE);
 	        
 //			====================================	        
 	        
 	        
-	        table = new PdfPTable(3);
+	        table = new PdfPTable(5);
 	        
 	        table.getDefaultCell().setBorder(0);
 	        table.setWidthPercentage(100);
+                
+                for(int i = 0; i < 5; i++) {
+                    cell = new PdfPCell(new Phrase(""));
+                    cell.setBorder(0);
+                    cell.setFixedHeight(10);
+                    table.addCell(cell);
+                }
 
 	        cell = new PdfPCell(new Phrase("Mutation Rate", normalFont));
 	        cell.setBorder(0);
@@ -530,14 +636,18 @@ public class EvolutionDetails extends javax.swing.JFrame {
 
 	        cell.setPhrase(new Phrase(""));
 	        table.addCell(cell);
+                table.addCell(cell);
 	        
-	        cell = new PdfPCell(new Phrase(controller.getParametersController().getMutationRate()+"", adnotationFont));
+	        cell = new PdfPCell(new Phrase(controller.getParametersController().getMutationRate()+"", adnotationFontBlack));
 	        cell.setBorder(0);
 	        cell.setFixedHeight(20);
 	        cell.setIndent(40);
 	        cell.setPadding(4);
+                cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 	        table.addCell(cell);
 	        
+                cell.setPhrase(new Phrase(""));
+	        table.addCell(cell);
 	        
 	        cell = new PdfPCell(new Phrase("Repair/Penalty Method", normalFont));
 	        cell.setBorder(0);
@@ -548,12 +658,17 @@ public class EvolutionDetails extends javax.swing.JFrame {
 
 	        cell.setPhrase(new Phrase(""));
 	        table.addCell(cell);
+                table.addCell(cell);
 	        
-	        cell = new PdfPCell(new Phrase(controller.getParametersController().getRepairOrPenaltyMethod()+"", adnotationFont));
+	        cell = new PdfPCell(new Phrase(controller.getParametersController().getRepairOrPenaltyMethod()+"", normalFont));
 	        cell.setBorder(0);
 	        cell.setFixedHeight(20);
 	        cell.setIndent(40);
 	        cell.setPadding(4);
+                cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+	        table.addCell(cell);
+                
+                cell.setPhrase(new Phrase(""));
 	        table.addCell(cell);
 	        
 	        document.add(table);
@@ -625,7 +740,7 @@ public class EvolutionDetails extends javax.swing.JFrame {
                 
                 output = df.format(controller.getEvolution().getExecutionTime()/1000F);
 
-	        cell = new PdfPCell(new Phrase(output+" s", adnotationFont));
+	        cell = new PdfPCell(new Phrase(output+" s", normalFont));
 	        cell.setBorder(0);
 	        cell.setFixedHeight(20);
 	        cell.setIndent(0);
@@ -637,23 +752,10 @@ public class EvolutionDetails extends javax.swing.JFrame {
 	        table.addCell(cell);
                 
 	        document.add(table);
-                //document.newPage();
                 
-                /*
-                PdfContentByte contentByte = writer.getDirectContent();
-	        PdfTemplate template = contentByte.createTemplate(width, height);
-	        Graphics2D graphics2d = template.createGraphics(width, height, new DefaultFontMapper());
-	        Rectangle2D rectangle2d = new Rectangle2D.Double(0, 0, width, height);
-	 
-	        chart.draw(graphics2d, rectangle2d);
-	 
-	        graphics2d.dispose();
-	        contentByte.addTemplate(template, 38, writer.getVerticalPosition(true)-height);
-                * 
-                */
-                
-                Image image = Image.getInstance("C:/Users/Mateusz/Desktop/obraz.jpg");
-                image.scaleToFit(550, 350);
+                Image image = Image.getInstance(imageName);
+                image.scaleToFit(500, 350);
+                image.setIndentationRight(30);
 		document.add(image);
                 
                 for(int i = 0; i < 2; i++) {
@@ -677,8 +779,7 @@ public class EvolutionDetails extends javax.swing.JFrame {
                 }
                 
                 document.add(paragraph);
-                document.add(Chunk.NEWLINE);
-                document.add(Chunk.NEWLINE);
+
 
 //			====================================	
 
@@ -686,6 +787,13 @@ public class EvolutionDetails extends javax.swing.JFrame {
 	        
 	        table.getDefaultCell().setBorder(0);
 	        table.setWidthPercentage(100);
+                
+                for(int i = 0; i < 3; i++) {
+                    cell = new PdfPCell(new Phrase(""));
+                    cell.setBorder(0);
+                    cell.setFixedHeight(10);
+                    table.addCell(cell);
+                }
                 
                 table.addCell("");
 
@@ -725,14 +833,20 @@ public class EvolutionDetails extends javax.swing.JFrame {
                 paragraph.clear();
 	        paragraph.setAlignment(Element.ALIGN_LEFT);
 	        
-	        paragraph.add(new Phrase("Dynamic Algorithm's Summary", headers));
+	        paragraph.add(new Phrase("Dynamic Algorithm's Summary", mainHeaders));
 	        document.add(paragraph);
-	        document.add(Chunk.NEWLINE);
                 
                 table = new PdfPTable(3);
 	        
 	        table.getDefaultCell().setBorder(0);
 	        table.setWidthPercentage(100);
+                
+                for(int i = 0; i < 3; i++) {
+                    cell = new PdfPCell(new Phrase(""));
+                    cell.setBorder(0);
+                    cell.setFixedHeight(20);
+                    table.addCell(cell);
+                }
 	        
 	        cell = new PdfPCell(new Phrase("Computing Time", normalFont));
 	        cell.setBorder(0);
@@ -743,9 +857,9 @@ public class EvolutionDetails extends javax.swing.JFrame {
                 
                 if(controller.hasDynamicAlgorithmResult()) {
                     output = df.format(controller.getDynamicAlgorithm().getExecutionTime()/1000F);
-                    cell = new PdfPCell(new Phrase(output+" s", adnotationFont));
+                    cell = new PdfPCell(new Phrase(output+" s", adnotationFontBlack));
                 } else {
-                    cell = new PdfPCell(new Phrase("n.a.", adnotationFont));
+                    cell = new PdfPCell(new Phrase("n.a.", adnotationFontBlack));
                 }
                 
 	        cell.setBorder(0);
@@ -783,13 +897,61 @@ public class EvolutionDetails extends javax.swing.JFrame {
                     paragraph.add(new Phrase("n.a.", normalFont));
                 }
                 
-                document.add(paragraph);
-                document.add(Chunk.NEWLINE);
-                document.add(Chunk.NEWLINE);
-                
-//			====================================	
+                document.add(paragraph);  
                 
                 
+                table = new PdfPTable(3);
+	        
+	        table.getDefaultCell().setBorder(0);
+	        table.setWidthPercentage(100);
+                
+                for(int i = 0; i < 3; i++) {
+                    cell = new PdfPCell(new Phrase(""));
+                    cell.setBorder(0);
+                    cell.setFixedHeight(10);
+                    table.addCell(cell);
+                }
+                
+                table.addCell("");
+
+	        cell = new PdfPCell(new Phrase("Total Value", normalFont));
+	        cell.setBorder(0);
+	        cell.setFixedHeight(20);
+                cell.setIndent(30);
+                cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+	        cell.setPadding(4);
+	        table.addCell(cell);
+
+                if(controller.hasDynamicAlgorithmResult()) {
+                    cell.setPhrase(new Phrase(controller.getDynamicAlgorithm().getValue()+" PLN", bestVal));
+                } else {
+                    cell.setPhrase(new Phrase("n.a.", bestVal));
+                }
+                
+                cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+	        table.addCell(cell);
+                
+                table.addCell("");
+                
+                cell = new PdfPCell(new Phrase("Total Weight", normalFont));
+                cell.getPhrase().add(new Phrase(" (out of "+controller.getParametersController().getKnapsackCapacity()+" kg)", adnotationFont));
+	        cell.setBorder(0);
+	        cell.setFixedHeight(20);
+                cell.setIndent(30);
+                cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+	        cell.setPadding(4);
+	        table.addCell(cell);
+
+                if(controller.hasDynamicAlgorithmResult()) {
+                    cell.setPhrase(new Phrase(controller.getDynamicAlgorithm().getWeight()+" kg", bestWeight));
+                } else {
+                    cell.setPhrase(new Phrase("n.a.", bestWeight));
+                }
+                
+                cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+	        table.addCell(cell);
+                
+                document.add(table);
             } finally {
                 document.close();
             }
