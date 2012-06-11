@@ -44,7 +44,7 @@ public class MainWindow extends JFrame {
 
         private ChartPanel createDemoPanel() {
             JFreeChart jfreechart = ChartFactory.createXYLineChart(
-                title, "Generation", "Knapsack's Value", createSampleData(),
+                title, "Generation", "Fitness", createSampleData(),
                 PlotOrientation.VERTICAL, true, true, false);
             XYPlot xyPlot = (XYPlot) jfreechart.getPlot();
             xyPlot.setDomainCrosshairVisible(true);
